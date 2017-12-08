@@ -25,6 +25,8 @@ public class MainActivity extends AppCompatActivity {
 
     private String operator;            //操作符：记录 + - * / 符号
 
+    private boolean ends = false;
+
     private double n1, n2, Result;     //操作数：操作符两端的数字，n1为左操作数，n2为右操作数。
 
     private TextView textView;          //文本框：显示计算过程和计算结果
@@ -34,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnPlus, btnMinus, btnMultiply, btnDivide;              //按钮：加减乘除
 
     private Button btnPoint, btnEqual, btnClear;                          //按钮：小数点，等号，清空
+
 
 
     private View.OnClickListener lisenter = new View.OnClickListener() {//侦听器
@@ -64,7 +67,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.button1://如果点击了按钮：“1”
 
                     {
-
+                        if (ends == true) {
+                            editText.setText("");
+                            ends = false;
+                        }
                         editText.setText(editText.getText().toString() + 1);//输入框末尾，添加一个“1”
 
                         break;
@@ -74,7 +80,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.button2://2
 
                     {
-
+                        if (ends == true) {
+                            editText.setText("");
+                            ends = false;
+                        }
                         editText.setText(editText.getText().toString() + 2);
 
                         break;
@@ -84,7 +93,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.button3://3
 
                     {
-
+                        if (ends == true) {
+                            editText.setText("");
+                            ends = false;
+                        }
                         editText.setText(editText.getText().toString() + 3);
 
                         break;
@@ -94,7 +106,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.button4://4
 
                     {
-
+                        if (ends == true) {
+                            editText.setText("");
+                            ends = false;
+                        }
                         editText.setText(editText.getText().toString() + +4);
 
                         break;
@@ -104,7 +119,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.button5://5
 
                     {
-
+                        if (ends == true) {
+                            editText.setText("");
+                            ends = false;
+                        }
                         editText.setText(editText.getText().toString() + 5);
 
                         break;
@@ -114,7 +132,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.button6://6
 
                     {
-
+                        if (ends == true) {
+                            editText.setText("");
+                            ends = false;
+                        }
                         editText.setText(editText.getText().toString() + 6);
 
                         break;
@@ -124,6 +145,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.button7://7
 
                     {
+                        if (ends == true) {
+                            editText.setText("");
+                            ends = false;
+                        }
 
                         editText.setText(editText.getText().toString() + 7);
 
@@ -134,6 +159,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.button8://8
 
                     {
+                        if (ends == true) {
+                            editText.setText("");
+                            ends = false;
+                        }
 
                         editText.setText(editText.getText().toString() + 8);
 
@@ -144,6 +173,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.button9://9
 
                     {
+                        if (ends == true) {
+                            editText.setText("");
+                            ends = false;
+                        }
 
                         editText.setText(editText.getText().toString() + 9);
 
@@ -154,6 +187,10 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.button0://0
 
                     {
+                        if (ends == true) {
+                            editText.setText("");
+                            ends = false;
+                        }
 
                         str = editText.getText().toString();
 
@@ -286,7 +323,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.buttonEqual://操作符=
 
                     {
-
+                        ends = true;
                         if (operator == "+")
 
                         {
