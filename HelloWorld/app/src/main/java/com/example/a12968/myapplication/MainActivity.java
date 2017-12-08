@@ -10,6 +10,7 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 
 
+
 // Edit by Hbu_David 2017.6.15
 
 // Upgrade to Android Studio 3.0.1 ,Gradle 4.1 ,David 2017.11.24
@@ -261,6 +262,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                     }
+
 
 
                     case R.id.buttonDivide://操作符 /
