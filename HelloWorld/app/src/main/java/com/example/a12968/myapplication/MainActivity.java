@@ -25,7 +25,7 @@ public class MainActivity extends AppCompatActivity {
 
     private String operator;            //操作符：记录 + - * / 符号
 
-    private boolean ends = false;
+    private boolean ends = false;       //判断是否是计算结果
 
     private double n1, n2, Result;     //操作数：操作符两端的数字，n1为左操作数，n2为右操作数。
 
@@ -67,7 +67,7 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.button1://如果点击了按钮：“1”
 
                     {
-                        if (ends == true) {
+                        if (ends == true) {     //判断是否是计算结果
                             editText.setText("");
                             ends = false;
                         }
@@ -323,8 +323,8 @@ public class MainActivity extends AppCompatActivity {
                     case R.id.buttonEqual://操作符=
 
                     {
-                        ends = true;
-                        if (operator == "+")
+                        ends = true;    //设置是输入等号
+                       /* if (operator == "+")
 
                         {
 
@@ -396,7 +396,7 @@ public class MainActivity extends AppCompatActivity {
 
                             }
 
-                        }
+                        }*/
 
                         break;
 
@@ -407,6 +407,7 @@ public class MainActivity extends AppCompatActivity {
                         break;
 
                 }
+
 
             } catch (Exception e) {
             }
