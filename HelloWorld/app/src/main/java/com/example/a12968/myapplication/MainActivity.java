@@ -36,6 +36,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnPoint, btnEqual, btnClear;                          //按钮：小数点，等号，清空
 
 
+
     private View.OnClickListener lisenter = new View.OnClickListener() {//侦听器
 
         @Override
