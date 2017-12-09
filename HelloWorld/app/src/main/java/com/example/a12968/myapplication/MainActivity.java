@@ -10,10 +10,9 @@ import android.widget.TextView;
 import java.text.DecimalFormat;
 
 
+// Edit by HBU-Yesbutter 2017.12.9
 
-// Edit by Hbu_David 2017.6.15
-
-// Upgrade to Android Studio 3.0.1 ,Gradle 4.1 ,David 2017.11.24
+// Upgrade to Android Studio 3.0.1 ,Gradle 4.1 ,Yesbutter 2017.12.9
 
 
 
@@ -63,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
                 if (button.getId() == R.id.button0 || button.getId() == R.id.button1 || button.getId() == R.id.button2 || button.getId() == R.id.button3 || button.getId() == R.id.button4 || button.getId() == R.id.button5 || button.getId() == R.id.button6 || button.getId() == R.id.button7 || button.getId() == R.id.button8 || button.getId() == R.id.button9) {
                     if (ends == true) {     //判断是否是计算结果
                         editText.setText("");
-
+                        opfirst = true;
                         ends = false;
                     }
                     editText.setText(editText.getText().toString() + button.getText().toString());
@@ -77,6 +76,7 @@ public class MainActivity extends AppCompatActivity {
                     n1 = 0;
                     n2 = 0;
                     Result = 0;
+                    operator = "";
                     opfirst = true;
                 }
 
@@ -143,6 +143,11 @@ public class MainActivity extends AppCompatActivity {
                 if (button.getId() == R.id.buttonEqual) {
                     ends = true;    //设置是输入等号
                     opfirst = true;
+                    if (operator.equals("")) {
+                        n1 = Double.parseDouble(editText.getText().toString());
+                        textView.setText(MyFormat.format(n1));
+                    }
+
                     if (operator.equals("+"))
 
                     {
@@ -170,20 +175,20 @@ public class MainActivity extends AppCompatActivity {
                         textView.setText(MyFormat.format(n1) + operator + MyFormat.format(n2) + "=" + MyFormat.format(Result));
 
                         editText.setText(MyFormat.format(Result) + "");
+                        operator = "";
 
                     } else if (operator.equals("*"))
 
                     {
 
-                        str = editText.getText().toString();
-
-                        n2 = Double.parseDouble(str);
+                        n2 = Double.parseDouble(editText.getText().toString());
 
                         Result = n1 * n2;
 
                         textView.setText(MyFormat.format(n1) + operator + MyFormat.format(n2) + "=" + MyFormat.format(Result));
 
                         editText.setText(MyFormat.format(Result) + "");
+                        operator = "";
 
                     } else if (operator.equals("/"))
 
@@ -192,6 +197,7 @@ public class MainActivity extends AppCompatActivity {
                         str = editText.getText().toString();
 
                         n2 = Double.parseDouble(str);
+                        operator = "";
 
                         if (n2 == 0)
 
