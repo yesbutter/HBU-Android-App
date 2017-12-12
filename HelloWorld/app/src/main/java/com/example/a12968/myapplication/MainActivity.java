@@ -105,6 +105,9 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (button.getId() == R.id.buttonPlus || button.getId() == R.id.buttonMinus || button.getId() == R.id.buttonMultiply || button.getId() == R.id.buttonDivide) {
+                    if (editText.getText().toString().isEmpty())
+                        opfirst = true;
+
                     if (opfirst) {
                         str = editText.getText().toString();
                         n1 = Double.parseDouble(str);
@@ -197,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
                         str = editText.getText().toString();
 
                         n2 = Double.parseDouble(str);
-                        operator = "";
+
 
                         if (n2 == 0)
 
@@ -218,7 +221,7 @@ public class MainActivity extends AppCompatActivity {
                             editText.setText(MyFormat.format(Result) + "");
 
                         }
-
+                        operator = "";
                     }
                 }
 
