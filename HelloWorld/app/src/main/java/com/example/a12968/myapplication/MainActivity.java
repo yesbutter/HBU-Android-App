@@ -54,7 +54,7 @@ public class MainActivity extends AppCompatActivity {
 
             Button button = (Button) view;   //把点击获得的id信息传递给button
 
-            DecimalFormat MyFormat = new DecimalFormat("###.##");//控制Double转为String的格式
+            DecimalFormat MyFormat = new DecimalFormat("###.####");//控制Double转为String的格式
 
 
             try {

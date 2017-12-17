@@ -6,6 +6,8 @@
 
     android:layout_height="match_parent"
 
+    android:background="@drawable/q123"
+
     android:stretchColumns="*">
 
     <TextView
@@ -30,6 +32,8 @@
 
         android:layout_height="60dp"
 
+        android:background="#00000000"
+
         android:gravity="right"
 
         android:hint="Edit"
@@ -37,6 +41,7 @@
         android:textCursorDrawable="@null"
 
         android:textSize="30sp"
+
 
 
 
@@ -50,7 +55,7 @@
 
         android:layout_marginTop="5dp"
 
-        android:background="#000000" />
+        android:background="#980404" />
 
 
     <TableRow
@@ -73,9 +78,13 @@
 
             android:layout_height="match_parent"
 
+            android:background="#00000000"
+
             android:text="7"
 
-            android:textSize="25sp" />
+            android:textSize="25sp"
+
+            />
 
 
 
@@ -86,6 +95,8 @@
             android:layout_width="wrap_content"
 
             android:layout_height="match_parent"
+
+            android:background="#00000000"
 
             android:text="8"
 
@@ -101,8 +112,9 @@
 
             android:layout_height="match_parent"
 
-            android:text="9"
+            android:background="#00000000"
 
+            android:text="9"
             android:textSize="25sp" />
 
 
@@ -113,6 +125,8 @@
             android:layout_width="wrap_content"
 
             android:layout_height="match_parent"
+
+            android:background="#00000000"
 
             android:text="/"
 
@@ -130,7 +144,9 @@
 
         android:layout_height="match_parent"
 
-        android:layout_weight="1">
+        android:layout_weight="1"
+
+        android:background="#00000000">
 
 
         <Button
@@ -140,6 +156,8 @@
             android:layout_width="wrap_content"
 
             android:layout_height="match_parent"
+
+            android:background="#00000000"
 
             android:text="4"
 
@@ -154,6 +172,8 @@
 
             android:layout_height="match_parent"
 
+            android:background="#00000000"
+
             android:text="5"
 
             android:textSize="25sp" />
@@ -167,6 +187,8 @@
 
             android:layout_height="match_parent"
 
+            android:background="#00000000"
+
             android:text="6"
 
             android:textSize="25sp" />
@@ -179,6 +201,8 @@
             android:layout_width="wrap_content"
 
             android:layout_height="match_parent"
+
+            android:background="#00000000"
 
             android:text="*"
 
@@ -196,7 +220,9 @@
 
         android:layout_height="match_parent"
 
-        android:layout_weight="1">
+        android:layout_weight="1"
+
+        android:background="#00000000">
 
 
         <Button
@@ -206,6 +232,8 @@
             android:layout_width="wrap_content"
 
             android:layout_height="match_parent"
+
+            android:background="#00000000"
 
             android:text="1"
 
@@ -220,6 +248,8 @@
 
             android:layout_height="match_parent"
 
+            android:background="#00000000"
+
             android:text="2"
 
             android:textSize="25sp" />
@@ -233,6 +263,8 @@
 
             android:layout_height="match_parent"
 
+            android:background="#00000000"
+
             android:text="3"
 
             android:textSize="25sp" />
@@ -245,6 +277,8 @@
             android:layout_width="wrap_content"
 
             android:layout_height="match_parent"
+
+            android:background="#00000000"
 
             android:text="-"
 
@@ -273,6 +307,8 @@
 
             android:layout_height="match_parent"
 
+            android:background="#00000000"
+
             android:text="0"
 
             android:textSize="25sp" />
@@ -285,6 +321,8 @@
             android:layout_width="wrap_content"
 
             android:layout_height="match_parent"
+
+            android:background="#00000000"
 
             android:text="."
 
@@ -299,6 +337,8 @@
 
             android:layout_height="match_parent"
 
+            android:background="#00000000"
+
             android:text="+"
 
             android:textSize="25sp" />
@@ -311,6 +351,8 @@
             android:layout_width="wrap_content"
 
             android:layout_height="match_parent"
+
+            android:background="#00000000"
 
             android:text="="
 
@@ -340,6 +382,8 @@
             android:layout_height="match_parent"
 
             android:layout_span="4"
+
+            android:background="#00000000"
 
             android:text="clear"
 
