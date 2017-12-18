@@ -1,1 +1,1 @@
-#遇到的问题
+- 1.使用android:theme="@android:style/Theme.Black.NoTitleBar"去掉APP的标签，导致APP打不开。
