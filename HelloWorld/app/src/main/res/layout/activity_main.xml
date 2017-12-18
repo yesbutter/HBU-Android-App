@@ -8,7 +8,9 @@
 
     android:background="@drawable/q123"
 
-    android:stretchColumns="*">
+    android:stretchColumns="*"
+
+    >
 
     <TextView
 
@@ -22,7 +24,9 @@
 
         android:text="TEXT"
 
-        android:textSize="30sp" />
+        android:textSize="30sp"
+
+        />
 
     <EditText
 
@@ -41,9 +45,6 @@
         android:textCursorDrawable="@null"
 
         android:textSize="30sp"
-
-
-
 
         />
 
@@ -66,7 +67,9 @@
 
         android:layout_height="match_parent"
 
-        android:layout_weight="1">
+        android:layout_weight="1"
+
+        >
 
 
 

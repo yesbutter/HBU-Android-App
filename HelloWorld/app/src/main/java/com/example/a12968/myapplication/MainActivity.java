@@ -2,6 +2,7 @@ package com.example.a12968.myapplication;
 
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.text.Layout;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -37,7 +38,7 @@ public class MainActivity extends AppCompatActivity {
     private Button btnPoint, btnEqual, btnClear;                          //按钮：小数点，等号，清空
 
 
-
+    private int activity_main;
     private View.OnClickListener lisenter = new View.OnClickListener() {//侦听器
 
         @Override
@@ -66,6 +67,8 @@ public class MainActivity extends AppCompatActivity {
                         ends = false;
                     }
                     editText.setText(editText.getText().toString() + button.getText().toString());
+
+
                 }
 
                 if (button.getId() == R.id.buttonClear) {
