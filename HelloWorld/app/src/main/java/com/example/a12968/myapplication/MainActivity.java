@@ -2,15 +2,13 @@ package com.example.a12968.myapplication;
 
 import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
-import android.widget.TextView;
-import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.support.v7.app.AppCompatActivity;
 import android.view.View;
-import android.widget.LinearLayout;
 import android.widget.Button;
 import android.widget.EditText;
-
-
+import android.widget.LinearLayout;
+import android.widget.TextView;
 
 import java.text.DecimalFormat;
 
@@ -39,7 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btnPlus, btnMinus, btnMultiply, btnDivide;              //按钮：加减乘除
 
-    private Button btnPoint, btnEqual, btnClear;                          //按钮：小数点，等号，清空
+    private Button btnPoint, btnEqual, btnClear, btnx, btnup5, btnup2;                          //按钮：小数点，等号，清空
 
 
 
@@ -49,7 +47,7 @@ public class MainActivity extends AppCompatActivity {
 
         public void onClick(View view) {//点击事件
 
-            LinearLayout linearLayout = (LinearLayout)findViewById(R.id.Linear);
+            LinearLayout linearLayout = findViewById(R.id.Linear);
 
             editText = findViewById(R.id.editviewdavid);//与XML中定义好的EditText控件绑定
 
@@ -81,7 +79,6 @@ public class MainActivity extends AppCompatActivity {
 
                 if (button.getId() == R.id.buttonClear) {
                     editText.setText("");
-
                     textView.setText("");
 
                     n1 = 0;
@@ -89,6 +86,28 @@ public class MainActivity extends AppCompatActivity {
                     Result = 0;
                     operator = "";
                     opfirst = true;
+                }
+
+                if (button.getId() == R.id.buttonup5) {
+                    if (!editText.getText().toString().isEmpty()) {
+                        double i = 0.01 * Double.parseDouble(editText.getText().toString());
+                        editText.setText(Double.toString(i));
+                    }
+                }
+
+
+                if (button.getId() == R.id.buttonup2) {
+                    if (!editText.getText().toString().isEmpty()) {
+                        double i = Double.parseDouble(editText.getText().toString());
+                        editText.setText(Double.toString(i * i));
+                    }
+                }
+
+                if (button.getId() == R.id.buttonX) {
+                    String text = editText.getText().toString();
+                    if (text.length() != 0) {
+                        editText.setText(text.toString().substring(0, text.length() - 1));
+                    }
                 }
 
                 if (button.getId() == R.id.buttonPoint) {
@@ -298,6 +317,12 @@ public class MainActivity extends AppCompatActivity {
 
         btnClear = findViewById(R.id.buttonClear);
 
+        btnx = findViewById(R.id.buttonX);
+
+        btnup5 = findViewById(R.id.buttonup5);
+
+        btnup2 = findViewById(R.id.buttonup2);
+
         //为按钮添加监听器
 
         btn1.setOnClickListener(lisenter);
@@ -333,6 +358,12 @@ public class MainActivity extends AppCompatActivity {
         btnEqual.setOnClickListener(lisenter);
 
         btnClear.setOnClickListener(lisenter);
+
+        btnx.setOnClickListener(lisenter);
+
+        btnup5.setOnClickListener(lisenter);
+
+        btnup2.setOnClickListener(lisenter);
 
     }
 
