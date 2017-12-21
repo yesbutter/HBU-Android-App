@@ -1,11 +1,16 @@
 package com.example.a12968.myapplication;
 
-import android.os.Bundle;
+import android.content.res.Resources;
+import android.graphics.drawable.Drawable;
+import android.widget.TextView;
 import android.support.v7.app.AppCompatActivity;
+import android.os.Bundle;
 import android.view.View;
+import android.widget.LinearLayout;
 import android.widget.Button;
 import android.widget.EditText;
-import android.widget.TextView;
+
+
 
 import java.text.DecimalFormat;
 
@@ -44,6 +49,8 @@ public class MainActivity extends AppCompatActivity {
 
         public void onClick(View view) {//点击事件
 
+            LinearLayout linearLayout = (LinearLayout)findViewById(R.id.Linear);
+
             editText = findViewById(R.id.editviewdavid);//与XML中定义好的EditText控件绑定
 
             textView = findViewById(R.id.textviewdavid);//与XML中定义好的TextView控件绑定
@@ -66,6 +73,10 @@ public class MainActivity extends AppCompatActivity {
                         ends = false;
                     }
                     editText.setText(editText.getText().toString() + button.getText().toString());
+
+                    Resources resources = getApplicationContext().getResources();
+                    Drawable drawable = resources.getDrawable(R.drawable.timg);
+                    linearLayout.setBackgroundDrawable(drawable);
                 }
 
                 if (button.getId() == R.id.buttonClear) {
@@ -105,6 +116,11 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (button.getId() == R.id.buttonPlus || button.getId() == R.id.buttonMinus || button.getId() == R.id.buttonMultiply || button.getId() == R.id.buttonDivide) {
+
+                    Resources resources = getApplicationContext().getResources();
+                    Drawable drawable = resources.getDrawable(R.drawable.a2);
+                    linearLayout.setBackgroundDrawable(drawable);
+
                     if (editText.getText().toString().isEmpty())
                         opfirst = true;
 
@@ -144,6 +160,11 @@ public class MainActivity extends AppCompatActivity {
                 }
 
                 if (button.getId() == R.id.buttonEqual) {
+
+                    Resources resources = getApplicationContext().getResources();
+                    Drawable drawable = resources.getDrawable(R.drawable.q123);
+                    linearLayout.setBackgroundDrawable(drawable);
+
                     ends = true;    //设置是输入等号
                     opfirst = true;
                     if (operator.equals("")) {
