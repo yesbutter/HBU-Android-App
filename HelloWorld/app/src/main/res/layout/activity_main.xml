@@ -2,11 +2,13 @@
 
 <TableLayout xmlns:android="http://schemas.android.com/apk/res/android"
 
+    android:id="@+id/Linear"
+
     android:layout_width="match_parent"
 
     android:layout_height="match_parent"
 
-    android:background="@drawable/q123"
+    android:background="@drawable/q123">
 
     android:stretchColumns="*"
 
@@ -58,6 +60,83 @@
 
         android:background="#980404" />
 
+    <TableRow
+
+        android:id="@+id/tableRow5"
+
+        android:layout_width="wrap_content"
+
+        android:layout_height="match_parent"
+
+        android:layout_weight="1">
+
+
+        <Button
+
+            android:id="@+id/buttonClear"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="match_parent"
+
+            android:layout_span="1"
+
+            android:background="#00000000"
+
+            android:text="C"
+
+            android:textColor="@android:color/holo_red_dark"
+
+            android:textSize="25sp" />
+
+        <Button
+
+            android:id="@+id/buttonX"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="match_parent"
+
+            android:layout_span="1"
+
+            android:background="#00000000"
+
+            android:text="ⓧ"
+
+            android:textSize="25sp" />
+
+
+        <Button
+
+            android:id="@+id/buttonDivide"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="match_parent"
+
+            android:background="#00000000"
+
+            android:text="/"
+
+            android:textSize="25sp" />
+
+
+        <Button
+
+            android:id="@+id/buttonMultiply"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="match_parent"
+
+            android:background="#00000000"
+
+            android:text="*"
+
+            android:textSize="25sp" />
+
+
+    </TableRow>
 
     <TableRow
 
@@ -120,10 +199,9 @@
             android:text="9"
             android:textSize="25sp" />
 
-
         <Button
 
-            android:id="@+id/buttonDivide"
+            android:id="@+id/buttonMinus"
 
             android:layout_width="wrap_content"
 
@@ -131,10 +209,9 @@
 
             android:background="#00000000"
 
-            android:text="/"
+            android:text="-"
 
             android:textSize="25sp" />
-
 
     </TableRow>
 
@@ -196,10 +273,9 @@
 
             android:textSize="25sp" />
 
-
         <Button
 
-            android:id="@+id/buttonMultiply"
+            android:id="@+id/buttonPlus"
 
             android:layout_width="wrap_content"
 
@@ -207,9 +283,10 @@
 
             android:background="#00000000"
 
-            android:text="*"
+            android:text="+"
 
             android:textSize="25sp" />
+
 
 
     </TableRow>
@@ -272,10 +349,9 @@
 
             android:textSize="25sp" />
 
-
         <Button
 
-            android:id="@+id/buttonMinus"
+            android:id="@+id/buttonup2"
 
             android:layout_width="wrap_content"
 
@@ -283,7 +359,7 @@
 
             android:background="#00000000"
 
-            android:text="-"
+            android:text="平方"
 
             android:textSize="25sp" />
 
@@ -301,6 +377,19 @@
 
         android:layout_weight="1">
 
+        <Button
+
+            android:id="@+id/buttonup5"
+
+            android:layout_width="wrap_content"
+
+            android:layout_height="match_parent"
+
+            android:background="#00000000"
+
+            android:text="%"
+
+            android:textSize="25sp" />
 
         <Button
 
@@ -332,19 +421,7 @@
             android:textSize="25sp" />
 
 
-        <Button
 
-            android:id="@+id/buttonPlus"
-
-            android:layout_width="wrap_content"
-
-            android:layout_height="match_parent"
-
-            android:background="#00000000"
-
-            android:text="+"
-
-            android:textSize="25sp" />
 
 
         <Button
@@ -363,37 +440,5 @@
 
 
     </TableRow>
-
-
-    <TableRow
-
-        android:id="@+id/tableRow5"
-
-        android:layout_width="wrap_content"
-
-        android:layout_height="match_parent"
-
-        android:layout_weight="1">
-
-
-        <Button
-
-            android:id="@+id/buttonClear"
-
-            android:layout_width="wrap_content"
-
-            android:layout_height="match_parent"
-
-            android:layout_span="4"
-
-            android:background="#00000000"
-
-            android:text="clear"
-
-            android:textSize="25sp" />
-
-
-    </TableRow>
-
 
 </TableLayout>
