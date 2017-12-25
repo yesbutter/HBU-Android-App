@@ -33,13 +33,91 @@ public class MainActivity extends AppCompatActivity {
     private Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0;   //按钮：十个数字
     private Button btnPlus, btnMinus, btnMultiply, btnDivide;              //按钮：加减乘除
     private Button btnPoint, btnEqual, btnClear, btnx, btnup5, btnup2;                          //按钮：小数点，等号，清空
+
+    public boolean onCreateOptionsMenu(Menu menu)
+
+    {
+        menu.add(0, 1, 0, "标准计算器");
+        menu.add(0, 2, 0, "科学计算器");
+        return true;
+
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case 1:
+                setContentView(R.layout.activity_main);
+                find_common_button();
+                break;
+            case 2:
+                setContentView(R.layout.scientific_cal_layout);
+                find_common_button();
+                break;
+        }
+        return true;
+    }
+
+    private void find_common_button()
+    {
+        editText = findViewById(R.id.editviewdavid);//与XML中定义好的EditText控件绑定
+        textView = findViewById(R.id.textviewdavid);//与XML中定义好的TextView控件绑定
+        editText.setCursorVisible(false);//隐藏输入框光标
+        btn1 = (Button)findViewById(R.id.button1);
+        btn2 = (Button)findViewById(R.id.button2);
+        btn3 = (Button)findViewById(R.id.button3);
+        btn4 = (Button)findViewById(R.id.button4);
+        btn5 = (Button)findViewById(R.id.button5);
+        btn6 = (Button)findViewById(R.id.button6);
+        btn7 = (Button)findViewById(R.id.button7);
+        btn8 = (Button)findViewById(R.id.button8);
+        btn9 = (Button)findViewById(R.id.button9);
+        btn0 = (Button)findViewById(R.id.button0);
+        btnPlus = (Button)findViewById(R.id.buttonPlus);
+        btnMinus = (Button)findViewById(R.id.buttonMinus);
+        btnMultiply =(Button) findViewById(R.id.buttonMultiply);
+        btnDivide = (Button)findViewById(R.id.buttonDivide);
+        btnPoint =(Button) findViewById(R.id.buttonPoint);
+        btnEqual = (Button)findViewById(R.id.buttonEqual);
+        btnClear = (Button)findViewById(R.id.buttonClear);
+        btnx = (Button)findViewById(R.id.buttonX);
+        //为按钮添加监听器
+        btn1.setOnClickListener(lisenter);
+        btn2.setOnClickListener(lisenter);
+        btn3.setOnClickListener(lisenter);
+        btn4.setOnClickListener(lisenter);
+        btn5.setOnClickListener(lisenter);
+        btn6.setOnClickListener(lisenter);
+        btn7.setOnClickListener(lisenter);
+        btn8.setOnClickListener(lisenter);
+        btn9.setOnClickListener(lisenter);
+        btn0.setOnClickListener(lisenter);
+        btnPlus.setOnClickListener(lisenter);
+        btnMinus.setOnClickListener(lisenter);
+        btnMultiply.setOnClickListener(lisenter);
+        btnDivide.setOnClickListener(lisenter);
+        btnPoint.setOnClickListener(lisenter);
+        btnEqual.setOnClickListener(lisenter);
+        btnClear.setOnClickListener(lisenter);
+        btnx.setOnClickListener(lisenter);
+
+
+
+    }
+    @Override
+    protected void onCreate(Bundle savedInstanceState) {
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        btnup2 = (Button)findViewById(R.id.buttonup2);
+        btnup2.setOnClickListener(lisenter);
+        btnup5 = (Button)findViewById(R.id.buttonup5);
+        btnup5.setOnClickListener(lisenter);
+        find_common_button();
+        }
+
     private View.OnClickListener lisenter = new View.OnClickListener() {//侦听器
         @Override
         public void onClick(View view) {//点击事件
             LinearLayout linearLayout = findViewById(R.id.Linear);
-            editText = findViewById(R.id.editviewdavid);//与XML中定义好的EditText控件绑定
-            textView = findViewById(R.id.textviewdavid);//与XML中定义好的TextView控件绑定
-            editText.setCursorVisible(false);//隐藏输入框光标
             String str;
             Button button = (Button) view;   //把点击获得的id信息传递给button
             DecimalFormat MyFormat = new DecimalFormat("###.####");//控制Double转为String的格式
@@ -96,9 +174,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 if (button.getId() == R.id.buttonPlus || button.getId() == R.id.buttonMinus || button.getId() == R.id.buttonMultiply || button.getId() == R.id.buttonDivide) {
-                    Resources resources = getApplicationContext().getResources();
-                    Drawable drawable = resources.getDrawable(R.drawable.a2);
-                    linearLayout.setBackgroundDrawable(drawable);
+                    if(view.equals(R.layout.activity_main))
+                    {
+                        Resources resources = getApplicationContext().getResources();
+                        Drawable drawable = resources.getDrawable(R.drawable.a2);
+                        linearLayout.setBackgroundDrawable(drawable);
+                    }
                     if (editText.getText().toString().isEmpty())
                         opfirst = true;
                     if (opfirst) {
@@ -132,14 +213,14 @@ public class MainActivity extends AppCompatActivity {
                                 textView.setText("除数不能为0");
                             }
                         }
-
                     }
                 }
                 if (button.getId() == R.id.buttonEqual) {
-
-                    Resources resources = getApplicationContext().getResources();
-                    Drawable drawable = resources.getDrawable(R.drawable.q123);
-                    linearLayout.setBackgroundDrawable(drawable);
+                    if(view.equals(R.layout.activity_main)) {
+                        Resources resources = getApplicationContext().getResources();
+                        Drawable drawable = resources.getDrawable(R.drawable.q123);
+                        linearLayout.setBackgroundDrawable(drawable);
+                    }
                     ends = true;    //设置是输入等号
                     opfirst = true;
                     if (operator.equals("")) {
@@ -190,73 +271,5 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-
-    public boolean onCreateOptionsMenu(Menu menu)
-
-    {
-        menu.add(0, 1, 0, "标准计算器");
-        menu.add(0, 2, 0, "科学计算器");
-        return true;
-
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case 1:
-                setContentView(R.layout.activity_main);
-                break;
-            case 2:
-                setContentView(R.layout.scientific_cal_layout);
-                break;
-        }
-        return true;
-    }
-
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        //获取按钮的id
-        btn1 = findViewById(R.id.button1);
-        btn2 = findViewById(R.id.button2);
-        btn3 = findViewById(R.id.button3);
-        btn4 = findViewById(R.id.button4);
-        btn5 = findViewById(R.id.button5);
-        btn6 = findViewById(R.id.button6);
-        btn7 = findViewById(R.id.button7);
-        btn8 = findViewById(R.id.button8);
-        btn9 = findViewById(R.id.button9);
-        btn0 = findViewById(R.id.button0);
-        btnPlus = findViewById(R.id.buttonPlus);
-        btnMinus = findViewById(R.id.buttonMinus);
-        btnMultiply = findViewById(R.id.buttonMultiply);
-        btnDivide = findViewById(R.id.buttonDivide);
-        btnPoint = findViewById(R.id.buttonPoint);
-        btnEqual = findViewById(R.id.buttonEqual);
-        btnClear = findViewById(R.id.buttonClear);
-        btnx = findViewById(R.id.buttonX);
-        btnup5 = findViewById(R.id.buttonup5);
-        btnup2 = findViewById(R.id.buttonup2);
-        //为按钮添加监听器
-        btn1.setOnClickListener(lisenter);
-        btn2.setOnClickListener(lisenter);
-        btn3.setOnClickListener(lisenter);
-        btn4.setOnClickListener(lisenter);
-        btn5.setOnClickListener(lisenter);
-        btn6.setOnClickListener(lisenter);
-        btn7.setOnClickListener(lisenter);
-        btn8.setOnClickListener(lisenter);
-        btn9.setOnClickListener(lisenter);
-        btn0.setOnClickListener(lisenter);
-        btnPlus.setOnClickListener(lisenter);
-        btnMinus.setOnClickListener(lisenter);
-        btnMultiply.setOnClickListener(lisenter);
-        btnDivide.setOnClickListener(lisenter);
-        btnPoint.setOnClickListener(lisenter);
-        btnEqual.setOnClickListener(lisenter);
-        btnClear.setOnClickListener(lisenter);
-        btnx.setOnClickListener(lisenter);
-        btnup5.setOnClickListener(lisenter);
-        btnup2.setOnClickListener(lisenter);
-    }
 }
+

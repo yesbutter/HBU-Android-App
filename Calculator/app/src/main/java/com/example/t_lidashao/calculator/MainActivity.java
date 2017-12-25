@@ -8,6 +8,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.Toast;
+import android.widget.Toolbar;
 
 import java.util.Timer;
 import java.util.TimerTask;
@@ -16,24 +17,41 @@ public class MainActivity extends AppCompatActivity {
 
     private Button btn1;
 
-    public void btnToast1(View v){
+    private Toolbar toolbar;
 
-        Toast.makeText(getApplicationContext(),"Toast默认样式",Toast.LENGTH_LONG).show();//Toast.LENGTH_LONG（3.5秒.
+    protected void onCreate(Bundle savedInstanceState) {
+
+        super.onCreate(savedInstanceState);
+        setContentView(R.layout.activity_main);
+        btn1 = (Button) findViewById(R.id.button1);
+        btn1.setOnClickListener(lisenter);
+        registerForContextMenu(btn1);
+        toolbar = (Toolbar)findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
     }
 
-    public void btnToast2(View v){
+    private void setSupportActionBar(Toolbar toolbar) {
+    }
 
-        Toast.makeText(this,"Toast默认样式",Toast.LENGTH_SHORT).show();        //Toast.LENGTH_SHORT（2秒）的值
+    public void btnToast1(View v) {
+
+        Toast.makeText(getApplicationContext(), "Toast默认样式", Toast.LENGTH_LONG).show();//Toast.LENGTH_LONG（3.5秒.
+    }
+
+    public void btnToast2(View v) {
+
+        Toast.makeText(this, "Toast默认样式", Toast.LENGTH_SHORT).show();        //Toast.LENGTH_SHORT（2秒）的值
 
     }
 
-    public void btnToast5(View V){
+    public void btnToast5(View V) {
 
-        Toast toast=Toast.makeText(this, "可以设置时长的Toast", Toast.LENGTH_LONG);
+        Toast toast = Toast.makeText(this, "可以设置时长的Toast", Toast.LENGTH_LONG);
 
-        showMyToast(toast, 1*1000); //第一个参数：我们创建的Toast对象，第二个参数：我们想要设置显示的毫秒数
+        showMyToast(toast, 1 * 1000); //第一个参数：我们创建的Toast对象，第二个参数：我们想要设置显示的毫秒数
 
     }
+
     public void showMyToast(final Toast toast, final int cnt) {
 
         //注意: 此方法在 API 24 有效，在 API 26+ 失效。新方法还需进一步研究。2017.12.7 edit by David。
@@ -68,15 +86,15 @@ public class MainActivity extends AppCompatActivity {
 
             }
 
-        }, cnt );//经过多长时间关闭该任务
+        }, cnt);//经过多长时间关闭该任务
 
     }
-    public boolean onCreateOptionsMenu(Menu menu)
-    {
 
-        menu.add(0,1,0,"信息安全");
-        menu.add(0,2,0,"网络工程");
-        menu.add(0,3,0,"计算机科学与技术");
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        menu.add(0, 1, 0, "信息安全");
+        menu.add(0, 2, 0, "网络工程");
+        menu.add(0, 3, 0, "计算机科学与技术");
         return true;
     }
 
@@ -127,7 +145,6 @@ public class MainActivity extends AppCompatActivity {
         }
 
 
-
         super.onCreateContextMenu(menu, v, menuInfo);
 
     }
@@ -159,12 +176,11 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    private View.OnClickListener lisenter = new View.OnClickListener()  {//侦听器
+    private View.OnClickListener lisenter = new View.OnClickListener() {//侦听器
 
         public void onClick(View view) {//点击事件
             Button button = (Button) view;
-            if(button.getId()==R.id.button1)
-            {
+            if (button.getId() == R.id.button1) {
                 button.setText("Get it");
                 button.setBackgroundColor(1);
                 btnToast5(view);
@@ -172,15 +188,6 @@ public class MainActivity extends AppCompatActivity {
             }
         }
     };
-    protected void onCreate(Bundle savedInstanceState) {
 
-        super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_main);
-        btn1 = (Button) findViewById(R.id.button1);
-        btn1.setOnClickListener(lisenter);
-        registerForContextMenu(btn1);
-
-
-    }
 
 }
