@@ -4,6 +4,8 @@ import android.content.res.Resources;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.view.Menu;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -38,9 +40,6 @@ public class MainActivity extends AppCompatActivity {
     private Button btnPlus, btnMinus, btnMultiply, btnDivide;              //按钮：加减乘除
 
     private Button btnPoint, btnEqual, btnClear, btnx, btnup5, btnup2;                          //按钮：小数点，等号，清空
-
-
-
     private View.OnClickListener lisenter = new View.OnClickListener() {//侦听器
 
         @Override
@@ -272,6 +271,33 @@ public class MainActivity extends AppCompatActivity {
 
     };
 
+    public boolean onCreateOptionsMenu(Menu menu)
+
+    {
+        menu.add(0, 1, 0, "标准计算器");
+        menu.add(0, 2, 0, "科学计算器");
+        return true;
+
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+
+        switch (item.getItemId()) {
+
+            case 1:
+                setContentView(R.layout.activity_main);
+                break;
+            case 2:
+                setContentView(R.layout.scientific_cal_layout);
+                break;
+        }
+
+
+        return true;
+
+
+    }
 
     @Override
 
