@@ -1,5 +1,7 @@
 package com.example.t_lidashao.calculator;
 
+import android.annotation.SuppressLint;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.view.ContextMenu;
@@ -13,24 +15,30 @@ import android.widget.Toolbar;
 import java.util.Timer;
 import java.util.TimerTask;
 
+import static com.example.t_lidashao.calculator.R.menu.menu;
+
 public class MainActivity extends AppCompatActivity {
 
     private Button btn1;
 
-    private Toolbar toolbar;
+    private  ActionBar actionBar;
 
     protected void onCreate(Bundle savedInstanceState) {
 
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btn1 = (Button) findViewById(R.id.button1);
+        btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(lisenter);
         registerForContextMenu(btn1);
-        toolbar = (Toolbar)findViewById(R.id.toolbar);
-        setSupportActionBar(toolbar);
-    }
+        actionBar = getSupportActionBar();
+        //actionBar.setHomeAsUpIndicator(menu);
+        if (actionBar != null) {
 
-    private void setSupportActionBar(Toolbar toolbar) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_launcher_background);
+
+        }
     }
 
     public void btnToast1(View v) {
@@ -50,6 +58,19 @@ public class MainActivity extends AppCompatActivity {
 
         showMyToast(toast, 1 * 1000); //第一个参数：我们创建的Toast对象，第二个参数：我们想要设置显示的毫秒数
 
+    }
+
+    public boolean onCreateOptionsMenu(Menu menu) {
+
+        getMenuInflater().inflate(R.menu.menu, menu);
+
+        return true;
+
+    }
+
+    public boolean onOptionsItemSelected(MenuItem item) {
+
+        return super.onOptionsItemSelected(item);
     }
 
     public void showMyToast(final Toast toast, final int cnt) {
@@ -90,47 +111,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 
-    public boolean onCreateOptionsMenu(Menu menu) {
-
-        menu.add(0, 1, 0, "信息安全");
-        menu.add(0, 2, 0, "网络工程");
-        menu.add(0, 3, 0, "计算机科学与技术");
-        return true;
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-
-        switch (item.getItemId()) {
-
-            case 1:
-
-                Toast.makeText(MainActivity.this, "我是计算机学院", Toast.LENGTH_SHORT).show();
-
-                break;
-
-            case 2:
-
-                Toast.makeText(MainActivity.this, "我是电信学院", Toast.LENGTH_SHORT).show();
-
-                break;
-
-            case 3:
-
-                Toast.makeText(MainActivity.this, "我是。。。", Toast.LENGTH_SHORT).show();
-
-                break;
-
-            case 4:
-
-                Toast.makeText(MainActivity.this, "I am 。。。", Toast.LENGTH_SHORT).show();
-
-                break;
-
-        }
-
-        return true;
-
-    }
 
     public void onCreateContextMenu(ContextMenu menu, View v, ContextMenu.ContextMenuInfo menuInfo) {
 
