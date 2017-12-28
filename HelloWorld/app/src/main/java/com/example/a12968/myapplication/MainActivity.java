@@ -1,9 +1,13 @@
 package com.example.a12968.myapplication;
 
+import android.app.Notification;
+import android.app.NotificationManager;
 import android.content.res.Resources;
+import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
+import android.support.v7.app.NotificationCompat;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
@@ -24,7 +28,8 @@ import java.text.DecimalFormat;
 public class MainActivity extends AppCompatActivity {
 
     //变量定义
-
+    public static final int TYPE_Normal = 1;
+    private NotificationManager manger;
     private EditText editText;          //输入框：用于输入数字
     private String operator;            //操作符：记录 + - * / 符号
     private boolean ends = false, opfirst = true;       //判断是否是计算结果
@@ -33,7 +38,33 @@ public class MainActivity extends AppCompatActivity {
     private Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0;   //按钮：十个数字
     private Button btnPlus, btnMinus, btnMultiply, btnDivide;              //按钮：加减乘除
     private Button btnPoint, btnEqual, btnClear, btnx, btnup5, btnup2;                          //按钮：小数点，等号，清空
+    private void simpleNotify(){
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        //Ticker是状态栏显示的提示
+        builder.setTicker("简单Notification");
+        //第一行内容  通常作为通知栏标题
+        builder.setContentTitle("标题");
+        //第二行内容 通常是通知正文
+        builder.setContentText("通知内容");
+        //第三行内容 通常是内容摘要什么的 在低版本机器上不一定显示
+        builder.setSubText("这里显示的是通知第三行内容！");
+        //ContentInfo 在通知的右侧 时间的下面 用来展示一些其他信息
+        //builder.setContentInfo("2");
+        builder.setAutoCancel(true);
+        builder.setNumber(2);
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher_foreground));
+//        Intent intent = new Intent(this,SettingsActivity.class);
+//        PendingIntent pIntent = PendingIntent.getActivity(this,1,intent,0);
+//        builder.setContentIntent(pIntent);
+        //设置震动
+        //long[] vibrate = {100,200,100,200};
+        //builder.setVibrate(vibrate);
+        builder.setDefaults(NotificationCompat.DEFAULT_ALL);
+        Notification notification = builder.build();
+        manger.notify(TYPE_Normal,notification);
 
+    }
     public boolean onCreateOptionsMenu(Menu menu)
 
     {
@@ -112,6 +143,7 @@ public class MainActivity extends AppCompatActivity {
         btnup5 = (Button)findViewById(R.id.buttonup5);
         btnup5.setOnClickListener(lisenter);
         find_common_button();
+        manger = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         }
 
     private View.OnClickListener lisenter = new View.OnClickListener() {//侦听器
@@ -216,6 +248,7 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 if (button.getId() == R.id.buttonEqual) {
+                    simpleNotify();
                     if(view.equals(R.layout.activity_main)) {
                         Resources resources = getApplicationContext().getResources();
                         Drawable drawable = resources.getDrawable(R.drawable.q123);
@@ -265,6 +298,7 @@ public class MainActivity extends AppCompatActivity {
                         }
                         operator = "";
                     }
+
                 }
 
             } catch (Exception e) {
