@@ -5,8 +5,12 @@ import android.app.AlertDialog;
 import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.content.ComponentName;
 import android.content.DialogInterface;
+import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.os.Build;
+import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -89,6 +93,90 @@ public class MainActivity extends AppCompatActivity {
     }
 
 
+    private void bigTextStyle(){
+
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setContentTitle("BigTextStyle");
+        builder.setContentText("BigTextStyle演示示例");
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher_background));
+        android.support.v4.app.NotificationCompat.BigTextStyle style = new android.support.v4.app.NotificationCompat.BigTextStyle();
+        style.bigText("这里是点击通知后要显示的正文，可以换行可以显示很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长很长");
+        style.setBigContentTitle("点击后的标题");
+        style.setSummaryText("末尾只一行的文字内容");
+        builder.setStyle(style);
+        builder.setAutoCancel(true);
+//        Intent intent = new Intent(this,SettingsActivity.class);
+//        PendingIntent pIntent = PendingIntent.getActivity(this,1,intent,0);
+//        builder.setContentIntent(pIntent);
+        builder.setDefaults(NotificationCompat.DEFAULT_ALL);
+        Notification notification = builder.build();
+        manger.notify(2,notification);
+    }
+
+    public void inBoxStyle(){
+        /**     * 最多显示五行 再多会有截断    */
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setContentTitle("InboxStyle");
+        builder.setContentText("InboxStyle演示示例");
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher_background));
+        android.support.v4.app.NotificationCompat.InboxStyle style = new android.support.v4.app.NotificationCompat.InboxStyle();
+        style.setBigContentTitle("BigContentTitle")
+                .addLine("第一行，第一行，第一行，第一行，第一行，第一行，第一行")
+                .addLine("第二行")
+                .addLine("第三行")
+                .addLine("第四行")
+                .addLine("第五行")
+                .setSummaryText("SummaryText");
+        builder.setStyle(style);
+        builder.setAutoCancel(true);
+//        Intent intent = new Intent(this,SettingsActivity.class);
+//        PendingIntent pIntent = PendingIntent.getActivity(this,1,intent,0);
+//        builder.setContentIntent(pIntent);
+        builder.setDefaults(NotificationCompat.DEFAULT_ALL);
+        Notification notification = builder.build();
+        manger.notify(3,notification);
+    }
+
+    public void bigPictureStyle(){
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setContentTitle("BigPictureStyle");
+        builder.setContentText("BigPicture演示示例");
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setDefaults(NotificationCompat.DEFAULT_ALL);
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher_background));
+        android.support.v4.app.NotificationCompat.BigPictureStyle style = new android.support.v4.app.NotificationCompat.BigPictureStyle();
+        style.setBigContentTitle("BigContentTitle");
+        style.setSummaryText("SummaryText");
+        style.bigPicture(BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher_foreground));
+        builder.setStyle(style);
+        builder.setAutoCancel(true);
+//        Intent intent = new Intent(this,ImageActivity.class);
+//        PendingIntent pIntent = PendingIntent.getActivity(this,1,intent,0);
+//        builder.setContentIntent(pIntent);
+        Notification notification = builder.build();
+        manger.notify(4,notification);
+    }
+
+    private void hangup(){
+        if(Build.VERSION.SDK_INT < Build.VERSION_CODES.LOLLIPOP){
+            Toast.makeText(MainActivity.this, "此类通知在Android 5.0以上版本才会有横幅有效！", Toast.LENGTH_SHORT).show();
+        }
+        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
+        builder.setContentTitle("横幅通知");
+        builder.setContentText("请在设置通知管理中开启消息横幅提醒权限");
+        builder.setDefaults(NotificationCompat.DEFAULT_ALL);
+        builder.setSmallIcon(R.mipmap.ic_launcher);
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher_foreground));
+//        Intent intent = new Intent(this,ImageActivity.class);
+//        PendingIntent pIntent = PendingIntent.getActivity(this,1,intent,0);
+//        builder.setContentIntent(pIntent);
+//        builder.setFullScreenIntent(pIntent,true);
+        builder.setAutoCancel(true);
+        Notification notification = builder.build();
+        manger.notify(5,notification);
+    }
 
     public void onDialogClick6(View v){
 
@@ -254,11 +342,15 @@ public class MainActivity extends AppCompatActivity {
         public void onClick(View view) {//点击事件
             Button button = (Button) view;
             if (button.getId() == R.id.button1) {
-                button.setText("Get it");
-                button.setBackgroundColor(1);
-                btnToast5(view);
-                onDialogClick6(view);
-                simpleNotify();
+                //button.setText("Get it");
+                //button.setBackgroundColor(1);
+                //btnToast5(view);
+                //onDialogClick6(view);
+                //simpleNotify();第一个简单的通知
+                //bigTextStyle();第二长长的通知。
+                //inBoxStyle();通知
+                //bigPictureStyle();带图片的通知
+                //hangup();横屏通知
             }
         }
     };
