@@ -145,17 +145,6 @@ public class MainActivity extends AppCompatActivity {
         }
     }
 
-    public void btnToast1(View v) {
-
-        Toast.makeText(getApplicationContext(), "Toast默认样式", Toast.LENGTH_LONG).show();//Toast.LENGTH_LONG（3.5秒.
-    }
-
-    public void btnToast2(View v) {
-
-        Toast.makeText(this, "Toast默认样式", Toast.LENGTH_SHORT).show();        //Toast.LENGTH_SHORT（2秒）的值
-
-    }
-
     public void btnToast5(View V) {
 
         Toast toast = Toast.makeText(this, "可以设置时长的Toast", Toast.LENGTH_LONG);
