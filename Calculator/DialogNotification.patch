@@ -1,0 +1,167 @@
+Index: Calculator/app/src/main/java/com/example/t_lidashao/calculator/MainActivity.java
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- Calculator/app/src/main/java/com/example/t_lidashao/calculator/MainActivity.java	(revision 2e47d7e4ddfda5c4f8e72a585fd05cba4bb8de42)
++++ Calculator/app/src/main/java/com/example/t_lidashao/calculator/MainActivity.java	(revision )
+@@ -1,17 +1,26 @@
+ package com.example.t_lidashao.calculator;
+ 
+ import android.annotation.SuppressLint;
++import android.app.AlertDialog;
++import android.app.DatePickerDialog;
++import android.app.Notification;
++import android.app.NotificationManager;
++import android.content.DialogInterface;
++import android.graphics.BitmapFactory;
+ import android.support.v7.app.ActionBar;
+ import android.support.v7.app.AppCompatActivity;
+ import android.os.Bundle;
++import android.support.v7.app.NotificationCompat;
+ import android.view.ContextMenu;
+ import android.view.Menu;
+ import android.view.MenuItem;
+ import android.view.View;
+ import android.widget.Button;
++import android.widget.DatePicker;
+ import android.widget.Toast;
+ import android.widget.Toolbar;
+ 
++import java.util.Calendar;
+ import java.util.Timer;
+ import java.util.TimerTask;
+ 
+@@ -22,11 +31,106 @@
+     private Button btn1;
+ 
+     private  ActionBar actionBar;
++    public static final int TYPE_Normal = 1;
++    private NotificationManager manger;
++
++    private void simpleNotify(){
++
++        NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
++
++        //Ticker是状态栏显示的提示
++
++        builder.setTicker("简单Notification");
++
++        //第一行内容  通常作为通知栏标题
++
++        builder.setContentTitle("标题");
++
++        //第二行内容 通常是通知正文
++
++        builder.setContentText("通知内容");
++
++        //第三行内容 通常是内容摘要什么的 在低版本机器上不一定显示
++
++        builder.setSubText("这里显示的是通知第三行内容！");
++
++        //ContentInfo 在通知的右侧 时间的下面 用来展示一些其他信息
++
++        //builder.setContentInfo("2");
++
++        builder.setAutoCancel(true);
++
++        builder.setNumber(2);
++
++        builder.setSmallIcon(R.mipmap.ic_launcher);
++
++        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher_foreground));
++
++//        Intent intent = new Intent(this,SettingsActivity.class);
++//
++//        PendingIntent pIntent = PendingIntent.getActivity(this,1,intent,0);
++//
++//        builder.setContentIntent(pIntent);
++
++        //设置震动
++
++        //long[] vibrate = {100,200,100,200};
++
++        //builder.setVibrate(vibrate);
++
++
++
++        builder.setDefaults(NotificationCompat.DEFAULT_ALL);
++
++        Notification notification = builder.build();
++
++        manger.notify(TYPE_Normal,notification);
++
++    }
++
++
++
++    public void onDialogClick6(View v){
++
++        Calendar calendar = Calendar.getInstance();// import java.util.Calendar
++
++        calendar.setTimeInMillis(System.currentTimeMillis());
++
++        int year = calendar.get(Calendar.YEAR);
++
++        int monthOfyear = calendar.get(Calendar.MONTH);
++
++        int dayOfMonth = calendar.get(Calendar.DAY_OF_MONTH);
++
++        //通过DatePickerDialog来创建日期选择对话框
++
++        DatePickerDialog dpd = new DatePickerDialog(this, new DatePickerDialog.OnDateSetListener() {
++
++            @Override
++
++            public void onDateSet(DatePicker view, int year, int monthOfYear, int dayOfMonth) {
++
++                //当时间被设置后回调的方法
++
++                Toast.makeText(MainActivity.this,
++
++                        year + "年" + monthOfYear + "月" + dayOfMonth + "日",
++
++                        Toast.LENGTH_SHORT).show();
++
++            }
++
++        }, year, monthOfyear, dayOfMonth );
++
++        dpd.show();
++
++    }
+ 
+     protected void onCreate(Bundle savedInstanceState) {
+ 
+         super.onCreate(savedInstanceState);
+         setContentView(R.layout.activity_main);
++        manger = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+         btn1 = findViewById(R.id.button1);
+         btn1.setOnClickListener(lisenter);
+         registerForContextMenu(btn1);
+@@ -164,7 +268,8 @@
+                 button.setText("Get it");
+                 button.setBackgroundColor(1);
+                 btnToast5(view);
+-
++                onDialogClick6(view);
++                simpleNotify();
+             }
+         }
+     };
+Index: HelloWorld/.idea/misc.xml
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- HelloWorld/.idea/misc.xml	(revision 2e47d7e4ddfda5c4f8e72a585fd05cba4bb8de42)
++++ HelloWorld/.idea/misc.xml	(revision )
+@@ -24,7 +24,7 @@
+       </value>
+     </option>
+   </component>
+-  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_8" project-jdk-name="1.8" project-jdk-type="JavaSDK">
++  <component name="ProjectRootManager" version="2" languageLevel="JDK_1_7" project-jdk-name="1.8" project-jdk-type="JavaSDK">
+     <output url="file://$PROJECT_DIR$/build/classes" />
+   </component>
+   <component name="ProjectType">
