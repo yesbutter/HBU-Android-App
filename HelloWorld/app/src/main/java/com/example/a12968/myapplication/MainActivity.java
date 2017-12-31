@@ -15,6 +15,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
+import android.widget.Toolbar;
 
 import java.text.DecimalFormat;
 
@@ -64,28 +65,6 @@ public class MainActivity extends AppCompatActivity {
         Notification notification = builder.build();
         manger.notify(TYPE_Normal,notification);
 
-    }
-    public boolean onCreateOptionsMenu(Menu menu)
-
-    {
-        menu.add(0, 1, 0, "标准计算器");
-        menu.add(0, 2, 0, "科学计算器");
-        return true;
-
-    }
-
-    public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case 1:
-                setContentView(R.layout.activity_main);
-                find_common_button();
-                break;
-            case 2:
-                setContentView(R.layout.scientific_cal_layout);
-                find_common_button();
-                break;
-        }
-        return true;
     }
 
     private void find_common_button()
@@ -138,6 +117,7 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
+        Toolbar toolbar=new Toolbar();
         btnup2 = (Button)findViewById(R.id.buttonup2);
         btnup2.setOnClickListener(lisenter);
         btnup5 = (Button)findViewById(R.id.buttonup5);
@@ -145,7 +125,6 @@ public class MainActivity extends AppCompatActivity {
         find_common_button();
         manger = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         }
-
     private View.OnClickListener lisenter = new View.OnClickListener() {//侦听器
         @Override
         public void onClick(View view) {//点击事件
@@ -161,9 +140,9 @@ public class MainActivity extends AppCompatActivity {
                         ends = false;
                     }
                     editText.setText(editText.getText().toString() + button.getText().toString());
-                    Resources resources = getApplicationContext().getResources();
-                    Drawable drawable = resources.getDrawable(R.drawable.timg);
-                    linearLayout.setBackgroundDrawable(drawable);
+//                    Resources resources = getApplicationContext().getResources();
+//                    Drawable drawable = resources.getDrawable(R.drawable.timg);
+//                    linearLayout.setBackgroundDrawable(drawable);
                 }
                 if (button.getId() == R.id.buttonClear) {
                     editText.setText("");
@@ -206,12 +185,12 @@ public class MainActivity extends AppCompatActivity {
                     }
                 }
                 if (button.getId() == R.id.buttonPlus || button.getId() == R.id.buttonMinus || button.getId() == R.id.buttonMultiply || button.getId() == R.id.buttonDivide) {
-                    if(view.equals(R.layout.activity_main))
-                    {
-                        Resources resources = getApplicationContext().getResources();
-                        Drawable drawable = resources.getDrawable(R.drawable.a2);
-                        linearLayout.setBackgroundDrawable(drawable);
-                    }
+//                    if(view.equals(R.layout.activity_main))
+//                    {
+//                        Resources resources = getApplicationContext().getResources();
+//                        Drawable drawable = resources.getDrawable(R.drawable.a2);
+//                        linearLayout.setBackgroundDrawable(drawable);
+//                    }
                     if (editText.getText().toString().isEmpty())
                         opfirst = true;
                     if (opfirst) {
@@ -249,11 +228,11 @@ public class MainActivity extends AppCompatActivity {
                 }
                 if (button.getId() == R.id.buttonEqual) {
                     simpleNotify();
-                    if(view.equals(R.layout.activity_main)) {
-                        Resources resources = getApplicationContext().getResources();
-                        Drawable drawable = resources.getDrawable(R.drawable.q123);
-                        linearLayout.setBackgroundDrawable(drawable);
-                    }
+//                    if(view.equals(R.layout.activity_main)) {
+//                        Resources resources = getApplicationContext().getResources();
+//                        Drawable drawable = resources.getDrawable(R.drawable.q123);
+//                        linearLayout.setBackgroundDrawable(drawable);
+//                    }
                     ends = true;    //设置是输入等号
                     opfirst = true;
                     if (operator.equals("")) {
