@@ -109,9 +109,6 @@ public class MainActivity extends AppCompatActivity {
         btnEqual.setOnClickListener(lisenter);
         btnClear.setOnClickListener(lisenter);
         btnx.setOnClickListener(lisenter);
-
-
-
     }
     @Override
     protected void onCreate(Bundle savedInstanceState) {
