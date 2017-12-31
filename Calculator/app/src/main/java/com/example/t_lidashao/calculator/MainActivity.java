@@ -1,16 +1,13 @@
 package com.example.t_lidashao.calculator;
 
-import android.annotation.SuppressLint;
-import android.app.AlertDialog;
+
 import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
-import android.content.ComponentName;
-import android.content.DialogInterface;
 import android.content.Intent;
 import android.graphics.BitmapFactory;
+import android.net.Uri;
 import android.os.Build;
-import android.support.v4.media.session.MediaSessionCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -21,9 +18,8 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
+import android.support.v7.widget.Toolbar;
 import android.widget.Toast;
-import android.widget.Toolbar;
-
 import java.util.Calendar;
 import java.util.Timer;
 import java.util.TimerTask;
@@ -33,8 +29,7 @@ import static com.example.t_lidashao.calculator.R.menu.menu;
 public class MainActivity extends AppCompatActivity {
 
     private Button btn1;
-
-    private  ActionBar actionBar;
+    private  Toolbar toolbar;
     public static final int TYPE_Normal = 1;
     private NotificationManager manger;
 
@@ -222,14 +217,12 @@ public class MainActivity extends AppCompatActivity {
         btn1 = findViewById(R.id.button1);
         btn1.setOnClickListener(lisenter);
         registerForContextMenu(btn1);
-        actionBar = getSupportActionBar();
-        //actionBar.setHomeAsUpIndicator(menu);
+        toolbar=(Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
+        ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
-
             actionBar.setDisplayHomeAsUpEnabled(true);
-
             actionBar.setHomeAsUpIndicator(R.drawable.ic_launcher_background);
-
         }
     }
 
@@ -243,7 +236,7 @@ public class MainActivity extends AppCompatActivity {
 
     public boolean onCreateOptionsMenu(Menu menu) {
 
-        getMenuInflater().inflate(R.menu.menu, menu);
+        getMenuInflater().inflate(R.menu.toolbar, menu);
 
         return true;
 
@@ -351,6 +344,9 @@ public class MainActivity extends AppCompatActivity {
                 //inBoxStyle();通知
                 //bigPictureStyle();带图片的通知
                 //hangup();横屏通知
+                Uri uri = Uri.parse("tel:10086");
+                Intent intent = new Intent(Intent.ACTION_DIAL, uri);
+                startActivity(intent);
             }
         }
     };
