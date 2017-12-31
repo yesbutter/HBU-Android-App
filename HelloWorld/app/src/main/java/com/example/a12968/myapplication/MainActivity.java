@@ -2,10 +2,16 @@ package com.example.a12968.myapplication;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
 import android.graphics.drawable.Drawable;
+import android.net.Uri;
 import android.os.Bundle;
+import android.support.design.widget.NavigationView;
+import android.support.v4.view.GravityCompat;
+import android.support.v4.widget.DrawerLayout;
+import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.view.Menu;
@@ -15,7 +21,7 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
-import android.widget.Toolbar;
+import android.support.v7.widget.Toolbar;
 
 import java.text.DecimalFormat;
 
@@ -25,10 +31,11 @@ import java.text.DecimalFormat;
 // Upgrade to Android Studio 3.0.1 ,Gradle 4.1 ,Yesbutter 2017.12.9
 
 
-
 public class MainActivity extends AppCompatActivity {
 
     //变量定义
+    public android.support.v7.widget.Toolbar toolbar;             //顶部工具条
+    public DrawerLayout mDrawerLayout;  //左侧抽屉
     public static final int TYPE_Normal = 1;
     private NotificationManager manger;
     private EditText editText;          //输入框：用于输入数字
@@ -39,7 +46,8 @@ public class MainActivity extends AppCompatActivity {
     private Button btn1, btn2, btn3, btn4, btn5, btn6, btn7, btn8, btn9, btn0;   //按钮：十个数字
     private Button btnPlus, btnMinus, btnMultiply, btnDivide;              //按钮：加减乘除
     private Button btnPoint, btnEqual, btnClear, btnx, btnup5, btnup2;                          //按钮：小数点，等号，清空
-    private void simpleNotify(){
+
+    private void simpleNotify() {
         NotificationCompat.Builder builder = new NotificationCompat.Builder(this);
         //Ticker是状态栏显示的提示
         builder.setTicker("简单Notification");
@@ -54,7 +62,7 @@ public class MainActivity extends AppCompatActivity {
         builder.setAutoCancel(true);
         builder.setNumber(2);
         builder.setSmallIcon(R.mipmap.ic_launcher);
-        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(),R.drawable.ic_launcher_foreground));
+        builder.setLargeIcon(BitmapFactory.decodeResource(getResources(), R.drawable.ic_launcher_foreground));
 //        Intent intent = new Intent(this,SettingsActivity.class);
 //        PendingIntent pIntent = PendingIntent.getActivity(this,1,intent,0);
 //        builder.setContentIntent(pIntent);
@@ -63,33 +71,32 @@ public class MainActivity extends AppCompatActivity {
         //builder.setVibrate(vibrate);
         builder.setDefaults(NotificationCompat.DEFAULT_ALL);
         Notification notification = builder.build();
-        manger.notify(TYPE_Normal,notification);
+        manger.notify(TYPE_Normal, notification);
 
     }
 
-    private void find_common_button()
-    {
+    private void find_common_button() {
         editText = findViewById(R.id.editviewdavid);//与XML中定义好的EditText控件绑定
         textView = findViewById(R.id.textviewdavid);//与XML中定义好的TextView控件绑定
         editText.setCursorVisible(false);//隐藏输入框光标
-        btn1 = (Button)findViewById(R.id.button1);
-        btn2 = (Button)findViewById(R.id.button2);
-        btn3 = (Button)findViewById(R.id.button3);
-        btn4 = (Button)findViewById(R.id.button4);
-        btn5 = (Button)findViewById(R.id.button5);
-        btn6 = (Button)findViewById(R.id.button6);
-        btn7 = (Button)findViewById(R.id.button7);
-        btn8 = (Button)findViewById(R.id.button8);
-        btn9 = (Button)findViewById(R.id.button9);
-        btn0 = (Button)findViewById(R.id.button0);
-        btnPlus = (Button)findViewById(R.id.buttonPlus);
-        btnMinus = (Button)findViewById(R.id.buttonMinus);
-        btnMultiply =(Button) findViewById(R.id.buttonMultiply);
-        btnDivide = (Button)findViewById(R.id.buttonDivide);
-        btnPoint =(Button) findViewById(R.id.buttonPoint);
-        btnEqual = (Button)findViewById(R.id.buttonEqual);
-        btnClear = (Button)findViewById(R.id.buttonClear);
-        btnx = (Button)findViewById(R.id.buttonX);
+        btn1 = (Button) findViewById(R.id.button1);
+        btn2 = (Button) findViewById(R.id.button2);
+        btn3 = (Button) findViewById(R.id.button3);
+        btn4 = (Button) findViewById(R.id.button4);
+        btn5 = (Button) findViewById(R.id.button5);
+        btn6 = (Button) findViewById(R.id.button6);
+        btn7 = (Button) findViewById(R.id.button7);
+        btn8 = (Button) findViewById(R.id.button8);
+        btn9 = (Button) findViewById(R.id.button9);
+        btn0 = (Button) findViewById(R.id.button0);
+        btnPlus = (Button) findViewById(R.id.buttonPlus);
+        btnMinus = (Button) findViewById(R.id.buttonMinus);
+        btnMultiply = (Button) findViewById(R.id.buttonMultiply);
+        btnDivide = (Button) findViewById(R.id.buttonDivide);
+        btnPoint = (Button) findViewById(R.id.buttonPoint);
+        btnEqual = (Button) findViewById(R.id.buttonEqual);
+        btnClear = (Button) findViewById(R.id.buttonClear);
+        btnx = (Button) findViewById(R.id.buttonX);
         //为按钮添加监听器
         btn1.setOnClickListener(lisenter);
         btn2.setOnClickListener(lisenter);
@@ -110,17 +117,104 @@ public class MainActivity extends AppCompatActivity {
         btnClear.setOnClickListener(lisenter);
         btnx.setOnClickListener(lisenter);
     }
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        btnup2 = (Button)findViewById(R.id.buttonup2);
+        btnup2 = (Button) findViewById(R.id.buttonup2);
         btnup2.setOnClickListener(lisenter);
-        btnup5 = (Button)findViewById(R.id.buttonup5);
+        btnup5 = (Button) findViewById(R.id.buttonup5);
         btnup5.setOnClickListener(lisenter);
         find_common_button();
+        toolbar = (Toolbar) findViewById(R.id.toolbar);
+        setSupportActionBar(toolbar);
         manger = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
+        mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+        NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
+        ActionBar actionBar = getSupportActionBar();
+        if (actionBar != null) {
+            actionBar.setDisplayHomeAsUpEnabled(true);
+            actionBar.setHomeAsUpIndicator(R.drawable.ic_launcher_foreground);
         }
+        navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {//抽屉菜单监听 2017.12.27
+            @Override
+            public boolean onNavigationItemSelected(MenuItem item) {
+                Intent intent = new Intent(MainActivity.this, MyWebView.class);
+                Uri uri;
+                switch (item.getItemId()) {
+                    case R.id.nav_call:
+                        uri = Uri.parse("tel:03125073279");
+                        intent = new Intent(Intent.ACTION_DIAL, uri);
+                        startActivity(intent);
+                        break;
+                    case R.id.nav_index:
+                        intent.putExtra("WebAddress", "http://cs.hbu.cn/index.aspx");
+                        startActivity(intent);
+                        break;
+                    case R.id.nav_introduce:
+                        intent.putExtra("WebAddress", "http://cs.hbu.cn/list.aspx?type=notice");
+                        startActivity(intent);
+                        break;
+                    case R.id.nav_news:
+                        intent.putExtra("WebAddress", "http://cs.hbu.cn/list.aspx?type=news");
+                        startActivity(intent);
+                        break;
+                    case R.id.nav_university:
+                        uri = Uri.parse("http://www.hbu.cn");
+                        intent = new Intent(Intent.ACTION_VIEW, uri);
+                        startActivity(intent);
+                        break;
+                }
+                mDrawerLayout.closeDrawers();
+                return true;
+            }
+        });
+    }
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.toolbar, menu);
+        return true;
+    }
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if(item.getItemId()==android.R.id.home)
+        {
+            mDrawerLayout.openDrawer(GravityCompat.START);
+        }
+        if(item.getItemId()==R.id.stand_cal)
+        {
+            setContentView(R.layout.activity_main);
+            btnup2 = (Button) findViewById(R.id.buttonup2);
+            btnup5 = (Button) findViewById(R.id.buttonup5);
+            find_common_button();
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
+            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setHomeAsUpIndicator(R.drawable.ic_launcher_foreground);
+            }
+        }
+        if(item.getItemId()==R.id.sci_cal)
+        {
+            setContentView(R.layout.scientific_cal_layout);
+            find_common_button();
+            toolbar = (Toolbar) findViewById(R.id.toolbar);
+            mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            ActionBar actionBar = getSupportActionBar();
+            if (actionBar != null) {
+                actionBar.setDisplayHomeAsUpEnabled(true);
+                actionBar.setHomeAsUpIndicator(R.drawable.ic_launcher_foreground);
+        }
+        if(item.getItemId()==R.id.editold)
+        {
+
+        }
+        if(item.getItemId()==R.id.settings)
+        {
+
+        }
+        return true;
+    }
     private View.OnClickListener lisenter = new View.OnClickListener() {//侦听器
         @Override
         public void onClick(View view) {//点击事件
@@ -175,7 +269,7 @@ public class MainActivity extends AppCompatActivity {
                     {
                         if (str.equals("0"))//如果开始为0
                             editText.setText(("0" + ".").toString());
-                        else if (str.equals(""));//如果初时显示为空，就什么也不做
+                        else if (str.equals("")) ;//如果初时显示为空，就什么也不做
                         else
                             editText.setText(str + ".");
                     }
@@ -235,38 +329,32 @@ public class MainActivity extends AppCompatActivity {
                         n1 = Double.parseDouble(editText.getText().toString());
                         textView.setText(MyFormat.format(n1));
                     }
-                    if (operator.equals("+"))
-                    {
+                    if (operator.equals("+")) {
                         n2 = Double.parseDouble(editText.getText().toString());
                         Result = n1 + n2;
                         textView.setText(MyFormat.format(n1) + operator + MyFormat.format(n2) + "=" + MyFormat.format(Result));
                         editText.setText(MyFormat.format(Result) + "");
                         operator = "";
-                    } else if (operator.equals("-"))
-                    {
+                    } else if (operator.equals("-")) {
                         str = editText.getText().toString();
                         n2 = Double.parseDouble(str);
                         Result = n1 - n2;
                         textView.setText(MyFormat.format(n1) + operator + MyFormat.format(n2) + "=" + MyFormat.format(Result));
                         editText.setText(MyFormat.format(Result) + "");
                         operator = "";
-                    } else if (operator.equals("*"))
-                    {
+                    } else if (operator.equals("*")) {
                         n2 = Double.parseDouble(editText.getText().toString());
                         Result = n1 * n2;
                         textView.setText(MyFormat.format(n1) + operator + MyFormat.format(n2) + "=" + MyFormat.format(Result));
                         editText.setText(MyFormat.format(Result) + "");
                         operator = "";
-                    } else if (operator.equals("/"))
-                    {
+                    } else if (operator.equals("/")) {
                         str = editText.getText().toString();
                         n2 = Double.parseDouble(str);
-                        if (n2 == 0)
-                        {
+                        if (n2 == 0) {
                             editText.setText("");
                             textView.setText("除数不能为0");
-                        } else
-                        {
+                        } else {
                             Result = n1 / n2;
                             textView.setText(MyFormat.format(n1) + operator + MyFormat.format(n2) + "=" + MyFormat.format(Result));
                             editText.setText(MyFormat.format(Result) + "");
