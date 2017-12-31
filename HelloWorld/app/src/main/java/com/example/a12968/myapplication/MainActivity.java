@@ -114,7 +114,6 @@ public class MainActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
-        Toolbar toolbar=new Toolbar();
         btnup2 = (Button)findViewById(R.id.buttonup2);
         btnup2.setOnClickListener(lisenter);
         btnup5 = (Button)findViewById(R.id.buttonup5);
