@@ -13,7 +13,7 @@
 
         android:layout_height="match_parent"
 
-        android:background="@drawable/q123">
+        android:background="@drawable/tim1">
 
         <android.support.v7.widget.Toolbar
             android:id="@+id/toolbar"

@@ -4,9 +4,7 @@ import android.app.Notification;
 import android.app.NotificationManager;
 import android.content.DialogInterface;
 import android.content.Intent;
-import android.content.res.Resources;
 import android.graphics.BitmapFactory;
-import android.graphics.drawable.Drawable;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.NavigationView;
@@ -165,7 +163,7 @@ public class MainActivity extends AppCompatActivity {
                         startActivity(intent);
                         break;
                     case R.id.nav_university:
-                        uri = Uri.parse("http://www.hbu.cn");
+                        uri = Uri.parse("http://www.baidu.com");
                         intent = new Intent(Intent.ACTION_VIEW, uri);
                         startActivity(intent);
                         break;
@@ -202,7 +200,7 @@ public class MainActivity extends AppCompatActivity {
             navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {//抽屉菜单监听 2017.12.27
                 @Override
                 public boolean onNavigationItemSelected(MenuItem item) {
-                    Intent intent = new Intent(MainActivity.this, MyWebView.class);
+                    Intent intent = new Intent(MainActivity.this,MyWebView.class);
                     Uri uri;
                     switch (item.getItemId()) {
                         case R.id.nav_call:
