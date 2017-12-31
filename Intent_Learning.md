@@ -127,7 +127,3 @@ android:layout_height="match_parent">
 </LinearLayout>
 
 ```
-
-
-
-
