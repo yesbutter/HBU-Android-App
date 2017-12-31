@@ -7,13 +7,13 @@
 
         android:id="@+id/stand_cal"
         android:textAllCaps="false"
-        android:title="My-Menu"
+        android:title="标准计算器"
         app:showAsAction="never"/>
     <item
 
         android:id="@+id/sci_cal"
         android:textAllCaps="false"
-        android:title="My-Menu"
+        android:title="科学计算器"
         app:showAsAction="never"/>
 
     <item

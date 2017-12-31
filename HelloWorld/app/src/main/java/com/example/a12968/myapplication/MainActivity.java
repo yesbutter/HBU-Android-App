@@ -2,6 +2,7 @@ package com.example.a12968.myapplication;
 
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.res.Resources;
 import android.graphics.BitmapFactory;
@@ -12,6 +13,7 @@ import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBar;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.app.NotificationCompat;
 import android.view.Menu;
@@ -22,6 +24,7 @@ import android.widget.EditText;
 import android.widget.LinearLayout;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
+import android.widget.Toast;
 
 import java.text.DecimalFormat;
 
@@ -36,6 +39,7 @@ public class MainActivity extends AppCompatActivity {
     //变量定义
     public android.support.v7.widget.Toolbar toolbar;             //顶部工具条
     public DrawerLayout mDrawerLayout;  //左侧抽屉
+    public NavigationView navView;
     public static final int TYPE_Normal = 1;
     private NotificationManager manger;
     private EditText editText;          //输入框：用于输入数字
@@ -131,7 +135,7 @@ public class MainActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         manger = (NotificationManager) getSystemService(NOTIFICATION_SERVICE);
         mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
-        NavigationView navView = (NavigationView) findViewById(R.id.nav_view);
+        navView = (NavigationView) findViewById(R.id.nav_view);
         ActionBar actionBar = getSupportActionBar();
         if (actionBar != null) {
             actionBar.setDisplayHomeAsUpEnabled(true);
@@ -171,50 +175,132 @@ public class MainActivity extends AppCompatActivity {
             }
         });
     }
+
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.toolbar, menu);
         return true;
     }
+
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(item.getItemId()==android.R.id.home)
-        {
+        if (item.getItemId() == android.R.id.home) {
             mDrawerLayout.openDrawer(GravityCompat.START);
         }
-        if(item.getItemId()==R.id.stand_cal)
-        {
+        if (item.getItemId() == R.id.stand_cal) {
             setContentView(R.layout.activity_main);
             btnup2 = (Button) findViewById(R.id.buttonup2);
             btnup5 = (Button) findViewById(R.id.buttonup5);
             find_common_button();
             toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            navView = (NavigationView) findViewById(R.id.nav_view);
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 actionBar.setHomeAsUpIndicator(R.drawable.ic_launcher_foreground);
             }
+            navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {//抽屉菜单监听 2017.12.27
+                @Override
+                public boolean onNavigationItemSelected(MenuItem item) {
+                    Intent intent = new Intent(MainActivity.this, MyWebView.class);
+                    Uri uri;
+                    switch (item.getItemId()) {
+                        case R.id.nav_call:
+                            uri = Uri.parse("tel:03125073279");
+                            intent = new Intent(Intent.ACTION_DIAL, uri);
+                            startActivity(intent);
+                            break;
+                        case R.id.nav_index:
+                            intent.putExtra("WebAddress", "http://cs.hbu.cn/index.aspx");
+                            startActivity(intent);
+                            break;
+                        case R.id.nav_introduce:
+                            intent.putExtra("WebAddress", "http://cs.hbu.cn/list.aspx?type=notice");
+                            startActivity(intent);
+                            break;
+                        case R.id.nav_news:
+                            intent.putExtra("WebAddress", "http://cs.hbu.cn/list.aspx?type=news");
+                            startActivity(intent);
+                            break;
+                        case R.id.nav_university:
+                            uri = Uri.parse("http://www.hbu.cn");
+                            intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
+                            break;
+                    }
+                    mDrawerLayout.closeDrawers();
+                    return true;
+                }
+            });
         }
-        if(item.getItemId()==R.id.sci_cal)
-        {
+        if (item.getItemId() == R.id.sci_cal) {
             setContentView(R.layout.scientific_cal_layout);
             find_common_button();
             toolbar = (Toolbar) findViewById(R.id.toolbar);
+            setSupportActionBar(toolbar);
             mDrawerLayout = (DrawerLayout) findViewById(R.id.drawer_layout);
+            navView = (NavigationView) findViewById(R.id.nav_view);
             ActionBar actionBar = getSupportActionBar();
             if (actionBar != null) {
                 actionBar.setDisplayHomeAsUpEnabled(true);
                 actionBar.setHomeAsUpIndicator(R.drawable.ic_launcher_foreground);
+            }
+            navView.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {//抽屉菜单监听 2017.12.27
+                @Override
+                public boolean onNavigationItemSelected(MenuItem item) {
+                    Intent intent = new Intent(MainActivity.this, MyWebView.class);
+                    Uri uri;
+                    switch (item.getItemId()) {
+                        case R.id.nav_call:
+                            uri = Uri.parse("tel:03125073279");
+                            intent = new Intent(Intent.ACTION_DIAL, uri);
+                            startActivity(intent);
+                            break;
+                        case R.id.nav_index:
+                            intent.putExtra("WebAddress", "http://cs.hbu.cn/index.aspx");
+                            startActivity(intent);
+                            break;
+                        case R.id.nav_introduce:
+                            intent.putExtra("WebAddress", "http://cs.hbu.cn/list.aspx?type=notice");
+                            startActivity(intent);
+                            break;
+                        case R.id.nav_news:
+                            intent.putExtra("WebAddress", "http://cs.hbu.cn/list.aspx?type=news");
+                            startActivity(intent);
+                            break;
+                        case R.id.nav_university:
+                            uri = Uri.parse("http://www.hbu.cn");
+                            intent = new Intent(Intent.ACTION_VIEW, uri);
+                            startActivity(intent);
+                            break;
+                    }
+                    mDrawerLayout.closeDrawers();
+                    return true;
+                }
+            });
         }
-        if(item.getItemId()==R.id.editold)
-        {
-
+        if (item.getItemId() == R.id.editold) {
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Calculator")
+                    .setMessage("Happy new year!")
+                    .setNegativeButton("Thank you!", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                        }
+                    }).create().show();
         }
-        if(item.getItemId()==R.id.settings)
-        {
-
+        if (item.getItemId() == R.id.settings) {
+            new AlertDialog.Builder(MainActivity.this)
+                    .setTitle("Calculator")
+                    .setMessage("Calculator 1.0 \nHBU \n网络空间安全与计算机学院 \nYesbutter \n2017.12.31")
+                    .setPositiveButton("确定", new DialogInterface.OnClickListener() {
+                        public void onClick(DialogInterface dialog, int whichButton) {
+                        }
+                    })
+                    .create().show();
         }
         return true;
     }
+
     private View.OnClickListener lisenter = new View.OnClickListener() {//侦听器
         @Override
         public void onClick(View view) {//点击事件
