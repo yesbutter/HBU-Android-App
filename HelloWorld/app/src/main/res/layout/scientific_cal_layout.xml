@@ -6,6 +6,8 @@
 
     android:stretchColumns="*"
 
+    android:background="@drawable/happynewyear"
+
     android:layout_height="match_parent"
     >
 
