@@ -90,6 +90,8 @@
 
                 android:layout_span="1"
 
+                android:layout_weight="1"
+
                 android:background="#00000000"
 
                 android:text="C"
@@ -109,6 +111,7 @@
                 android:layout_span="1"
 
                 android:background="#00000000"
+                android:layout_weight="1"
 
                 android:text="ⓧ"
 
@@ -126,7 +129,7 @@
                 android:background="#00000000"
 
                 android:text="/"
-
+                android:layout_weight="1"
                 android:textSize="25sp" />
 
 
@@ -139,7 +142,7 @@
                 android:layout_height="match_parent"
 
                 android:background="#00000000"
-
+                android:layout_weight="1"
                 android:text="*"
 
                 android:textSize="25sp" />
@@ -171,7 +174,7 @@
                 android:background="#00000000"
 
                 android:text="7"
-
+                android:layout_weight="1"
                 android:textSize="25sp"
 
                 />
@@ -188,7 +191,7 @@
                 android:background="#00000000"
 
                 android:text="8"
-
+                android:layout_weight="1"
                 android:textSize="25sp" />
 
 
@@ -201,7 +204,7 @@
                 android:layout_height="match_parent"
 
                 android:background="#00000000"
-
+                android:layout_weight="1"
                 android:text="9"
                 android:textSize="25sp" />
 
@@ -214,7 +217,7 @@
                 android:layout_height="match_parent"
 
                 android:background="#00000000"
-
+                android:layout_weight="1"
                 android:text="-"
 
                 android:textSize="25sp" />
@@ -246,7 +249,7 @@
                 android:background="#00000000"
 
                 android:text="4"
-
+                android:layout_weight="1"
                 android:textSize="25sp" />
 
 
@@ -259,7 +262,7 @@
                 android:layout_height="match_parent"
 
                 android:background="#00000000"
-
+                android:layout_weight="1"
                 android:text="5"
 
                 android:textSize="25sp" />
@@ -276,7 +279,7 @@
                 android:background="#00000000"
 
                 android:text="6"
-
+                android:layout_weight="1"
                 android:textSize="25sp" />
 
             <Button
@@ -290,7 +293,7 @@
                 android:background="#00000000"
 
                 android:text="+"
-
+                android:layout_weight="1"
                 android:textSize="25sp" />
 
 
@@ -321,7 +324,7 @@
                 android:background="#00000000"
 
                 android:text="1"
-
+                android:layout_weight="1"
                 android:textSize="25sp" />
 
 
@@ -336,7 +339,7 @@
                 android:background="#00000000"
 
                 android:text="2"
-
+                android:layout_weight="1"
                 android:textSize="25sp" />
 
 
@@ -351,7 +354,7 @@
                 android:background="#00000000"
 
                 android:text="3"
-
+                android:layout_weight="1"
                 android:textSize="25sp" />
 
             <Button
@@ -365,7 +368,7 @@
                 android:background="#00000000"
 
                 android:text="平方"
-
+                android:layout_weight="1"
                 android:textSize="25sp" />
 
 
@@ -393,7 +396,7 @@
                 android:background="#00000000"
 
                 android:text="%"
-
+                android:layout_weight="1"
                 android:textSize="25sp" />
 
             <Button
@@ -407,7 +410,7 @@
                 android:background="#00000000"
 
                 android:text="0"
-
+                android:layout_weight="1"
                 android:textSize="25sp" />
 
 
@@ -422,7 +425,7 @@
                 android:background="#00000000"
 
                 android:text="."
-
+                android:layout_weight="1"
                 android:textSize="25sp" />
 
 
@@ -437,7 +440,7 @@
                 android:background="#00000000"
 
                 android:text="="
-
+                android:layout_weight="1"
                 android:textSize="25sp" />
 
 
