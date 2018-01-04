@@ -334,6 +334,7 @@ public class MainActivity extends AppCompatActivity {
 
         public void onClick(View view) {//点击事件
             Button button = (Button) view;
+            Intent intent1 = new Intent(MainActivity.this,MyMusicService.class );//连接服务
             if (button.getId() == R.id.button1) {
                 //button.setText("Get it");
                 //button.setBackgroundColor(1);
@@ -347,6 +348,7 @@ public class MainActivity extends AppCompatActivity {
                 Uri uri = Uri.parse("tel:10086");
                 Intent intent = new Intent(Intent.ACTION_DIAL, uri);
                 startActivity(intent);
+                startService(intent1);//开启服务
             }
         }
     };
