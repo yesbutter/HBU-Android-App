@@ -1,13 +1,21 @@
 package com.example.t_lidashao.calculator;
 
 
+import android.Manifest;
 import android.app.DatePickerDialog;
 import android.app.Notification;
 import android.app.NotificationManager;
+import android.content.BroadcastReceiver;
+import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
+import android.content.pm.PackageManager;
 import android.graphics.BitmapFactory;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Build;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
@@ -19,6 +27,7 @@ import android.view.View;
 import android.widget.Button;
 import android.widget.DatePicker;
 import android.support.v7.widget.Toolbar;
+import android.widget.TextView;
 import android.widget.Toast;
 import java.util.Calendar;
 import java.util.Timer;
@@ -32,6 +41,9 @@ public class MainActivity extends AppCompatActivity {
     private  Toolbar toolbar;
     public static final int TYPE_Normal = 1;
     private NotificationManager manger;
+    IntentFilter intentFilter;
+    MyReceiver myReceiver;
+    TextView textView ;
 
     private void simpleNotify(){
 
@@ -224,7 +236,37 @@ public class MainActivity extends AppCompatActivity {
             actionBar.setDisplayHomeAsUpEnabled(true);
             actionBar.setHomeAsUpIndicator(R.drawable.ic_launcher_background);
         }
+
+        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.M) {
+
+            if (ContextCompat.checkSelfPermission(this, Manifest.permission.MODIFY_AUDIO_SETTINGS) != PackageManager.PERMISSION_GRANTED) {
+
+                ActivityCompat.requestPermissions(this,new String[]{Manifest.permission.MODIFY_AUDIO_SETTINGS},1);
+
+            }else {
+
+                Toast.makeText(this, "权限已申请", Toast.LENGTH_SHORT).show();
+
+            }
+
+        }
+
+        textView = (TextView)findViewById(R.id.show) ;
+
+        intentFilter = new IntentFilter(Intent.ACTION_HEADSET_PLUG);
+
+        myReceiver = new MyReceiver();
+
+        registerReceiver(myReceiver, intentFilter);
     }
+    protected void onDestroy() {
+
+        super.onDestroy();
+
+        unregisterReceiver(myReceiver);
+
+    }
+
 
     public void btnToast5(View V) {
 
@@ -354,4 +396,51 @@ public class MainActivity extends AppCompatActivity {
     };
 
 
+    public class MyReceiver extends BroadcastReceiver {
+
+        private static final String TAG = "MyReceiver";
+
+        @Override
+
+        public void onReceive(Context context, Intent intent) {
+
+            // TODO: This method is called when the BroadcastReceiver is receiving
+
+            // an Intent broadcast.
+
+//            if (Intent.ACTION_HEADSET_PLUG.equals(intent.getAction())) {
+
+//                Toast.makeText(context, "headset connected", Toast.LENGTH_LONG).show();
+
+//            }
+
+            if (intent.hasExtra("state")){
+
+                if (intent.getIntExtra("state", 0) == 0){
+
+                    textView.setText("耳机未连接");
+
+                    textView.setTextColor(Color.parseColor("#FF0000"));
+
+//                Toast.makeText(context, "耳机未连接", Toast.LENGTH_LONG).show();
+
+                }
+
+                else if (intent.getIntExtra("state", 0) == 1){
+
+//                Toast.makeText(context, "耳机已连接", Toast.LENGTH_LONG).show();
+
+                    textView.setText("耳机已连接");
+
+                    textView.setTextColor(Color.parseColor("#B3EE3A"));
+
+                }
+
+            }
+
+
+
+        }
+
+    }
 }

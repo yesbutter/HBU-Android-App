@@ -1,14 +1,18 @@
 package com.qiaojim.bluetoothstudy;
 
+import android.Manifest;
 import android.app.Activity;
 import android.bluetooth.BluetoothAdapter;
 import android.bluetooth.BluetoothDevice;
 import android.content.Intent;
+import android.content.pm.PackageManager;
 import android.nfc.Tag;
+import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.support.design.widget.TabLayout;
+import android.support.v4.app.ActivityCompat;
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentActivity;
 import android.support.v4.app.FragmentManager;
@@ -24,6 +28,8 @@ import android.widget.Toast;
 import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.List;
+
+import static android.app.PendingIntent.getActivity;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -83,6 +89,7 @@ public class MainActivity extends AppCompatActivity {
         bluetoothAdapter=BluetoothAdapter.getDefaultAdapter();
 
         initUI();
+
     }
 
 
@@ -113,6 +120,7 @@ public class MainActivity extends AppCompatActivity {
         viewPager.setAdapter(pagerAdapter);
         tabLayout.setupWithViewPager(viewPager);
     }
+
 
     /**
      * ViewPager 适配器

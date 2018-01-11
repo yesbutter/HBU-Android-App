@@ -59,6 +59,7 @@ public class DeviceListFragment extends Fragment {
     ClientThread clientThread;
     ServerThread serverThread;
 
+
     public void onRequestPermissionsResult(int requestCode, String permissions[], int[] grantResults) {
 
         switch (requestCode) {
