@@ -20,4 +20,6 @@
     <item android:id="@+id/disconnect" android:title="断开连接"
         android:orderInCategory="100" app:showAsAction="never|withText" />
 
+    <item android:id="@+id/mybutton" android:title="我的功能"
+        android:orderInCategory="100" app:showAsAction="never|withText" />
 </menu>

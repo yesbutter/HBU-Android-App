@@ -31,6 +31,8 @@ public class DataTransFragment extends Fragment {
 
     BluetoothDevice remoteDevice;
 
+    Button btn4, btn3, btn2, btn1;
+
     @Nullable
     @Override
     public View onCreateView(LayoutInflater inflater, @Nullable ViewGroup container, @Nullable Bundle savedInstanceState) {
@@ -55,7 +57,50 @@ public class DataTransFragment extends Fragment {
                 inputEt.setText("");
             }
         });
-
+        btn4 = (Button) view.findViewById(R.id.send_4);
+        btn4.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String msgSend = "4";
+                Message message = new Message();
+                message.what = Params.MSG_WRITE_DATA;
+                message.obj = msgSend;
+                uiHandler.sendMessage(message);
+            }
+        });
+        btn3 = (Button) view.findViewById(R.id.send_3);
+        btn3.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String msgSend = "3";
+                Message message = new Message();
+                message.what = Params.MSG_WRITE_DATA;
+                message.obj = msgSend;
+                uiHandler.sendMessage(message);
+            }
+        });
+        btn2 = (Button) view.findViewById(R.id.send_2);
+        btn2.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String msgSend = "2";
+                Message message = new Message();
+                message.what = Params.MSG_WRITE_DATA;
+                message.obj = msgSend;
+                uiHandler.sendMessage(message);
+            }
+        });
+        btn1 = (Button) view.findViewById(R.id.send_1);
+        btn1.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                String msgSend = "1";
+                Message message = new Message();
+                message.what = Params.MSG_WRITE_DATA;
+                message.obj = msgSend;
+                uiHandler.sendMessage(message);
+            }
+        });
         dataListAdapter = new ArrayAdapter<String>(getContext(), R.layout.layout_item_new_data);
         showDataLv.setAdapter(dataListAdapter);
 
@@ -81,12 +126,12 @@ public class DataTransFragment extends Fragment {
      *
      * @param newMsg
      */
-    public void updateDataView(String newMsg,int role) {
+    public void updateDataView(String newMsg, int role) {
 
         if (role == Params.REMOTE) {
-            String remoteName = remoteDevice.getName()==null ? "未命名设备":remoteDevice.getName();
+            String remoteName = remoteDevice.getName() == null ? "未命名设备" : remoteDevice.getName();
             newMsg = remoteName + " : " + newMsg;
-        } else if (role == Params.ME){
+        } else if (role == Params.ME) {
             newMsg = "我 : " + newMsg;
         }
         dataListAdapter.add(newMsg);
@@ -101,4 +146,5 @@ public class DataTransFragment extends Fragment {
         this.remoteDevice = serverDevice;
         connectNameTv.setText("连接设备: " + remoteDevice.getName());
     }
+
 }
