@@ -32,6 +32,7 @@ public class DataTransFragment extends Fragment {
     BluetoothDevice remoteDevice;
 
     Button btn4, btn3, btn2, btn1;
+    private int MODE = 0;
 
     @Nullable
     @Override
@@ -58,49 +59,16 @@ public class DataTransFragment extends Fragment {
             }
         });
         btn4 = (Button) view.findViewById(R.id.send_4);
-        btn4.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String msgSend = "4";
-                Message message = new Message();
-                message.what = Params.MSG_WRITE_DATA;
-                message.obj = msgSend;
-                uiHandler.sendMessage(message);
-            }
-        });
+        btn4.setOnClickListener(lisenter);
         btn3 = (Button) view.findViewById(R.id.send_3);
-        btn3.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String msgSend = "3";
-                Message message = new Message();
-                message.what = Params.MSG_WRITE_DATA;
-                message.obj = msgSend;
-                uiHandler.sendMessage(message);
-            }
-        });
+        btn3.setOnClickListener(lisenter);
         btn2 = (Button) view.findViewById(R.id.send_2);
-        btn2.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String msgSend = "2";
-                Message message = new Message();
-                message.what = Params.MSG_WRITE_DATA;
-                message.obj = msgSend;
-                uiHandler.sendMessage(message);
-            }
-        });
+        btn2.setOnClickListener(lisenter);
         btn1 = (Button) view.findViewById(R.id.send_1);
-        btn1.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                String msgSend = "1";
-                Message message = new Message();
-                message.what = Params.MSG_WRITE_DATA;
-                message.obj = msgSend;
-                uiHandler.sendMessage(message);
-            }
-        });
+        btn1.setOnClickListener(lisenter);
+        btn3.setVisibility(view.INVISIBLE);
+        btn2.setVisibility(view.INVISIBLE);
+        btn1.setVisibility(view.INVISIBLE);
         dataListAdapter = new ArrayAdapter<String>(getContext(), R.layout.layout_item_new_data);
         showDataLv.setAdapter(dataListAdapter);
 
@@ -146,5 +114,92 @@ public class DataTransFragment extends Fragment {
         this.remoteDevice = serverDevice;
         connectNameTv.setText("连接设备: " + remoteDevice.getName());
     }
+
+    private View.OnClickListener lisenter = new View.OnClickListener() {//侦听器
+        @Override
+        public void onClick(View view) {//点击事件
+
+            switch (view.getId()) {
+                case R.id.send_4:
+                    String msgSend = "4";
+                    Message message = new Message();
+                    message.what = Params.MSG_WRITE_DATA;
+                    message.obj = msgSend;
+                    uiHandler.sendMessage(message);
+                    MODE++;
+                    if (MODE == 5)
+                        MODE = 0;
+                    break;
+                case R.id.send_3:
+                    msgSend = "3";
+                    message = new Message();
+                    message.what = Params.MSG_WRITE_DATA;
+                    message.obj = msgSend;
+                    uiHandler.sendMessage(message);
+                    break;
+                case R.id.send_2:
+                    msgSend = "2";
+                    message = new Message();
+                    message.what = Params.MSG_WRITE_DATA;
+                    message.obj = msgSend;
+                    uiHandler.sendMessage(message);
+                    break;
+                case R.id.send_1:
+                    msgSend = "1";
+                    message = new Message();
+                    message.what = Params.MSG_WRITE_DATA;
+                    message.obj = msgSend;
+                    uiHandler.sendMessage(message);
+                    break;
+                default:
+                    break;
+            }
+            switch (MODE) {
+                case 0:
+                    btn1.setText("移位");
+                    btn2.setText("增加");
+                    btn3.setText("减少");
+                    btn1.setVisibility(view.INVISIBLE);
+                    btn2.setVisibility(view.INVISIBLE);
+                    btn3.setVisibility(view.INVISIBLE);
+                    break;
+                case 1:
+                    btn1.setText("移位");
+                    btn2.setText("增加");
+                    btn3.setText("减少");
+                    btn1.setVisibility(view.VISIBLE);
+                    btn2.setVisibility(view.VISIBLE);
+                    btn3.setVisibility(view.VISIBLE);
+                    break;
+                case 2:
+                    btn1.setText("计次");
+                    btn2.setText("归零");
+                    btn3.setText("减少");
+                    btn1.setVisibility(view.VISIBLE);
+                    btn2.setVisibility(view.VISIBLE);
+                    btn3.setVisibility(view.INVISIBLE);
+                    break;
+                case 3:
+                    btn1.setText("移位");
+                    btn2.setText("增加");
+                    btn3.setText("减少");
+                    btn1.setVisibility(view.VISIBLE);
+                    btn2.setVisibility(view.VISIBLE);
+                    btn3.setVisibility(view.VISIBLE);
+                    break;
+                case 4:
+                    btn1.setText("移位");
+                    btn2.setText("开启/关闭");
+                    btn3.setText("减少");
+                    btn1.setVisibility(view.INVISIBLE);
+                    btn2.setVisibility(view.VISIBLE);
+                    btn3.setVisibility(view.INVISIBLE);
+                    break;
+                default:
+                    break;
+            }
+
+        }
+    };
 
 }
