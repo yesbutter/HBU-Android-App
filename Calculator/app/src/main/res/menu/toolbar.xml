@@ -10,7 +10,7 @@
 
         android:title="Backup"
 
-        app:showAsAction="always"/>
+        app:showAsAction="never"/>
 
     <item
 
@@ -18,7 +18,7 @@
 
         android:title="Delete"
 
-        app:showAsAction="ifRoom"/>
+        app:showAsAction="never"/>
 
     <item
 
