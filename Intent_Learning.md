@@ -47,8 +47,8 @@ ButtonCall.setOnClickListener(new View.OnClickListener(){//设置监听事件
         ButtonPhoto.setOnClickListener(new View.OnClickListener(){
             @Override
             public void onClick(View v){
-                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);             
-		startActivityForResult(intent, 0);
+                Intent intent = new Intent(MediaStore.ACTION_IMAGE_CAPTURE);
+                startActivityForResult(intent, 0);
             }
         });
 ```
@@ -82,7 +82,7 @@ ButtonCall.setOnClickListener(new View.OnClickListener(){//设置监听事件
         });
 ```
 
-## 同样也可以跳转到其他的页面
+##同样也可以跳转到其他的页面##
 
 **-跳转到自己写的页面测试：用一个按钮来实现跳转到自己的页面。**
 ```
@@ -125,59 +125,4 @@ android:layout_height="match_parent">
     />
 </LinearLayout>
 
-```
-
-**-使用Intent向下一个活动传递参数**
-```
- Intent intent = new Intent();
-                Bundle bundle = new Bundle();
-                bundle.putString("University","HebeiUniversity");//下一个Acticity是FourthActivity,University是一个名字，内容是后面
-                bundle.putString("College","Cyberspace Security & Computer");//和上面一样
-                intent.putExtras(bundle);//把bundle对象传递下一个活动，下一个活动接收到对象，通过对象获取传递的字符。
-                intent.setClass(MainActivity.this,FourthActivity.class);
-                startActivity(intent);//开启活动
-		
-		//下一个活动接收传递进来的数据
-		Bundle bundle = getIntent().getExtras();//获得上一个的bundle对象
-                String university = bundle.getString("University");//获取传递进来的参数，Universtity相当于键值对
-                String college = bundle.getString("College");//同上
-               	textView.setText(university + ":" +college);//当然是显示它咯！
-
-```
-
-**-使用Intent向上一个活动传递参数**
-```
-		
-		Intent intent = new Intent();//上一个Activity
-		Bundle bundle = new Bundle();
-		bundle.putString("参数1-2","参数值1-2");//键值对
-		intent.putExtras(bundle);//向下传递bundle对象
-		intent.setClass(MainActivity.this,FifthActivity.class);
-		startActivityForResult(intent,0);// 0 用于识别第二个页面返回值,
-		
-		
-		protected void onActivityResult(int requestCode, int resultCode, Intent data) {//上一个Activity获得下一个传递的参数
-		super.onActivityResult(requestCode, resultCode, data);
-		switch (requestCode){
-		//通过不同的request code来做不同的事情
-		    case 0:
-			if(resultCode == RESULT_OK )
-			{
-			    Bundle b = data.getExtras();//获得下一个获得的传递的bundle对象
-			    String string = b.getString("参数2-1");//获取数据
-			    textView.setText(string);//显示
-			}
-			break;
-		    default:
-			break;
-		}
-		
-		
-		Intent intent = new Intent();//下一个活动，先上一个活动传递数据
-                Bundle bundle = new Bundle();
-                bundle.putString("参数2-1","参数值2-1");
-                intent.putExtras(bundle);//把bundle对象向上传递
-                intent.setClass(FifthActivity.this,MainActivity.class);
-                setResult(RESULT_OK,intent);//只有相应了这一个才会去执行onActivityResult的内容
-                finish();//结束当前活动
 ```
