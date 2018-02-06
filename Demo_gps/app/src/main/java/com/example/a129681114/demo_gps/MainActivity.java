@@ -201,7 +201,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                         Message message=new Message();
                         message.what=1;
                         handler.sendMessage(message);
-
                     }
                 }catch (Exception e)
                 {
