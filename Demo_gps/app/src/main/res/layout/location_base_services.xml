@@ -1,24 +1,38 @@
 <?xml version="1.0" encoding="utf-8"?>
 <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:id="@+id/location_based_services"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:id="@+id/location_based_services"
-    android:orientation="vertical"
-    >
+    android:orientation="vertical">
 
-    <Button
-        android:layout_width="match_parent"
+    <TableRow
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:id="@+id/startbaiduSDK"
-        android:text="GPS定位"
-        />
+        android:orientation="vertical">
+
+        <Button
+            android:id="@+id/startbaiduSDK"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:text="GPS定位" />
+
+
+        <Button
+            android:id="@+id/startnetwork"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#00000000"
+            android:text="基站定位" />
+    </TableRow>
 
     <TextView
+        android:id="@+id/position_text_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
-        android:id="@+id/position_text_view"
-        android:gravity="center"
-        />
-    
+        android:gravity="center" />
+
 
 </LinearLayout>

@@ -1,7 +1,10 @@
 package com.example.a129681114.demo_gps;
 
 import android.Manifest;
+import android.annotation.SuppressLint;
 import android.content.Context;
+import android.content.DialogInterface;
+import android.content.Intent;
 import android.content.pm.PackageManager;
 import android.content.res.Resources;
 import android.location.Address;
@@ -11,8 +14,10 @@ import android.location.LocationListener;
 import android.location.LocationManager;
 import android.os.Handler;
 import android.os.Message;
+import android.provider.Settings;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v7.app.AlertDialog;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
 import android.util.Log;
@@ -31,7 +36,7 @@ import static java.util.Locale.getDefault;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Context mContext;
-    private Button btnstartGPS;
+    private Button btnstartGPS,btnstartnet;
     private TextView tvMapInfo;
     private List<Address> addresses = null;
 
@@ -41,22 +46,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.location_base_services);
         mContext = this;
         btnstartGPS = findViewById(R.id.startbaiduSDK);
+        btnstartnet=findViewById(R.id.startnetwork);
         tvMapInfo = findViewById(R.id.position_text_view);
         btnstartGPS.setOnClickListener(this);
+        btnstartnet.setOnClickListener(this);
 
-        List<String> permissionList = new ArrayList<>();// Permission array list , request permissions in one array.
-        if(ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=  PackageManager.PERMISSION_GRANTED){
-            permissionList.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
-        }
-        if(ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
-            permissionList.add(android.Manifest.permission.READ_PHONE_STATE);
-        }
-        if(ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-            permissionList.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
-        }
-        if(!permissionList.isEmpty()){
-            String[] permissions = permissionList.toArray(new String[permissionList.size()]);
-            ActivityCompat.requestPermissions(MainActivity.this,permissions,1);//request all permissions
+        if (ContextCompat.checkSelfPermission(mContext, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
     }
 
@@ -67,9 +64,52 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 System.out.println("我被调用了");
                 startBaiduMap();
                 break;
+            case R.id.startnetwork:
+                startNetLBS();
+                break;
             default:
                 break;
         }
+    }
+
+    private void GPSisopen(LocationManager locationManager)
+    {
+        String TAG="GPSISOPEN";
+        Log.e(TAG, "GPSisopen: -----------1------------" );
+        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
+        {
+            Log.e(TAG, "GPSisopen: ----------------2-------------------" );
+            Toast.makeText(this,"请打开GPS",Toast.LENGTH_SHORT);
+            final AlertDialog.Builder dialog=new AlertDialog.Builder(this);
+            dialog.setTitle("请打开GPS连接");
+            dialog.setMessage("为了获取定位服务，请先打开GPS");
+            dialog.setPositiveButton("设置",new android.content.DialogInterface.OnClickListener(){
+
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    Intent intent=new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivityForResult(intent,0);
+                }
+            });
+            dialog.setNegativeButton("取消",new android.content.DialogInterface.OnClickListener(){
+
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.dismiss();
+                }
+            });
+            dialog.show();
+
+        }
+    }
+
+    private void startNetLBS()
+    {
+        LocationManager locationManager=(LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        @SuppressLint("MissingPermission") Location location=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+        upLoadInfor(location);
+        Log.e("Tag", "startNetLBS: ---------NET" );
+
     }
 
     private void startBaiduMap() {
@@ -82,9 +122,12 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             System.out.println("权限不够");
             return;
         }
+
         LocationManager locationManager = (LocationManager) getSystemService(mContext.LOCATION_SERVICE);
 
         Location location = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
+
+        GPSisopen(locationManager);
 
         upLoadInfor(location);
 
@@ -94,7 +137,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             @Override
             /*当地理位置发生改变的时候调用*/
             public void onLocationChanged(Location location) {
-                Log.e("GPS_SERVICES", "&#x4f4d;&#x7f6e;&#x4fe1;&#x606f;&#x53d1;&#x751f;&#x6539;&#x53d8;");
+
                 upLoadInfor(location);
 
             }
@@ -154,36 +197,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             double Latitude = location.getLatitude();
 
             Log.e("Location Based Services", "upLoadInfor: " + location.toString());
-            tvMapInfo.setText("经度:" + Longitude + "\n纬度：" + Latitude + "\n速度:" + location.getSpeed());
+            tvMapInfo.setText("经度:" + Longitude + "\n纬度：" + Latitude + "\n速度:" + location.getSpeed()+"\n我是GPS定位结果！");
         } else {
-            List<String> permissionList = new ArrayList<>();// Permission array list , request permissions in one array.
-            if(ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.ACCESS_FINE_LOCATION) !=  PackageManager.PERMISSION_GRANTED){
-                permissionList.add(android.Manifest.permission.ACCESS_FINE_LOCATION);
-            }
-            if(ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.READ_PHONE_STATE) != PackageManager.PERMISSION_GRANTED){
-                permissionList.add(android.Manifest.permission.READ_PHONE_STATE);
-            }
-            if(ContextCompat.checkSelfPermission(MainActivity.this, android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED){
-                permissionList.add(android.Manifest.permission.WRITE_EXTERNAL_STORAGE);
-            }
-            if(!permissionList.isEmpty()){
-                String[] permissions = permissionList.toArray(new String[permissionList.size()]);
-                ActivityCompat.requestPermissions(MainActivity.this,permissions,1);//request all permissions
-            }
 
-            LocationManager locationManager = (LocationManager) getSystemService(mContext.LOCATION_SERVICE);
-            if (ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-                // TODO: Consider calling
-                //    ActivityCompat#requestPermissions
-                // here to request the missing permissions, and then overriding
-                //   public void onRequestPermissionsResult(int requestCode, String[] permissions,
-                //                                          int[] grantResults)
-                // to handle the case where the user grants the permission. See the documentation
-                // for ActivityCompat#requestPermissions for more details.
-                return;
-            }
-            location = locationManager.getLastKnownLocation(locationManager.GPS_PROVIDER);
-            Toast.makeText(this, "Sorry，请尽量在室外测试！！！", Toast.LENGTH_LONG).show();
+            Toast.makeText(this, "Loading！！！", Toast.LENGTH_LONG).show();
 
         }
         final Location finalLocation = location;
@@ -213,4 +230,5 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
 
 }
+
 
