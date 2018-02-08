@@ -36,7 +36,7 @@ import static java.util.Locale.getDefault;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener {
 
     private Context mContext;
-    private Button btnstartGPS,btnstartnet;
+    private Button btnstartGPS, btnstartnet;
     private TextView tvMapInfo;
     private List<Address> addresses = null;
 
@@ -46,7 +46,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         setContentView(R.layout.location_base_services);
         mContext = this;
         btnstartGPS = findViewById(R.id.startbaiduSDK);
-        btnstartnet=findViewById(R.id.startnetwork);
+        btnstartnet = findViewById(R.id.startnetwork);
         tvMapInfo = findViewById(R.id.position_text_view);
         btnstartGPS.setOnClickListener(this);
         btnstartnet.setOnClickListener(this);
@@ -72,26 +72,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void GPSisopen(LocationManager locationManager)
-    {
-        String TAG="GPSISOPEN";
-        Log.e(TAG, "GPSisopen: -----------1------------" );
-        if(!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER))
-        {
-            Log.e(TAG, "GPSisopen: ----------------2-------------------" );
-            Toast.makeText(this,"请打开GPS",Toast.LENGTH_SHORT);
-            final AlertDialog.Builder dialog=new AlertDialog.Builder(this);
+    private void GPSisopen(LocationManager locationManager) {
+        String TAG = "GPSISOPEN";
+        Log.e(TAG, "GPSisopen: -----------1------------");
+        if (!locationManager.isProviderEnabled(LocationManager.GPS_PROVIDER)) {
+            Log.e(TAG, "GPSisopen: ----------------2-------------------");
+            Toast.makeText(this, "请打开GPS", Toast.LENGTH_SHORT);
+            final AlertDialog.Builder dialog = new AlertDialog.Builder(this);
             dialog.setTitle("请打开GPS连接");
             dialog.setMessage("为了获取定位服务，请先打开GPS");
-            dialog.setPositiveButton("设置",new android.content.DialogInterface.OnClickListener(){
+            dialog.setPositiveButton("设置", new android.content.DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
-                    Intent intent=new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
-                    startActivityForResult(intent,0);
+                    Intent intent = new Intent(Settings.ACTION_LOCATION_SOURCE_SETTINGS);
+                    startActivityForResult(intent, 0);
                 }
             });
-            dialog.setNegativeButton("取消",new android.content.DialogInterface.OnClickListener(){
+            dialog.setNegativeButton("取消", new android.content.DialogInterface.OnClickListener() {
 
                 @Override
                 public void onClick(DialogInterface dialogInterface, int i) {
@@ -103,12 +101,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         }
     }
 
-    private void startNetLBS()
-    {
-        LocationManager locationManager=(LocationManager) getSystemService(Context.LOCATION_SERVICE);
-        @SuppressLint("MissingPermission") Location location=locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
+    private void startNetLBS() {
+        LocationManager locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
+        @SuppressLint("MissingPermission") Location location = locationManager.getLastKnownLocation(LocationManager.NETWORK_PROVIDER);
         upLoadInfor(location);
-        Log.e("Tag", "startNetLBS: ---------NET" );
+        Log.e("Tag", "startNetLBS: ---------NET");
 
     }
 
@@ -117,7 +114,6 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         if (ActivityCompat.checkSelfPermission(this,
                 Manifest.permission.ACCESS_FINE_LOCATION) != PackageManager.PERMISSION_GRANTED
                 && ActivityCompat.checkSelfPermission(this, Manifest.permission.ACCESS_COARSE_LOCATION) != PackageManager.PERMISSION_GRANTED) {
-
             Toast.makeText(this, "权限不够", Toast.LENGTH_LONG).show();
             System.out.println("权限不够");
             return;
@@ -177,51 +173,48 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return result;
     }
 
-    private Handler handler=new Handler()
-    {
-        public void handleMessage(Message msg)
-        {
-            switch (msg.what)
-            {
+    private Handler handler = new Handler() {
+        public void handleMessage(Message msg) {
+            switch (msg.what) {
                 case 1:
-                    tvMapInfo.setText(tvMapInfo.getText()+"\n"+addresses.toString());
+                    tvMapInfo.setText(tvMapInfo.getText() + "\n" + addresses.toString());
                     break;
                 default:
                     break;
             }
         }
     };
+
     private void upLoadInfor(Location location) {
         if (location != null) {
             double Longitude = location.getLongitude();
             double Latitude = location.getLatitude();
 
             Log.e("Location Based Services", "upLoadInfor: " + location.toString());
-            tvMapInfo.setText("经度:" + Longitude + "\n纬度：" + Latitude + "\n速度:" + location.getSpeed()+"\n我是GPS定位结果！");
+            tvMapInfo.setText("经度:" + Longitude + "\n纬度：" + Latitude + "\n速度:" + location.getSpeed() + "\n我是GPS定位结果！");
         } else {
 
             Toast.makeText(this, "Loading！！！", Toast.LENGTH_LONG).show();
 
         }
         final Location finalLocation = location;
-        new Thread (new Runnable() {
+        new Thread(new Runnable() {
             @Override
             public void run() {
-               // tvMapInfo.setText(tvMapInfo.getText()+"\nHell new Thread");
-                Log.e("Run","A new Thread");
+                // tvMapInfo.setText(tvMapInfo.getText()+"\nHell new Thread");
+                Log.e("Run", "A new Thread");
                 try {
-                    final Location location1= finalLocation;
-                    addresses= getAddress(location1
+                    final Location location1 = finalLocation;
+                    addresses = getAddress(location1
                     );
                     if (addresses != null) {
                         Log.e("run: ", addresses.toString());
-                        Message message=new Message();
-                        message.what=1;
+                        Message message = new Message();
+                        message.what = 1;
                         handler.sendMessage(message);
                     }
-                }catch (Exception e)
-                {
-                    Log.e("Exception","ERRPOR");
+                } catch (Exception e) {
+                    Log.e("Exception", "ERRPOR");
                 }
             }
 

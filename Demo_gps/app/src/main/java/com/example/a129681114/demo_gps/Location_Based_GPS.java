@@ -10,8 +10,4 @@ public class Location_Based_GPS {
 
 
 
-    private void upLoadInfo(Location location)
-    {
-
-    }
 }
