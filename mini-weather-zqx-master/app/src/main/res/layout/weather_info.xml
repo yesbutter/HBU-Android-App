@@ -246,6 +246,14 @@
 
         </RelativeLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:id="@+id/mytextview"
+            android:text="My test"
+            android:textSize="50dp"
+            />
+
         <!-- 六日天气信息 -->
 
         <!-- 广告等信息 -->

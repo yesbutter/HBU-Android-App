@@ -40,7 +40,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private ImageView mCitySelect;
 
     private TextView cityTv, timeTv, humidityTv, weekTv, pmDataTv, pmQualityTv,
-            temperatureTv, climateTv, windTv, city_name_Tv;
+            temperatureTv, climateTv, windTv, city_name_Tv,mytextview;
     private ImageView weatherImg, pmImg;
 
     private Handler mHandler = new Handler() {
@@ -62,6 +62,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.weather_info);
 
+        mytextview= (TextView) findViewById(R.id.mytextview);
         mUpdateBtn = (ImageView) findViewById(R.id.title_update_btn);
         mUpdateBtn.setOnClickListener(this);
 
@@ -110,7 +111,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
         if(view.getId() == R.id.title_city_manager){
             Intent i = new Intent(this, ChooseAreaActivity.class);
-            startActivity(i);
+            startActivityForResult(i,0);// 0 用于识别第二个页面返回值
         }
 
         if (view.getId() == R.id.title_update_btn) {
@@ -283,6 +284,26 @@ public class MainActivity extends Activity implements View.OnClickListener {
         windTv.setText("风力:"+todayWeather.getFengli());
         Toast.makeText(MainActivity.this,"更新成功！",Toast.LENGTH_SHORT).show();
 
+    }
+
+    @Override
+    protected void onActivityResult(int requestCode,int resultCode,Intent data)
+    {
+        super.onActivityResult(requestCode,resultCode,data);
+        switch (requestCode)
+        {
+            case 0:
+                if(resultCode==RESULT_OK)
+                {
+                    Bundle bundle=data.getExtras();
+                    String string=bundle.getString("weather_code");
+                    Log.e("weather-code",string);
+                    mytextview.setText(string);
+                }
+                break;
+            default:
+                break;
+        }
     }
 
 
