@@ -24,6 +24,7 @@ import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import cn.edu.pku.zhangqixun.app.ChooseAreaActivity;
 import cn.edu.pku.zhangqixun.bean.TodayWeather;
 import cn.edu.pku.zhangqixun.util.NetUtil;
 
@@ -108,7 +109,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
     public void onClick(View view) {
 
         if(view.getId() == R.id.title_city_manager){
-            Intent i = new Intent(this, SelectCity.class);
+            Intent i = new Intent(this, ChooseAreaActivity.class);
             startActivity(i);
         }
 

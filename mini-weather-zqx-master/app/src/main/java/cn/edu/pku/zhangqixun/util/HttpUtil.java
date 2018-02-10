@@ -30,7 +30,7 @@ public class HttpUtil {
                         stringBuilder.append(line);
                     }
                     if (listener != null) {
-                        listener.onFinish();
+                        listener.onFinish(stringBuilder.toString());
                     }
                 } catch (java.io.IOException e) {
                     e.printStackTrace();
@@ -48,7 +48,7 @@ public class HttpUtil {
     }
 
     public interface HttpCallbackListener {
-        void onFinish();
+        void onFinish(String response);
         void onError(Exception e);
     }
 }

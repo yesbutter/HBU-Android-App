@@ -35,7 +35,7 @@ public class County {
         return this.id;
     }
 
-    public String getCityName()
+    public String getCountyName()
     {
         return this.countyName;
     }

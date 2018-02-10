@@ -78,7 +78,7 @@ public class WeatherDB {
             contentValues.put("city_name", city.getCityName());
             contentValues.put("city_code", city.getCityCode());
             contentValues.put("province_id", city.getProvinceId());
-            sqLiteDatabase.insert("City", null, null);
+            sqLiteDatabase.insert("City", null, contentValues);
         }
     }
 
@@ -107,9 +107,9 @@ public class WeatherDB {
         if(county!=null)
         {
             ContentValues contentValues = new ContentValues();
-            contentValues.put("county_name",county.getCityName());
+            contentValues.put("county_name",county.getCountyName());
             contentValues.put("county_code",county.getCountyCode());
-            contentValues.put("county_id",county.getId());
+            contentValues.put("city_id",county.getCityId());
             sqLiteDatabase.insert("County",null,contentValues);
         }
     }

@@ -32,8 +32,8 @@ public class WeatherDBOpenHelper extends SQLiteOpenHelper {
      */
     public static final String CREATE_COUNTY="create table County("
             +"id integer primary key autoincrement,"
-            +"count_name text,"
-            +"count_code text,"
+            +"county_name text,"
+            +"county_code text,"
             +"city_id integer)";
 
 
@@ -43,6 +43,9 @@ public class WeatherDBOpenHelper extends SQLiteOpenHelper {
 
     @Override
     public void onCreate(SQLiteDatabase sqLiteDatabase) {
+        sqLiteDatabase.execSQL(CREATE_PROVINCE);
+        sqLiteDatabase.execSQL(CREATE_CITY);
+        sqLiteDatabase.execSQL(CREATE_COUNTY);
 
     }
 
