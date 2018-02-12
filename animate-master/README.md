@@ -1,6 +1,9 @@
-Animate
-=======
 
+# Copy From https://github.com/hitherejoe/animate
+# Copy From https://github.com/hitherejoe/animate
+# Copy From https://github.com/hitherejoe/animate
+# Animate
+=======
 <p align="center">
     <img src="images/web.png" alt="Web Icons"/>
 </p>
