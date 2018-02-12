@@ -5,7 +5,6 @@ import android.app.ProgressDialog;
 import android.content.Intent;
 import android.os.Bundle;
 import android.text.TextUtils;
-import android.util.Log;
 import android.view.View;
 import android.view.Window;
 import android.widget.AdapterView;
@@ -87,8 +86,7 @@ public class ChooseAreaActivity extends Activity {
 
                     Intent intent=new Intent();
                     Bundle bundle=new Bundle();
-                    bundle.putString("weather_code","101"+selectedCounty.getCountyCode());
-                    Log.e("-----weather-code",Integer.toString(selectedCounty.getId()));
+                    bundle.putString("weather_code",selectedCounty.getCountyCode());
                     intent.putExtras(bundle);
                     intent.setClass(ChooseAreaActivity.this,MainActivity.class);
                     setResult(RESULT_OK,intent);
