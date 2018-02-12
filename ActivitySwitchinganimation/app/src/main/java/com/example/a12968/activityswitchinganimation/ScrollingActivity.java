@@ -1,6 +1,5 @@
 package com.example.a12968.activityswitchinganimation;
 
-import android.app.Activity;
 import android.app.ActivityOptions;
 import android.content.Intent;
 import android.os.Bundle;
