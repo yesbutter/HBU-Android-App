@@ -14,12 +14,12 @@ public class SecondActivity extends Activity {
     Button button;
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.second_activity);
-        button=findViewById(R.id.back_button);
+        setContentView(R.layout.refresh_layout);
+       // button=findViewById(R.id.back_button);
     }
 
-    public void backclick(View view)
-    {
-        finish();
-    }
+//    public void backclick(View view)
+//    {
+//        finish();
+//    }
 }
