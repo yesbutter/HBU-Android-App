@@ -41,6 +41,10 @@ public class SecondActivity extends Activity {
     }
 
 
+        setContentView(R.layout.refresh_layout);
+       // button=findViewById(R.id.back_button);
+    }
+
 //    public void backclick(View view)
 //    {
 //        finish();
