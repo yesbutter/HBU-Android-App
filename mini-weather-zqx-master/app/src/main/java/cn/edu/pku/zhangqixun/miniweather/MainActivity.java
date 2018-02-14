@@ -4,6 +4,7 @@ import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.graphics.Color;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
@@ -38,6 +39,7 @@ import cn.edu.pku.zhangqixun.bean.TodayWeather;
 import cn.edu.pku.zhangqixun.util.HttpUtil;
 import cn.edu.pku.zhangqixun.util.NetUtil;
 import cn.edu.pku.zhangqixun.util.Utility;
+import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
 
 /**
  * Created by zhangqixun on 16/7/4.
@@ -49,11 +51,12 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private static String select_county_code = "090201";
 
     private ImageView mUpdateBtn;
-
     private ImageView mCitySelect;
 
     private Context mContext =this;
 
+
+    private WaveSwipeRefreshLayout mWaveSwipeRefreshLayout;
     private DrawerLayout drawerLayout;
     public NavigationView navView;
     private TextView cityTv, timeTv, humidityTv, weekTv, pmDataTv, pmQualityTv,
@@ -152,6 +155,18 @@ public class MainActivity extends Activity implements View.OnClickListener {
         temperatureTv.setText("N/A");
         climateTv.setText("N/A");
         windTv.setText("N/A");
+
+        mWaveSwipeRefreshLayout = (WaveSwipeRefreshLayout) findViewById(R.id.main_swipe);
+        mWaveSwipeRefreshLayout.setColorSchemeColors(Color.WHITE, Color.WHITE);
+        mWaveSwipeRefreshLayout.setWaveColor(Color.argb(100,255,0,0));
+        mWaveSwipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() {
+            @Override
+            public void onRefresh() {
+                queryWeatherCode(select_county_code);
+                Log.e("onRefresh","------Loading");
+                mWaveSwipeRefreshLayout.setRefreshing(false);
+            }
+        });
     }
 
     @Override

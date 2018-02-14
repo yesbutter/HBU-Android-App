@@ -1,7 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<com.example.a12968.activityswitchinganimation.MyRefreshLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout
+    xmlns:android="http://schemas.android.com/apk/res/android"
     android:layout_width="match_parent"
-    android:layout_height="match_parent">
+    android:layout_height="match_parent"
+    android:id="@+id/my_wave_swipe">
+
 
     <ImageView
         android:id="@+id/image_view"
@@ -10,4 +13,6 @@
         android:layout_width="match_parent"
         />
 
-</com.example.a12968.activityswitchinganimation.MyRefreshLayout>
+
+</jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout>
+

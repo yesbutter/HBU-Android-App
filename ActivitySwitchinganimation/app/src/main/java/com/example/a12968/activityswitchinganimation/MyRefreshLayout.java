@@ -122,6 +122,7 @@ public class MyRefreshLayout extends ViewGroup {
                 break;
         }
         mLastMoveY = y;
-        return intercept;
+        return true;
+
     }
 }
