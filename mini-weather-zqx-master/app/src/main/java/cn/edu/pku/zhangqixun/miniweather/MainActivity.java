@@ -49,7 +49,6 @@ public class MainActivity extends Activity implements View.OnClickListener {
     private static final int UPDATE_TODAY_WEATHER = 1;
 
     private static String select_county_code = "090201";
-
     private ImageView mUpdateBtn;
     private ImageView mCitySelect;
 
