@@ -1,16 +1,21 @@
 package cn.edu.pku.zhangqixun.miniweather;
 
+import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
+import android.content.pm.PackageManager;
 import android.graphics.Color;
+import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.design.widget.NavigationView;
+import android.support.v4.app.ActivityCompat;
+import android.support.v4.content.ContextCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
 import android.text.TextUtils;
@@ -34,6 +39,7 @@ import java.io.StringReader;
 import java.net.HttpURLConnection;
 import java.net.URL;
 
+import cn.edu.pku.zhangqixun.Location_Based_Services.Location_Based_Services;
 import cn.edu.pku.zhangqixun.app.ChooseAreaActivity;
 import cn.edu.pku.zhangqixun.bean.TodayWeather;
 import cn.edu.pku.zhangqixun.util.HttpUtil;
@@ -112,7 +118,9 @@ public class MainActivity extends Activity implements View.OnClickListener {
                         i.setClass(mContext,ChooseAreaActivity.class);
                         startActivityForResult(i, 0);// 0 用于识别第二个页面返回值
                         break;
-                    case R.id.nav_index:
+                    case R.id.nav_net:
+                        initPermission();
+                        getNetWorkLocation();
                         break;
                     case R.id.nav_introduce:
                         break;
@@ -128,6 +136,28 @@ public class MainActivity extends Activity implements View.OnClickListener {
                 return true;
             }
         });
+    }
+
+    private void getNetWorkLocation()
+    {
+        Location location= Location_Based_Services.getNetWorkLocation(this);
+        Toast.makeText(mContext,"------------",Toast.LENGTH_SHORT).show();
+        if(location==null)
+        {
+            Toast.makeText(mContext,"net打开失败",Toast.LENGTH_SHORT).show();
+        }
+        else
+        {
+            Location_Based_Services.showAddress(location,mContext);
+        }
+
+    }
+
+    private void initPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
+        }
     }
 
     void initView() {
