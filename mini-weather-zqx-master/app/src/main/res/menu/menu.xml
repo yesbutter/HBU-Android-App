@@ -6,8 +6,8 @@
             android:icon="@android:drawable/ic_dialog_info"
             android:title="城市选择" />
         <item
-            android:id="@+id/nav_index"
-            android:title="----1" />
+            android:id="@+id/nav_gps"
+            android:title="自动定位" />
         <item
             android:id="@+id/nav_introduce"
             android:icon="@android:drawable/btn_star_big_on"

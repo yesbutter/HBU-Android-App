@@ -97,7 +97,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 break;
             case R.id.NETwork:
                 initPermission();
-                GPSisopen();//基站也需要GPS
+                //GPSisopen();//基站也需要GPS
                 getNetWorkLocation();
                 LBSshow.setText("NetWork Result");
                 break;

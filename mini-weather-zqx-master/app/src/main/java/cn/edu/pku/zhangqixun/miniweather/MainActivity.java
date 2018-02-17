@@ -1,5 +1,6 @@
 package cn.edu.pku.zhangqixun.miniweather;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.content.Context;
 import android.content.Intent;
@@ -38,6 +39,7 @@ import cn.edu.pku.zhangqixun.app.ChooseAreaActivity;
 import cn.edu.pku.zhangqixun.bean.TodayWeather;
 import cn.edu.pku.zhangqixun.util.HttpUtil;
 import cn.edu.pku.zhangqixun.util.NetUtil;
+import cn.edu.pku.zhangqixun.util.Util;
 import cn.edu.pku.zhangqixun.util.Utility;
 import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
 
@@ -47,9 +49,10 @@ import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
 public class MainActivity extends Activity implements View.OnClickListener {
 
     private static final int UPDATE_TODAY_WEATHER = 1;
+    private final static int UPDATE_FALSE=-99;
 
     private static String select_county_code = "090201";
-    private ImageView mUpdateBtn;
+     private ImageView mUpdateBtn;
     private ImageView mCitySelect;
 
     private Context mContext =this;
@@ -62,12 +65,23 @@ public class MainActivity extends Activity implements View.OnClickListener {
             temperatureTv, climateTv, windTv, city_name_Tv, mytextview;
     private ImageView weatherImg, pmImg;
 
+    @SuppressLint("HandlerLeak")
     private Handler mHandler = new Handler() {
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case UPDATE_TODAY_WEATHER:
                     updateTodayWeather((TodayWeather) msg.obj);
                     break;
+                case UPDATE_FALSE:
+//                    Snackbar.make(new View(MainActivity.this),"同步失败",Snackbar.LENGTH_SHORT).setAction("刷新", new View.OnClickListener() {
+//                        @Override
+//                        public void onClick(View view) {
+//                            queryWeatherCode(select_county_code);
+//                        }
+//                    }).show();
+                    Util.showToast(MainActivity.this,"同步失败");
+                    break;
+
                 default:
                     break;
             }
@@ -161,13 +175,26 @@ public class MainActivity extends Activity implements View.OnClickListener {
         mWaveSwipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                queryWeatherCode(select_county_code);
-                Log.e("onRefresh","------Loading");
-                mWaveSwipeRefreshLayout.setRefreshing(false);
+                refresh();
             }
         });
     }
 
+
+    /**
+     * 下滑刷新内容
+     */
+    private void refresh()
+    {
+        new Handler().postDelayed(new Runnable() {
+            @Override
+            public void run() {
+                queryWeatherCode(select_county_code);
+                mWaveSwipeRefreshLayout.setRefreshing(false);
+            }
+        },8000);
+
+    }
     @Override
     public void onClick(View view) {
 
@@ -331,8 +358,10 @@ public class MainActivity extends Activity implements View.OnClickListener {
 
             @Override
             public void onError(Exception e) {
-                Log.e("Weather_code0","同步失败");
 
+                Message msg = new Message();
+                msg.what = UPDATE_FALSE;
+                mHandler.sendMessage(msg);
             }
         });
     }
@@ -461,7 +490,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         temperatureTv.setText(todayWeather.getHigh() + "~" + todayWeather.getLow());
         climateTv.setText(todayWeather.getType());
         windTv.setText("风力:" + todayWeather.getFengli());
-        Toast.makeText(MainActivity.this, "更新成功！", Toast.LENGTH_SHORT).show();
+        Util.showToast(this,"更新成功");
 
     }
 
