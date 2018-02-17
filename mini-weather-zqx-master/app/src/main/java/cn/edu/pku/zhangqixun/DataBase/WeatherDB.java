@@ -134,7 +134,6 @@ public class WeatherDB {
         {
             cursor.close();
         }
-        return list
-                 ;
+        return list;
     }
 }
