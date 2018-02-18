@@ -10,6 +10,8 @@ import android.location.Address;
 import android.location.Location;
 import android.os.Build;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.ColorInt;
 import android.support.design.widget.FloatingActionButton;
@@ -200,6 +202,13 @@ public class MainActivity extends AppCompatActivity
                 public void run() {
                     List<Address> addresses=Location_Based_Services.getAddress(location,MainActivity.this);
                     String string=addresses.get(0).getAddressLine(0);
+                    Util.makeToast(MainActivity.this,string);
+
+                    Message message=new Message();
+                    message.what=0;
+                    message.obj=string;
+                    mHandler.sendMessage(message);
+
                     string=string.replaceAll(addresses.get(0).getFeatureName(),"");
                     string=string.replaceAll(addresses.get(0).getAdminArea(),"");
                     string=string.replaceAll(addresses.get(0).getLocality(),"");
@@ -211,6 +220,21 @@ public class MainActivity extends AppCompatActivity
         }
 
     }
+
+    @SuppressLint("HandlerLeak")
+    private Handler mHandler = new Handler() {
+        public void handleMessage(android.os.Message msg) {
+            switch (msg.what) {
+                case 0:
+                    String string= (String) msg.obj;
+                   Toast.makeText(MainActivity.this,string,Toast.LENGTH_SHORT).show();
+                    break;
+                default:
+                    break;
+            }
+        }
+
+    };
 
     private void initWaveSwipeRefreshLayout() {
         waveSwipeRefreshLayout = findViewById(R.id.main_swipe);
