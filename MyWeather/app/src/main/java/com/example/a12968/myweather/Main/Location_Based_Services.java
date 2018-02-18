@@ -148,23 +148,11 @@ public class Location_Based_Services {
     }
 
 
-    public static void showAddress(final Location location, final Context context)
-    {
-        new Thread(new Runnable() {
-            @Override
-            public void run() {
-                if(location != null)
-                {
-                    List<Address> addresses=getAddress(location,context);
-                    Log.e("Addresses",addresses.toString());
-                }
-            }
-        }).start();
-    }
 
 
 
-    private static List<Address> getAddress(Location location, Context context) {
+
+    public static List<Address> getAddress(Location location, Context context) {
         List<Address> addresses = null;
         try {
             if (location != null) {

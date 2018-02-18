@@ -8,6 +8,7 @@ import android.util.Log;
 import com.example.a12968.myweather.Util.HttpUtil;
 import com.example.a12968.myweather.Util.Utility;
 
+
 /**
  * Created by t-lidashao on 18-2-18.
  */
@@ -34,6 +35,7 @@ public class WeatherHelper {
 
     private void queryWeatherCode(String countyCode,final ShowWeatherListener showWeatherListener) {
         final String address = "http://www.weather.com.cn/data/list3/city" + countyCode + ".xml";
+        Log.e("TAG",address);
 
         queryWeatherServer(address, "countyCode",showWeatherListener);
     }
@@ -41,6 +43,7 @@ public class WeatherHelper {
 
     private void queryWeatherInfo(String weatherCode,final ShowWeatherListener showWeatherListener) {
         String address = "http://www.weather.com.cn/data/cityinfo/" + weatherCode + ".html";
+        Log.e("TAG",address);
         queryWeatherServer(address, "weatherCode",showWeatherListener);
     }
 
@@ -77,18 +80,5 @@ public class WeatherHelper {
     public interface ShowWeatherListener{
         void showWeather();
     }
-//    private void showWeather() {
-//        SharedPreferences sharedPreferences= PreferenceManager.getDefaultSharedPreferences(context);
-//
-//        Log.e("Show-Weather",sharedPreferences.toString());
-//        Log.e("Show-Weather",sharedPreferences.getString("current_date",""));
-//        Log.e("Show-Weather",sharedPreferences.getString("city_name",""));
-//        Log.e("Show-Weather",sharedPreferences.getString("weather_desp",""));
-//        Log.e("Show-Weather",sharedPreferences.getString("weather_code",""));
-//        Log.e("Show-Weather",sharedPreferences.getString("temp1",""));
-//        Log.e("Show-Weather",sharedPreferences.getString("temp2",""));
-//        Log.e("Show-Weather",sharedPreferences.getString("publish_time",""));
-//    }
-
 
 }

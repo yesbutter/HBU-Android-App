@@ -40,5 +40,4 @@ public class Province {
         return this.provinceCode;
     }
 
-
 }
