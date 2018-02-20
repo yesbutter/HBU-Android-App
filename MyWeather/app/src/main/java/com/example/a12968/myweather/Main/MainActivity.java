@@ -132,7 +132,6 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_自动定位:
                 getNetWorkLocation();
-                weatherHelper.getWeather(select_city, showWeatherListener);
             default:
                 break;
         }
@@ -206,18 +205,24 @@ public class MainActivity extends AppCompatActivity
                 public void run() {
                     List<Address> addresses = Location_Based_Services.getAddress(location, MainActivity.this);
                     String string = addresses.get(0).getAddressLine(0);
-                    Util.makeToast(MainActivity.this, string);
+//                    Util.makeToast(MainActivity.this, string);
+
+
+
+                    string = string.replaceAll(addresses.get(0).getFeatureName(), "");
+                    string = string.replaceAll(addresses.get(0).getAdminArea(), "");
+                    string = string.replaceAll(addresses.get(0).getLocality(), "");
+                    string = string.replaceAll("市", "");
+                    string = string.replaceAll("县", "");
+                    string = string.replaceAll("乡", "");
+                    Log.e(TAG, "run: " +  hashMap.get(string));
+                    weatherHelper.getWeather((String) hashMap.get(string), showWeatherListener,1);
+
 
                     Message message = new Message();
                     message.what = 0;
                     message.obj = string;
                     mHandler.sendMessage(message);
-
-                    string = string.replaceAll(addresses.get(0).getFeatureName(), "");
-                    string = string.replaceAll(addresses.get(0).getAdminArea(), "");
-                    string = string.replaceAll(addresses.get(0).getLocality(), "");
-                    Log.e(TAG, "run: " + string);
-                    Log.e(TAG, "run: " + addresses.toString());
 
                 }
             }).start();
@@ -268,20 +273,27 @@ public class MainActivity extends AppCompatActivity
 
 
         try {
-            File file = new File("com/example/a12968/myweather/DataBase","citycode.txt");
-            Log.e("TAG", "0");
-            FileInputStream fileInputStream = new FileInputStream(file);
-            Log.e("TAG", "1");
-            InputStreamReader inputStreamReader=new InputStreamReader(fileInputStream);
-            Log.e("TAG", "2");
-            BufferedReader bufferedReader=new BufferedReader(inputStreamReader);
-            Log.e("TAG", "3");
-            String s=bufferedReader.readLine();
-            Log.e("TAG", "4");
-            Log.e("TAG", s);
+            InputStreamReader inputStreamReader = new InputStreamReader(getResources().openRawResource(R.raw.citycode));
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            String s;
+            while (true) {
+                s = bufferedReader.readLine();
+                if (s == null)
+                    break;
+
+                if (s.indexOf("=") != -1) {
+                    String b[] = s.split("=");
+
+                    hashMap.put(b[1], b[0]);
+
+                    Log.e("TAG", b[0] + " " + b[1]);
+                }
+            }
+
         } catch (Exception e) {
-            Log.e("TAG", "Catch");
+            Log.e("TAG", e.toString());
             e.printStackTrace();
+
         }
 
 

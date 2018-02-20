@@ -33,6 +33,11 @@ public class WeatherHelper {
         queryWeatherCode(countyID,showWeatherListener);
     }
 
+    public void getWeather(String countyID,final ShowWeatherListener showWeatherListener,int flag)
+    {
+        queryWeatherInfo(countyID,showWeatherListener);
+    }
+
     private void queryWeatherCode(String countyCode,final ShowWeatherListener showWeatherListener) {
         final String address = "http://www.weather.com.cn/data/list3/city" + countyCode + ".xml";
         Log.e("TAG",address);
