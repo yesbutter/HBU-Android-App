@@ -15,38 +15,26 @@ import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
 public class SecondActivity extends Activity {
 
     Button button;
+
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
         setContentView(R.layout.refresh_layout);
         initView();
 
-       // button=findViewById(R.id.back_button);
+        // button=findViewById(R.id.back_button);
     }
 
-    private void initView()
-    {
+    private void initView() {
         WaveSwipeRefreshLayout mWaveSwipeRefreshLayout = (WaveSwipeRefreshLayout) findViewById(R.id.my_wave_swipe);
         mWaveSwipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() {
-            @Override public void onRefresh() {
+            @Override
+            public void onRefresh() {
                 // Do work to refresh the list here.
                 //new Task().execute();
             }
         });
     }
 
-    private class Task {
-        public void execute() {
-        }
-    }
 
-
-        setContentView(R.layout.refresh_layout);
-       // button=findViewById(R.id.back_button);
-    }
-
-//    public void backclick(View view)
-//    {
-//        finish();
-//    }
 }

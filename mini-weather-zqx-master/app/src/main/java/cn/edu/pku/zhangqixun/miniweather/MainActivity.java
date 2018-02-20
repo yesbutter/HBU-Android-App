@@ -165,7 +165,7 @@ public class MainActivity extends Activity implements View.OnClickListener {
         }
         else
         {
-            Location_Based_Services.showAddress(location,mContext);
+            Location_Based_Services.showAddddress(location,mContext);
         }
 
     }
