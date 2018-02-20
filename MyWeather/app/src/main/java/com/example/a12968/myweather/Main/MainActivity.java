@@ -39,7 +39,13 @@ import com.example.a12968.myweather.DataBase.WeatherDB;
 import com.example.a12968.myweather.R;
 import com.example.a12968.myweather.Util.Util;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 import java.util.List;
 
 import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
@@ -54,6 +60,7 @@ public class MainActivity extends AppCompatActivity
     private WaveSwipeRefreshLayout waveSwipeRefreshLayout;
     private WeatherHelper weatherHelper = new WeatherHelper(this);
     private Transition transition;
+    private HashMap hashMap = new HashMap();
 
 
     private TextView textView;
@@ -76,6 +83,7 @@ public class MainActivity extends AppCompatActivity
 
         initWaveSwipeRefreshLayout();
         initTransition();
+        initCityCode();
 
 
         textView = findViewById(R.id.main_text_view);
@@ -144,7 +152,7 @@ public class MainActivity extends AppCompatActivity
                 + sharedPreferences.getString("temp1", "") + "\n"
                 + sharedPreferences.getString("temp2", "") + "\n"
                 + sharedPreferences.getString("publish_time", ""));
-        Util.makeToast(this,"Refresh success");
+        Util.makeToast(this, "Refresh success");
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -163,7 +171,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private WeatherHelper.ShowWeatherListener showWeatherListener=new WeatherHelper.ShowWeatherListener() {
+    private WeatherHelper.ShowWeatherListener showWeatherListener = new WeatherHelper.ShowWeatherListener() {
         @Override
         public void showWeather() {
             final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
@@ -184,36 +192,32 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
-    private void getNetWorkLocation()
-    {
+    private void getNetWorkLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
-        final Location location= Location_Based_Services.getNetWorkLocation(this);
-        if(location==null)
-        {
-            Util.makeToast(this,"NET打开失败");
-        }
-        else
-        {
+        final Location location = Location_Based_Services.getNetWorkLocation(this);
+        if (location == null) {
+            Util.makeToast(this, "NET打开失败");
+        } else {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    List<Address> addresses=Location_Based_Services.getAddress(location,MainActivity.this);
-                    String string=addresses.get(0).getAddressLine(0);
-                    Util.makeToast(MainActivity.this,string);
+                    List<Address> addresses = Location_Based_Services.getAddress(location, MainActivity.this);
+                    String string = addresses.get(0).getAddressLine(0);
+                    Util.makeToast(MainActivity.this, string);
 
-                    Message message=new Message();
-                    message.what=0;
-                    message.obj=string;
+                    Message message = new Message();
+                    message.what = 0;
+                    message.obj = string;
                     mHandler.sendMessage(message);
 
-                    string=string.replaceAll(addresses.get(0).getFeatureName(),"");
-                    string=string.replaceAll(addresses.get(0).getAdminArea(),"");
-                    string=string.replaceAll(addresses.get(0).getLocality(),"");
-                    Log.e(TAG, "run: "+string);
-                    Log.e(TAG, "run: "+addresses.toString());
+                    string = string.replaceAll(addresses.get(0).getFeatureName(), "");
+                    string = string.replaceAll(addresses.get(0).getAdminArea(), "");
+                    string = string.replaceAll(addresses.get(0).getLocality(), "");
+                    Log.e(TAG, "run: " + string);
+                    Log.e(TAG, "run: " + addresses.toString());
 
                 }
             }).start();
@@ -226,8 +230,8 @@ public class MainActivity extends AppCompatActivity
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case 0:
-                    String string= (String) msg.obj;
-                   Toast.makeText(MainActivity.this,string,Toast.LENGTH_SHORT).show();
+                    String string = (String) msg.obj;
+                    Toast.makeText(MainActivity.this, string, Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     break;
@@ -249,17 +253,38 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private void initTransition()
-    {
-
+    private void initTransition() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            transition= TransitionInflater.from(this).inflateTransition(R.transition.slide);
+            transition = TransitionInflater.from(this).inflateTransition(R.transition.slide);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 getWindow().setExitTransition(transition);
                 getWindow().setEnterTransition(transition);
                 getWindow().setReenterTransition(transition);
             }
         }
+    }
+
+    private void initCityCode() {
+
+
+        try {
+            File file = new File("com/example/a12968/myweather/DataBase","citycode.txt");
+            Log.e("TAG", "0");
+            FileInputStream fileInputStream = new FileInputStream(file);
+            Log.e("TAG", "1");
+            InputStreamReader inputStreamReader=new InputStreamReader(fileInputStream);
+            Log.e("TAG", "2");
+            BufferedReader bufferedReader=new BufferedReader(inputStreamReader);
+            Log.e("TAG", "3");
+            String s=bufferedReader.readLine();
+            Log.e("TAG", "4");
+            Log.e("TAG", s);
+        } catch (Exception e) {
+            Log.e("TAG", "Catch");
+            e.printStackTrace();
+        }
+
+
     }
 
 }
