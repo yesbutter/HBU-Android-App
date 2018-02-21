@@ -34,12 +34,19 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.a12968.myweather.Activities.Choose_City;
+import com.example.a12968.myweather.Activities.Editor_Location;
 import com.example.a12968.myweather.Bean.Province;
 import com.example.a12968.myweather.DataBase.WeatherDB;
 import com.example.a12968.myweather.R;
 import com.example.a12968.myweather.Util.Util;
 
+import java.io.BufferedInputStream;
+import java.io.BufferedReader;
+import java.io.File;
+import java.io.FileInputStream;
+import java.io.InputStreamReader;
 import java.lang.ref.WeakReference;
+import java.util.HashMap;
 import java.util.List;
 
 import jp.co.recruit_lifestyle.android.widget.WaveSwipeRefreshLayout;
@@ -49,11 +56,13 @@ public class MainActivity extends AppCompatActivity
 
     private static final String TAG = "MainActivity";
     private static final int QUERY_CITY = 0;
+    private static final int EDITOR_LOCATION=1;
     private static String select_city = "090201";
 
     private WaveSwipeRefreshLayout waveSwipeRefreshLayout;
     private WeatherHelper weatherHelper = new WeatherHelper(this);
     private Transition transition;
+    private HashMap hashMap = new HashMap();
 
 
     private TextView textView;
@@ -76,9 +85,17 @@ public class MainActivity extends AppCompatActivity
 
         initWaveSwipeRefreshLayout();
         initTransition();
+        initCityCode();
+        initPermission();
 
 
         textView = findViewById(R.id.main_text_view);
+    }
+
+    public void pluslistener(View view) {
+        Intent intent = new Intent();
+        intent.setClass(this, Choose_City.class);
+        startActivityForResult(intent, QUERY_CITY);
     }
 
     @Override
@@ -91,27 +108,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    @Override
-    public boolean onCreateOptionsMenu(Menu menu) {
-        // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
-        return true;
-    }
-
-    @Override
-    public boolean onOptionsItemSelected(MenuItem item) {
-        // Handle action bar item clicks here. The action bar will
-        // automatically handle clicks on the Home/Up button, so long
-        // as you specify a parent activity in AndroidManifest.xml.
-        int id = item.getItemId();
-
-        //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
-            return true;
-        }
-
-        return super.onOptionsItemSelected(item);
-    }
 
     @Override
     public boolean onNavigationItemSelected(MenuItem item) {
@@ -124,7 +120,11 @@ public class MainActivity extends AppCompatActivity
                 break;
             case R.id.nav_自动定位:
                 getNetWorkLocation();
-                weatherHelper.getWeather(select_city, showWeatherListener);
+                break;
+            case R.id.nav_编辑地点:
+                intent.setClass(this, Editor_Location.class);
+                startActivityForResult(intent,EDITOR_LOCATION);
+                break;
             default:
                 break;
         }
@@ -144,7 +144,7 @@ public class MainActivity extends AppCompatActivity
                 + sharedPreferences.getString("temp1", "") + "\n"
                 + sharedPreferences.getString("temp2", "") + "\n"
                 + sharedPreferences.getString("publish_time", ""));
-        Util.makeToast(this,"Refresh success");
+        Util.makeToast(this, "Refresh success");
     }
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
@@ -154,7 +154,17 @@ public class MainActivity extends AppCompatActivity
                 if (resultCode == RESULT_OK) {
                     Bundle bundle = data.getExtras();
                     select_city = bundle.getString("weather_code");
-                    Log.e(TAG, select_city);
+                    weatherHelper.getWeather(select_city, showWeatherListener);
+                }
+                break;
+            case EDITOR_LOCATION:
+
+                if(resultCode==RESULT_OK)
+                {
+                    Bundle bundle = data.getExtras();
+                    String string = bundle.getString("city_name");
+                    Log.d("city_name",string);
+                    weatherHelper.getWeather((String) hashMap.get(string), showWeatherListener,1);
                 }
                 break;
             default:
@@ -163,7 +173,7 @@ public class MainActivity extends AppCompatActivity
     }
 
 
-    private WeatherHelper.ShowWeatherListener showWeatherListener=new WeatherHelper.ShowWeatherListener() {
+    private WeatherHelper.ShowWeatherListener showWeatherListener = new WeatherHelper.ShowWeatherListener() {
         @Override
         public void showWeather() {
             final SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
@@ -184,36 +194,37 @@ public class MainActivity extends AppCompatActivity
         }
     };
 
-    private void getNetWorkLocation()
-    {
+    private void getNetWorkLocation() {
         if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
-        final Location location= Location_Based_Services.getNetWorkLocation(this);
-        if(location==null)
-        {
-            Util.makeToast(this,"NET打开失败");
-        }
-        else
-        {
+        final Location location = Location_Based_Services.getNetWorkLocation(this);
+        if (location == null) {
+            Util.makeToast(this, "NET打开失败");
+        } else {
             new Thread(new Runnable() {
                 @Override
                 public void run() {
-                    List<Address> addresses=Location_Based_Services.getAddress(location,MainActivity.this);
-                    String string=addresses.get(0).getAddressLine(0);
-                    Util.makeToast(MainActivity.this,string);
+                    List<Address> addresses = Location_Based_Services.getAddress(location, MainActivity.this);
+                    String string = addresses.get(0).getAddressLine(0);
+//                    Util.makeToast(MainActivity.this, string);
 
-                    Message message=new Message();
-                    message.what=0;
-                    message.obj=string;
+
+                    string = string.replaceAll(addresses.get(0).getFeatureName(), "");
+                    string = string.replaceAll(addresses.get(0).getAdminArea(), "");
+                    string = string.replaceAll(addresses.get(0).getLocality(), "");
+                    string = string.replaceAll("市", "");
+                    string = string.replaceAll("县", "");
+                    string = string.replaceAll("乡", "");
+                    Log.e(TAG, "run: " + hashMap.get(string));
+                    weatherHelper.getWeather((String) hashMap.get(string), showWeatherListener, 1);
+
+
+                    Message message = new Message();
+                    message.what = 0;
+                    message.obj = string;
                     mHandler.sendMessage(message);
-
-                    string=string.replaceAll(addresses.get(0).getFeatureName(),"");
-                    string=string.replaceAll(addresses.get(0).getAdminArea(),"");
-                    string=string.replaceAll(addresses.get(0).getLocality(),"");
-                    Log.e(TAG, "run: "+string);
-                    Log.e(TAG, "run: "+addresses.toString());
 
                 }
             }).start();
@@ -226,8 +237,8 @@ public class MainActivity extends AppCompatActivity
         public void handleMessage(android.os.Message msg) {
             switch (msg.what) {
                 case 0:
-                    String string= (String) msg.obj;
-                   Toast.makeText(MainActivity.this,string,Toast.LENGTH_SHORT).show();
+                    String string = (String) msg.obj;
+                    Toast.makeText(MainActivity.this, string, Toast.LENGTH_SHORT).show();
                     break;
                 default:
                     break;
@@ -249,16 +260,47 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private void initTransition()
-    {
-
+    private void initTransition() {
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            transition= TransitionInflater.from(this).inflateTransition(R.transition.slide);
+            transition = TransitionInflater.from(this).inflateTransition(R.transition.slide);
             if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
                 getWindow().setExitTransition(transition);
                 getWindow().setEnterTransition(transition);
                 getWindow().setReenterTransition(transition);
             }
+        }
+    }
+
+    private void initCityCode() {
+        try {
+            InputStreamReader inputStreamReader = new InputStreamReader(getResources().openRawResource(R.raw.citycode));
+            BufferedReader bufferedReader = new BufferedReader(inputStreamReader);
+            String s;
+            while (true) {
+                s = bufferedReader.readLine();
+                if (s == null)
+                    break;
+
+                if (s.indexOf("=") != -1) {
+                    String b[] = s.split("=");
+
+                    hashMap.put(b[1], b[0]);
+
+                    Log.e("TAG", b[0] + " " + b[1]);
+                }
+            }
+
+        } catch (Exception e) {
+            Log.e("TAG", e.toString());
+            e.printStackTrace();
+
+        }
+    }
+
+    private void initPermission() {
+        if (ContextCompat.checkSelfPermission(this, Manifest.permission.ACCESS_FINE_LOCATION)
+                != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
     }
 

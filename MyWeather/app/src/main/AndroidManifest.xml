@@ -26,6 +26,7 @@
         </activity>
 
         <activity android:name=".Activities.Choose_City"/>
+        <activity android:name=".Activities.Editor_Location"/>
     </application>
 
 </manifest>

@@ -92,8 +92,9 @@ public class Choose_City extends Activity{
                     Intent intent=new Intent();
                     Bundle bundle=new Bundle();
                     bundle.putString("weather_code",selectedCounty.getCountyCode());
+                    bundle.putString("city_name",selectedCounty.getCountyName());
                     intent.putExtras(bundle);
-                    intent.setClass(Choose_City.this,MainActivity.class);
+                    //intent.setClass(Choose_City.this,MainActivity.class);
                     setResult(RESULT_OK,intent);
                     finish();
                 }
