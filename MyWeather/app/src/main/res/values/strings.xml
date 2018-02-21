@@ -6,4 +6,6 @@
 
     <string name="action_settings">Settings</string>
 
+    <string name="editor_locationbar">编辑地点</string>
+
 </resources>
