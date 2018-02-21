@@ -17,12 +17,12 @@
         app:popupTheme="@style/AppTheme.PopupOverlay">
 
         <Button
-            android:layout_width="40dp"
-            android:layout_height="30dp"
+            android:layout_width="45dp"
+            android:layout_height="40dp"
             android:layout_gravity="right"
             android:onClick="pluslistener"
             android:id="@+id/my_plus"
-            android:background="@android:drawable/ic_input_add" />
+            android:background="@android:drawable/ic_menu_add" />
 
     </android.support.v7.widget.Toolbar>
 

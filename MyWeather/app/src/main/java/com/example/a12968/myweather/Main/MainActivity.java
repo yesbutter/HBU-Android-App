@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity
                 public void run() {
                     List<Address> addresses = Location_Based_Services.getAddress(location, MainActivity.this);
                     String string = addresses.get(0).getAddressLine(0);
-//                    Util.makeToast(MainActivity.this, string);
+                    Util.makeToast(MainActivity.this, string);
 
 
                     string = string.replaceAll(addresses.get(0).getFeatureName(), "");
@@ -217,6 +217,7 @@ public class MainActivity extends AppCompatActivity
                     string = string.replaceAll("市", "");
                     string = string.replaceAll("县", "");
                     string = string.replaceAll("乡", "");
+                    string = string.replaceAll("区", "");
                     Log.e(TAG, "run: " + hashMap.get(string));
                     weatherHelper.getWeather((String) hashMap.get(string), showWeatherListener, 1);
 
@@ -244,7 +245,6 @@ public class MainActivity extends AppCompatActivity
                     break;
             }
         }
-
     };
 
     private void initWaveSwipeRefreshLayout() {
