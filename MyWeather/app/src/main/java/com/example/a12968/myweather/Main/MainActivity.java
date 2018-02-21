@@ -208,7 +208,7 @@ public class MainActivity extends AppCompatActivity
                 public void run() {
                     List<Address> addresses = Location_Based_Services.getAddress(location, MainActivity.this);
                     String string = addresses.get(0).getAddressLine(0);
-                    Util.makeToast(MainActivity.this, string);
+//                    Util.makeToast(MainActivity.this, string);
 
 
                     string = string.replaceAll(addresses.get(0).getFeatureName(), "");
