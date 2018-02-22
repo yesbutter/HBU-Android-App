@@ -1,6 +1,7 @@
 package com.example.a12968.myweather.Bean;
 
 /**
+ *
  * Created by t-lidashao on 18-2-18.
  */
 

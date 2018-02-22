@@ -14,11 +14,10 @@
         android:id="@+id/editor_addcity"
         android:layout_width="match_parent"
         android:layout_height="40dp"
+        android:drawableLeft="@android:drawable/ic_menu_add"
         android:onClick="editor_add_city"
         android:text="添加城市"
-        android:drawableLeft="@android:drawable/ic_menu_add"
-        android:textSize="25sp">
-    </TextView>
+        android:textSize="25sp"></TextView>
 
 
     <TextView
@@ -33,10 +32,11 @@
         android:text="我的地点"
         android:textSize="20sp" />
 
-    <ListView
-        android:id="@+id/editor_list"
+    <include
+        layout="@layout/mylistview"
         android:layout_width="match_parent"
-        android:layout_height="match_parent"></ListView>
+        android:layout_height="match_parent" />
+
 
 
 </LinearLayout>

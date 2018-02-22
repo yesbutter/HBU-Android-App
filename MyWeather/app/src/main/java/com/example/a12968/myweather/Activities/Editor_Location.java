@@ -1,7 +1,9 @@
 package com.example.a12968.myweather.Activities;
 
 import android.app.Activity;
+import android.app.AlertDialog;
 import android.content.Context;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
 import android.util.Log;
@@ -11,9 +13,7 @@ import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
-import com.example.a12968.myweather.Main.MainActivity;
 import com.example.a12968.myweather.R;
-
 import java.io.BufferedReader;
 import java.io.BufferedWriter;
 import java.io.FileInputStream;
@@ -21,13 +21,14 @@ import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
-import java.lang.ref.PhantomReference;
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
 
+
 /**
+ *
  * Created by t-lidashao on 18-2-21.
  */
 
@@ -36,20 +37,22 @@ public class Editor_Location extends Activity {
     private ListView listView;
     private TextView addCity;
     private ArrayAdapter<String> arrayAdapter;
+
     private List<String> datalist = new ArrayList<String>();
     private Set<String> city = new HashSet<String>();
-    private String[] strings = {"保定", "项城"};
+
     private static final int QUERY_CITY = 0;
-//            new String[4];
 
 
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
 
         setContentView(R.layout.editor_location);
-        listView = findViewById(R.id.editor_list);
+        listView =findViewById(R.id.editor_list);
         addCity = findViewById(R.id.editor_addcity);
-        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1, datalist);
+
+        arrayAdapter = new ArrayAdapter<String>(this, android.R.layout.simple_list_item_1,datalist);
+
         listView.setAdapter(arrayAdapter);
 
         listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -62,25 +65,45 @@ public class Editor_Location extends Activity {
                 Bundle bundle=new Bundle();
                 bundle.putString("city_name",string);
                 intent.putExtras(bundle);
-
                 setResult(RESULT_OK,intent);
                 finish();
+            }
+        });
 
-//
-//                Intent intent=new Intent();
-//                Bundle bundle=new Bundle();
-//                bundle.putString("weather_code",selectedCounty.getCountyCode());
-//                bundle.putString("city_name",selectedCounty.getCountyName());
-//                intent.putExtras(bundle);
-//                //intent.setClass(Choose_City.this,MainActivity.class);
-//                setResult(RESULT_OK,intent);
-//                finish();
+
+        listView.setOnItemLongClickListener(new AdapterView.OnItemLongClickListener() {
+            @Override
+            public boolean onItemLongClick(final AdapterView<?> adapterView, View view, final int position, long l) {
+                AlertDialog.Builder builder=new AlertDialog.Builder(Editor_Location.this);
+                builder.setMessage("确认删除吗？");
+                builder.setTitle("Tip");
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        city.remove(datalist.get(position));
+                        datalist.remove(position);
+                        arrayAdapter.notifyDataSetChanged();
+                        dialogInterface.dismiss();
+                    }
+                });
+
+                builder.setNegativeButton("取消", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.create().show();
+                return false;
             }
         });
 
         initloading();
 
     }
+
+
+
 
     public void editor_add_city(View view) {
         Intent intent = new Intent();

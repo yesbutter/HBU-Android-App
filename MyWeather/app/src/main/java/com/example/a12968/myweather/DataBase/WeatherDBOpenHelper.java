@@ -1,14 +1,12 @@
 package com.example.a12968.myweather.DataBase;
 
-/**
- * Created by t-lidashao on 18-2-18.
- */
 
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
 /**
+ *
  * Created by 12968 on 2018/2/9.
  */
 

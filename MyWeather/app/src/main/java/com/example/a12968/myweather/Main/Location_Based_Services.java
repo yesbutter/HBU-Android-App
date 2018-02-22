@@ -1,6 +1,7 @@
 package com.example.a12968.myweather.Main;
 
 /**
+ * Help user to get the location
  * Created by t-lidashao on 18-2-18.
  */
 
@@ -17,8 +18,6 @@ import android.os.Bundle;
 import android.support.annotation.Nullable;
 import android.support.v4.app.ActivityCompat;
 import android.text.TextUtils;
-import android.util.Log;
-
 import java.io.IOException;
 import java.util.List;
 import java.util.Locale;
