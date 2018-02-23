@@ -1,21 +1,24 @@
 <?xml version="1.0" encoding="utf-8"?>
 <com.mcxtzhang.swipemenulib.SwipeMenuLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
-    android:id="@+id/myswipemenu"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:clickable="true"
-    >
+    android:paddingBottom="1dp"
+    android:id="@+id/swipeLayout"
+    app:ios="false"
+    app:leftSwipe="true"
+    app:swipeEnable="true">
 
-    <ListView
-        android:id="@+id/editor_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
+    <TextView
+        android:id="@+id/editor_text"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:background="?android:attr/selectableItemBackground"
         android:gravity="center">
 
 
-    </ListView>
+    </TextView>
     <!-- 以下都是侧滑菜单的内容依序排列 -->
     <Button
         android:id="@+id/btnTop"
@@ -32,7 +35,6 @@
         android:background="#e20000"
         android:text="删除"
         android:textColor="@android:color/white" />
-
 
 
 </com.mcxtzhang.swipemenulib.SwipeMenuLayout>
