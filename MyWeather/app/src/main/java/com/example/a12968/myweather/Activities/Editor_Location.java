@@ -1,6 +1,5 @@
 package com.example.a12968.myweather.Activities;
 
-import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.app.AlertDialog;
 import android.content.Context;
@@ -11,9 +10,9 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
-import android.widget.TextView;
 
 import com.example.a12968.myweather.Adapter.MyeditorAdapter;
+import com.example.a12968.myweather.Bean.StringItem;
 import com.example.a12968.myweather.R;
 import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 
@@ -25,22 +24,23 @@ import java.io.IOException;
 import java.io.InputStreamReader;
 import java.io.OutputStreamWriter;
 import java.util.ArrayList;
+import java.util.Collections;
 import java.util.HashSet;
 import java.util.Set;
 
 
 /**
+ *
  * Created by t-lidashao on 18-2-21.
  */
 
 public class Editor_Location extends Activity {
 
     private ListView listView;
-    private TextView addCity;
     private MyeditorAdapter myeditorAdapter;
 
-    private ArrayList<String> datalist = new ArrayList<String>();
-    private Set<String> city = new HashSet<>();
+    private ArrayList<StringItem> datalist = new ArrayList<>();
+    private Set<StringItem> city = new HashSet<>();
 
     private static final int QUERY_CITY = 0;
 
@@ -51,15 +51,14 @@ public class Editor_Location extends Activity {
 
         setContentView(R.layout.editor_location);
         listView = findViewById(R.id.editor_list);
-        addCity = findViewById(R.id.editor_addcity);
 
 
-        /**
-         * 继承ArrayAdapter的抽象adapter，实现了其中的conver，为事件的点击按钮添加Listener
+        /*
+          继承ArrayAdapter的抽象adapter，实现了其中的conver，为事件的点击按钮添加Listener
          */
         myeditorAdapter = new MyeditorAdapter(this, R.layout.mylistview, datalist) {
             @Override
-            public void conver(ViewHolder viewHolder, final int position) {
+            public void conver(final ViewHolder viewHolder, final int position) {
 
                 viewHolder.setOnClickListener(R.id.btnDelete, new View.OnClickListener() {
                     @Override
@@ -74,7 +73,7 @@ public class Editor_Location extends Activity {
                 viewHolder.setOnClickListener(R.id.editor_text, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String string = datalist.get(position);
+                        String string = datalist.get(position).getString();
                         Intent intent = new Intent();
                         Bundle bundle = new Bundle();
                         bundle.putString("city_name", string);
@@ -88,10 +87,16 @@ public class Editor_Location extends Activity {
                     @Override
                     public void onClick(View view) {
                         Log.e("---", "你选择的是置顶");
-                        String string=datalist.get(position);
-                        datalist.add(0,string);
-                        datalist.remove(position+1);
+                        StringItem stringItem = datalist.get(position);
+                        if (stringItem.getTop() == 0) {
+                            stringItem.setTop(1);
+                        } else {
+                            stringItem.setTop(0);
+                        }
                         SwipeMenuLayout.getViewCache().smoothClose();
+
+                        //sort and update
+                        Collections.sort(datalist);
                         myeditorAdapter.notifyDataSetChanged();
 
                     }
@@ -147,9 +152,13 @@ public class Editor_Location extends Activity {
             case QUERY_CITY:
                 if (resultCode == RESULT_OK) {
                     Bundle bundle = data.getExtras();
+                    assert bundle != null;
                     String string = bundle.getString("city_name");
-                    city.add(string);
-                    datalist.add(string);
+
+                    StringItem stringItem=new StringItem(string,System.currentTimeMillis());
+                    city.add(stringItem);
+                    datalist.add(stringItem);
+                    Collections.sort(datalist);
                     myeditorAdapter.notifyDataSetChanged();
                 }
                 break;
@@ -170,8 +179,11 @@ public class Editor_Location extends Activity {
 
             bufferedWriter = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
 
-            for (String string : city) {
-                bufferedWriter.write(string + "\n");
+            /**
+             * save the data in close
+             */
+            for (StringItem stringItem : city) {
+                bufferedWriter.write(stringItem.getString() + "|"+stringItem.getTime()+"|"+stringItem.getTop()+"\n");
             }
 
         } catch (Exception e) {
@@ -199,7 +211,8 @@ public class Editor_Location extends Activity {
                 if (string == null) {
                     break;
                 }
-                city.add(string);
+                String[] strings=string.split("\\|");
+                city.add(new StringItem(strings[0],Long.valueOf(strings[1]),Integer.valueOf(strings[2])));
             }
 
         } catch (Exception e) {
@@ -216,11 +229,12 @@ public class Editor_Location extends Activity {
 
         if (city.size() > 0) {
             datalist.clear();
-            for (String s : city) {
-                datalist.add(s);
+            for (StringItem stringItem : city) {
+                datalist.add(stringItem);
                 myeditorAdapter.notifyDataSetChanged();
                 listView.setSelection(0);
             }
+            Collections.sort(datalist);
             myeditorAdapter.notifyDataSetChanged();
             listView.setSelection(0);
         }

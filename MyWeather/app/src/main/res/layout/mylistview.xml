@@ -26,7 +26,7 @@
         android:layout_height="wrap_content"
         android:background="#d9dee4"
         android:text="置顶"
-        android:textColor="@android:color/white" />
+        android:textColor="@color/colorblack" />
 
     <Button
         android:id="@+id/btnDelete"
