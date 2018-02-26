@@ -29,6 +29,7 @@ public abstract class MyeditorAdapter extends ArrayAdapter<StringItem> {
         resourseID = resource;
     }
 
+
     public View getView(int position, View converView, ViewGroup parent) {
         StringItem stringItem = getItem(position);
         View view;

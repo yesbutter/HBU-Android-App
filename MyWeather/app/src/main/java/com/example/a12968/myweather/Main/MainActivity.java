@@ -16,6 +16,7 @@ import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
+import android.support.v4.view.ViewPager;
 import android.transition.Transition;
 import android.transition.TransitionInflater;
 import android.util.Log;
@@ -31,11 +32,17 @@ import android.widget.TextView;
 
 import com.example.a12968.myweather.Activities.Choose_City;
 import com.example.a12968.myweather.Activities.Editor_Location;
+import com.example.a12968.myweather.Adapter.CityFragmentAdapter;
+import com.example.a12968.myweather.Bean.CityFragment;
+import com.example.a12968.myweather.Bean.StringItem;
 import com.example.a12968.myweather.R;
 import com.example.a12968.myweather.Util.Util;
 
 import java.io.BufferedReader;
+import java.io.FileInputStream;
+import java.io.IOException;
 import java.io.InputStreamReader;
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
@@ -52,9 +59,13 @@ public class MainActivity extends AppCompatActivity
     private WaveSwipeRefreshLayout waveSwipeRefreshLayout;
     private WeatherHelper weatherHelper = new WeatherHelper(this);
     private HashMap<String, String> hashMap = new HashMap<>();
+    private static ArrayList<CityFragment> cityFragments=new ArrayList<>();
+
+    private static CityFragmentAdapter cityFragmentAdapter;
 
 
-    private TextView textView;
+//    private TextView textView;
+    private ViewPager mViewPager;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -78,18 +89,25 @@ public class MainActivity extends AppCompatActivity
         initPermission();
 
 
-        textView = findViewById(R.id.main_text_view);
+
+        initDateLoading();
+        cityFragmentAdapter=new CityFragmentAdapter(getSupportFragmentManager(), cityFragments);
+
+//        textView = findViewById(R.id.main_text_view);
+        mViewPager=findViewById(R.id.main_viewpager);
+        mViewPager.setAdapter(cityFragmentAdapter);
+
     }
 
     public void pluslistener(View view) {
         Intent intent = new Intent();
-        intent.setClass(this, Choose_City.class);
-        startActivityForResult(intent, QUERY_CITY);
+        intent.setClass(this, Editor_Location.class);
+        startActivityForResult(intent, EDITOR_LOCATION);
     }
 
     @Override
     public void onBackPressed() {
-        DrawerLayout drawer =  findViewById(R.id.drawer_layout);
+        DrawerLayout drawer = findViewById(R.id.drawer_layout);
         if (drawer.isDrawerOpen(GravityCompat.START)) {
             drawer.closeDrawer(GravityCompat.START);
         } else {
@@ -211,13 +229,23 @@ public class MainActivity extends AppCompatActivity
                     break;
                 case 1:
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-                    textView.setText(sharedPreferences.getString("current_date", "") + "\n"
+
+                    cityFragments.get(mViewPager.getCurrentItem()).setTextViewText(sharedPreferences.getString("current_date", "") + "\n"
                             + sharedPreferences.getString("city_name", "") + "\n"
                             + sharedPreferences.getString("weather_desp", "") + "\n"
                             + sharedPreferences.getString("weather_code", "") + "\n"
                             + sharedPreferences.getString("temp1", "") + "\n"
                             + sharedPreferences.getString("temp2", "") + "\n"
                             + sharedPreferences.getString("publish_time", ""));
+
+
+//                    textView.setText(sharedPreferences.getString("current_date", "") + "\n"
+//                            + sharedPreferences.getString("city_name", "") + "\n"
+//                            + sharedPreferences.getString("weather_desp", "") + "\n"
+//                            + sharedPreferences.getString("weather_code", "") + "\n"
+//                            + sharedPreferences.getString("temp1", "") + "\n"
+//                            + sharedPreferences.getString("temp2", "") + "\n"
+//                            + sharedPreferences.getString("publish_time", ""));
 
                     Util.makeToast(MainActivity.this, "Refresh success");
                 default:
@@ -233,8 +261,23 @@ public class MainActivity extends AppCompatActivity
         waveSwipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
-                weatherHelper.getWeather(select_city, showWeatherListener);
-                waveSwipeRefreshLayout.setRefreshing(false);
+                new Handler().postDelayed(new Runnable() {
+                    @Override
+                    public void run() {
+                        // 更新が終了したらインジケータ非表示
+                        // waveSwipeRefreshLayout.setRefreshing(false);
+                        if (cityFragments.size() > 0)
+                        {
+                            String cityname=cityFragments.get(mViewPager.getCurrentItem()).getCityName();
+
+//                            weatherHelper.getWeather(select_city, showWeatherListener);
+                            weatherHelper.getWeather(hashMap.get(cityname), showWeatherListener,1);
+
+                            waveSwipeRefreshLayout.setRefreshing(false);
+                        }
+                    }
+                }, 3000);
+
             }
         });
     }
@@ -276,6 +319,63 @@ public class MainActivity extends AppCompatActivity
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
+    }
+
+    private void initDateLoading()
+    {
+        FileInputStream fileInputStream = null;
+        BufferedReader bufferedReader;
+        String string;
+        try {
+            fileInputStream = openFileInput("city.txt");
+            bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
+            while (true) {
+                string = bufferedReader.readLine();
+                if (string == null) {
+                    break;
+                }
+                String[] strings=string.split("\\|");
+                cityFragments.add(CityFragment.newInstance(strings[0],Integer.valueOf(strings[2]),Long.valueOf(strings[1])));
+            }
+
+        } catch (Exception e) {
+            e.printStackTrace();
+        } finally {
+            if (fileInputStream != null)
+                try {
+                    fileInputStream.close();
+                } catch (IOException e) {
+                    e.printStackTrace();
+                }
+        }
+
+    }
+
+    public static void addCityFragment(String cityName,int top,long time)
+    {
+        cityFragments.add(CityFragment.newInstance(cityName,top,time));
+        cityFragmentAdapter.Fragmentsort();
+        cityFragmentAdapter.notifyDataSetChanged();
+    }
+
+    public static void removeCityFragment(String cityName)
+    {
+        for(int i=0;i<cityFragments.size();i++)
+        {
+            if(cityName.equals(cityFragments.get(i).getCityName()))
+            {
+                cityFragments.remove(i);
+                break;
+            }
+        }
+        cityFragmentAdapter.notifyDataSetChanged();
+    }
+
+    public static void setTopFragment(int position,int top)
+    {
+        cityFragments.get(position).setTop(top);
+        cityFragmentAdapter.Fragmentsort();
+        cityFragmentAdapter.notifyDataSetChanged();
     }
 
 }

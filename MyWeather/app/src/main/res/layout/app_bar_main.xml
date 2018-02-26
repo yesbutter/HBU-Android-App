@@ -7,10 +7,9 @@
     tools:context="com.example.a12968.myweather.Main.MainActivity">
 
 
-    <include layout="@layout/content_main">
+        <include layout="@layout/content_main">
 
+        </include>
 
-
-    </include>
 
 </android.support.design.widget.CoordinatorLayout>

@@ -12,7 +12,9 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.a12968.myweather.Adapter.MyeditorAdapter;
+import com.example.a12968.myweather.Bean.CityFragment;
 import com.example.a12968.myweather.Bean.StringItem;
+import com.example.a12968.myweather.Main.MainActivity;
 import com.example.a12968.myweather.R;
 import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 
@@ -63,10 +65,14 @@ public class Editor_Location extends Activity {
                 viewHolder.setOnClickListener(R.id.btnDelete, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
+
+                        MainActivity.removeCityFragment(datalist.get(position).getString());
+
                         SwipeMenuLayout.getViewCache().smoothClose();
                         city.remove(datalist.get(position));
                         datalist.remove(position);
                         myeditorAdapter.notifyDataSetChanged();
+
                     }
                 });
 
@@ -90,8 +96,10 @@ public class Editor_Location extends Activity {
                         StringItem stringItem = datalist.get(position);
                         if (stringItem.getTop() == 0) {
                             stringItem.setTop(1);
+                            MainActivity.setTopFragment(position,1);
                         } else {
                             stringItem.setTop(0);
+                            MainActivity.setTopFragment(position,1);
                         }
                         SwipeMenuLayout.getViewCache().smoothClose();
 
@@ -117,6 +125,9 @@ public class Editor_Location extends Activity {
                 builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
+
+                        MainActivity.removeCityFragment(datalist.get(position).getString());
+
                         city.remove(datalist.get(position));
                         datalist.remove(position);
                         myeditorAdapter.notifyDataSetChanged();
@@ -154,6 +165,8 @@ public class Editor_Location extends Activity {
                     Bundle bundle = data.getExtras();
                     assert bundle != null;
                     String string = bundle.getString("city_name");
+
+                    MainActivity.addCityFragment(string,0,System.currentTimeMillis());
 
                     StringItem stringItem=new StringItem(string,System.currentTimeMillis());
                     city.add(stringItem);
