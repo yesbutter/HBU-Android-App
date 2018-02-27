@@ -12,7 +12,6 @@ import android.widget.AdapterView;
 import android.widget.ListView;
 
 import com.example.a12968.myweather.Adapter.MyeditorAdapter;
-import com.example.a12968.myweather.Bean.CityFragment;
 import com.example.a12968.myweather.Bean.StringItem;
 import com.example.a12968.myweather.Main.MainActivity;
 import com.example.a12968.myweather.R;
@@ -99,7 +98,7 @@ public class Editor_Location extends Activity {
                             MainActivity.setTopFragment(position,1);
                         } else {
                             stringItem.setTop(0);
-                            MainActivity.setTopFragment(position,1);
+                            MainActivity.setTopFragment(position,0);
                         }
                         SwipeMenuLayout.getViewCache().smoothClose();
 

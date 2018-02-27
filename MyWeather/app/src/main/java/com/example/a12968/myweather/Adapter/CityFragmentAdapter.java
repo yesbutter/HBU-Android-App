@@ -19,27 +19,24 @@ public class CityFragmentAdapter extends FragmentPagerAdapter {
     private ArrayList<CityFragment> cityFragments;
     private FragmentManager fragmentManager;
 
-    public CityFragmentAdapter(FragmentManager fm,ArrayList<CityFragment> cityFragments) {
+    public CityFragmentAdapter(FragmentManager fm, ArrayList<CityFragment> cityFragments) {
         super(fm);
-        this.fragmentManager=fm;
-        this.cityFragments=cityFragments;
+        this.fragmentManager = fm;
+        this.cityFragments = cityFragments;
     }
 
 
-    public void setCityFragments(ArrayList<CityFragment> cityFragments)
-    {
-        if(this.cityFragments!=null)
-        {
-            FragmentTransaction fragmentTransaction=fragmentManager.beginTransaction();
-            for(Fragment fragment:cityFragments)
-            {
+    public void setCityFragments(ArrayList<CityFragment> cityFragments) {
+        if (this.cityFragments != null) {
+            FragmentTransaction fragmentTransaction = fragmentManager.beginTransaction();
+            for (Fragment fragment : cityFragments) {
                 fragmentTransaction.remove(fragment);
             }
             fragmentTransaction.commit();
-            fragmentTransaction=null;
+            fragmentTransaction = null;
             fragmentManager.executePendingTransactions();
         }
-        this.cityFragments=cityFragments;
+        this.cityFragments = cityFragments;
         notifyDataSetChanged();
     }
 
@@ -53,10 +50,8 @@ public class CityFragmentAdapter extends FragmentPagerAdapter {
         return cityFragments.size();
     }
 
-    public void Fragmentsort()
-    {
-        Collections.sort(cityFragments);
-        this.notifyDataSetChanged();
+    public void Fragmentsort() {
+        Collections.sort(CityFragment.stringItems);
     }
 
 }

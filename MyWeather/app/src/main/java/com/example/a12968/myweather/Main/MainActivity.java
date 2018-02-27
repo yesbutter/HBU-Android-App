@@ -59,12 +59,10 @@ public class MainActivity extends AppCompatActivity
     private WaveSwipeRefreshLayout waveSwipeRefreshLayout;
     private WeatherHelper weatherHelper = new WeatherHelper(this);
     private HashMap<String, String> hashMap = new HashMap<>();
-    private static ArrayList<CityFragment> cityFragments=new ArrayList<>();
+    private static ArrayList<CityFragment> cityFragments = new ArrayList<>();
 
     private static CityFragmentAdapter cityFragmentAdapter;
 
-
-//    private TextView textView;
     private ViewPager mViewPager;
 
     @Override
@@ -89,13 +87,12 @@ public class MainActivity extends AppCompatActivity
         initPermission();
 
 
-
+        cityFragmentAdapter = new CityFragmentAdapter(getSupportFragmentManager(), cityFragments);
         initDateLoading();
-        cityFragmentAdapter=new CityFragmentAdapter(getSupportFragmentManager(), cityFragments);
 
-//        textView = findViewById(R.id.main_text_view);
-        mViewPager=findViewById(R.id.main_viewpager);
+        mViewPager = findViewById(R.id.main_viewpager);
         mViewPager.setAdapter(cityFragmentAdapter);
+
 
     }
 
@@ -183,7 +180,6 @@ public class MainActivity extends AppCompatActivity
             Log.e("Show-Weather", sharedPreferences.getString("temp2", ""));
             Log.e("Show-Weather", sharedPreferences.getString("publish_time", ""));
 
-
             Message message = new Message();
             message.what = 1;
             mHandler.sendMessage(message);
@@ -213,7 +209,6 @@ public class MainActivity extends AppCompatActivity
                     string = string.replaceAll("区", "");
                     Log.e(TAG, "run: " + hashMap.get(string));
                     weatherHelper.getWeather(hashMap.get(string), showWeatherListener, 1);
-
                 }
             }).start();
         }
@@ -237,8 +232,8 @@ public class MainActivity extends AppCompatActivity
                             + sharedPreferences.getString("temp1", "") + "\n"
                             + sharedPreferences.getString("temp2", "") + "\n"
                             + sharedPreferences.getString("publish_time", ""));
-
-
+                    Log.e(TAG, "PAGE" + Integer.toString(mViewPager.getCurrentItem()));
+                    Log.e(TAG, "PAGE" + Integer.toString(cityFragmentAdapter.getCount()));
 //                    textView.setText(sharedPreferences.getString("current_date", "") + "\n"
 //                            + sharedPreferences.getString("city_name", "") + "\n"
 //                            + sharedPreferences.getString("weather_desp", "") + "\n"
@@ -266,12 +261,11 @@ public class MainActivity extends AppCompatActivity
                     public void run() {
                         // 更新が終了したらインジケータ非表示
                         // waveSwipeRefreshLayout.setRefreshing(false);
-                        if (cityFragments.size() > 0)
-                        {
-                            String cityname=cityFragments.get(mViewPager.getCurrentItem()).getCityName();
-
+                        if (cityFragments.size() > 0) {
+                            String cityname;
+                            cityname = CityFragment.stringItems.get(mViewPager.getCurrentItem()).getString();
 //                            weatherHelper.getWeather(select_city, showWeatherListener);
-                            weatherHelper.getWeather(hashMap.get(cityname), showWeatherListener,1);
+                            weatherHelper.getWeather(hashMap.get(cityname), showWeatherListener, 1);
 
                             waveSwipeRefreshLayout.setRefreshing(false);
                         }
@@ -321,8 +315,7 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-    private void initDateLoading()
-    {
+    private void initDateLoading() {
         FileInputStream fileInputStream = null;
         BufferedReader bufferedReader;
         String string;
@@ -334,8 +327,8 @@ public class MainActivity extends AppCompatActivity
                 if (string == null) {
                     break;
                 }
-                String[] strings=string.split("\\|");
-                cityFragments.add(CityFragment.newInstance(strings[0],Integer.valueOf(strings[2]),Long.valueOf(strings[1])));
+                String[] strings = string.split("\\|");
+                cityFragments.add(CityFragment.newInstance(strings[0], Integer.valueOf(strings[2]), Long.valueOf(strings[1])));
             }
 
         } catch (Exception e) {
@@ -348,22 +341,18 @@ public class MainActivity extends AppCompatActivity
                     e.printStackTrace();
                 }
         }
-
+        cityFragmentAdapter.Fragmentsort();
     }
 
-    public static void addCityFragment(String cityName,int top,long time)
-    {
-        cityFragments.add(CityFragment.newInstance(cityName,top,time));
+    public static void addCityFragment(String cityName, int top, long time) {
+        cityFragments.add(CityFragment.newInstance(cityName, top, time));
         cityFragmentAdapter.Fragmentsort();
         cityFragmentAdapter.notifyDataSetChanged();
     }
 
-    public static void removeCityFragment(String cityName)
-    {
-        for(int i=0;i<cityFragments.size();i++)
-        {
-            if(cityName.equals(cityFragments.get(i).getCityName()))
-            {
+    public static void removeCityFragment(String cityName) {
+        for (int i = 0; i < cityFragments.size(); i++) {
+            if (cityName.equals(cityFragments.get(i).getCityName())) {
                 cityFragments.remove(i);
                 break;
             }
@@ -371,9 +360,8 @@ public class MainActivity extends AppCompatActivity
         cityFragmentAdapter.notifyDataSetChanged();
     }
 
-    public static void setTopFragment(int position,int top)
-    {
-        cityFragments.get(position).setTop(top);
+    public static void setTopFragment(int position, int top) {
+        CityFragment.stringItems.get(position).setTop(top);
         cityFragmentAdapter.Fragmentsort();
         cityFragmentAdapter.notifyDataSetChanged();
     }

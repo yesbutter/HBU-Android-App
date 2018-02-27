@@ -13,6 +13,8 @@ public class StringItem implements Comparable{
     private long time=0;
     private String string;
 
+    private int PAGE;
+
     public StringItem(String string,Long time)
     {
         this.string=string;
@@ -25,6 +27,16 @@ public class StringItem implements Comparable{
         this.string=string;
         this.time=time;
         this.top=top;
+    }
+
+    public void setPAGE(int PAGE)
+    {
+        this.PAGE=PAGE;
+    }
+
+    public int getPAGE()
+    {
+        return PAGE;
     }
 
     public long getTime()
