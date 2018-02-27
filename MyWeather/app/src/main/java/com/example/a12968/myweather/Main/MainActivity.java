@@ -267,8 +267,15 @@ public class MainActivity extends AppCompatActivity
 //                            weatherHelper.getWeather(select_city, showWeatherListener);
                             weatherHelper.getWeather(hashMap.get(cityname), showWeatherListener, 1);
 
-                            waveSwipeRefreshLayout.setRefreshing(false);
+
                         }
+                        else
+                        {
+                            Intent intent=new Intent();
+                            intent.setClass(MainActivity.this, Editor_Location.class);
+                            startActivityForResult(intent, EDITOR_LOCATION);
+                        }
+                        waveSwipeRefreshLayout.setRefreshing(false);
                     }
                 }, 3000);
 

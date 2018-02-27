@@ -60,8 +60,6 @@ public class CityFragment extends android.support.v4.app.Fragment {
         View view = inflater.inflate(R.layout.city_fragment, container, false);
 
         textView = view.findViewById(R.id.main_text_view);
-
-        textView.setText(CityName);
         return view;
     }
 

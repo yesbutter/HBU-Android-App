@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.View;
 import android.widget.AdapterView;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.a12968.myweather.Adapter.MyeditorAdapter;
 import com.example.a12968.myweather.Bean.StringItem;
@@ -78,13 +79,15 @@ public class Editor_Location extends Activity {
                 viewHolder.setOnClickListener(R.id.editor_text, new View.OnClickListener() {
                     @Override
                     public void onClick(View view) {
-                        String string = datalist.get(position).getString();
-                        Intent intent = new Intent();
-                        Bundle bundle = new Bundle();
-                        bundle.putString("city_name", string);
-                        intent.putExtras(bundle);
-                        setResult(RESULT_OK, intent);
-                        finish();
+//                        String string = datalist.get(position).getString();
+//                        Intent intent = new Intent();
+//                        Bundle bundle = new Bundle();
+//                        bundle.putString("city_name", string);
+//                        intent.putExtras(bundle);
+//                        setResult(RESULT_OK, intent);
+//                        finish();
+                        Toast.makeText(Editor_Location.this,
+                                "You selected is "+datalist.get(position).getString(),Toast.LENGTH_SHORT).show();
                     }
                 });
 
