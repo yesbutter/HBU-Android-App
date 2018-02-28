@@ -39,6 +39,15 @@ public class WeatherDBOpenHelper extends SQLiteOpenHelper {
             +"city_id integer)";
 
 
+    /**
+     * StringItem建表语句
+     */
+    public static final String CREATE_ITEM="create table Item("
+            +"id integer primary key autoincrement,"
+            +"city_name text,"
+            +"city_top integer,"
+            +"create_time text)";
+
     public WeatherDBOpenHelper(Context context, String name, SQLiteDatabase.CursorFactory factory, int version) {
         super(context, name, factory, version);
     }
@@ -48,6 +57,7 @@ public class WeatherDBOpenHelper extends SQLiteOpenHelper {
         sqLiteDatabase.execSQL(CREATE_PROVINCE);
         sqLiteDatabase.execSQL(CREATE_CITY);
         sqLiteDatabase.execSQL(CREATE_COUNTY);
+        sqLiteDatabase.execSQL(CREATE_ITEM);
 
     }
 

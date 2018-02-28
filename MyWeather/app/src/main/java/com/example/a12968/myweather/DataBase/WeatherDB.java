@@ -4,6 +4,7 @@ import android.content.ContentValues;
 import android.content.Context;
 import android.database.Cursor;
 import android.database.sqlite.SQLiteDatabase;
+import android.util.Log;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -11,6 +12,7 @@ import java.util.List;
 import com.example.a12968.myweather.Bean.City;
 import com.example.a12968.myweather.Bean.County;
 import com.example.a12968.myweather.Bean.Province;
+import com.example.a12968.myweather.Bean.StringItem;
 
 
 /**
@@ -104,40 +106,80 @@ public class WeatherDB {
         return list;
     }
 
-    public void saveCounty(County county)
-    {
-        if(county!=null)
-        {
+    public void saveCounty(County county) {
+        if (county != null) {
             ContentValues contentValues = new ContentValues();
-            contentValues.put("county_name",county.getCountyName());
-            contentValues.put("county_code",county.getCountyCode());
-            contentValues.put("city_id",county.getCityId());
-            sqLiteDatabase.insert("County",null,contentValues);
+            contentValues.put("county_name", county.getCountyName());
+            contentValues.put("county_code", county.getCountyCode());
+            contentValues.put("city_id", county.getCityId());
+            sqLiteDatabase.insert("County", null, contentValues);
         }
     }
 
-    public List<County> loadCounty(int cityId)
-    {
-        List<County> list=new ArrayList<County>();
-        Cursor cursor=sqLiteDatabase.query("County",null,"city_id = ?",
-                new String[]{String.valueOf(cityId)},null,null,null);
-        if(cursor.moveToFirst())
-        {
-            do{
-                County county=new County();
+    public List<County> loadCounty(int cityId) {
+        List<County> list = new ArrayList<County>();
+        Cursor cursor = sqLiteDatabase.query("County", null, "city_id = ?",
+                new String[]{String.valueOf(cityId)}, null, null, null);
+        if (cursor.moveToFirst()) {
+            do {
+                County county = new County();
                 county.setId(cursor.getInt(cursor.getColumnIndex("id")));
                 county.setCityName(cursor.getString(cursor.getColumnIndex("county_name")));
                 county.setCountyCode(cursor.getString(cursor.getColumnIndex("county_code")));
                 county.setCityId(cityId);
                 list.add(county);
-            }while (cursor.moveToNext());
+            } while (cursor.moveToNext());
         }
-        if(cursor!=null)
-        {
+        if (cursor != null) {
             cursor.close();
         }
         return list;
     }
 
+    public void saveStringItem(StringItem stringItem) {
+        if (stringItem != null) {
+            ContentValues contentValues = new ContentValues();
+            contentValues.put("city_name", stringItem.getString());
+            contentValues.put("city_top", stringItem.getTop());
+            contentValues.put("create_time", Long.toString(stringItem.getTime()));
+            sqLiteDatabase.insert("Item", null, contentValues);
+        }
+    }
 
+    public List<StringItem> loadStringItem() {
+        Cursor cursor;
+        List<StringItem> list = new ArrayList<>();
+        cursor = sqLiteDatabase.query("Item", null, null, null, null, null, null);
+
+        if (cursor.moveToFirst()) {
+            do {
+                Log.e("City:","City:"+cursor.getString(cursor.getColumnIndex("city_name"))+
+                    "\ncreate_time:"+cursor.getString(cursor.getColumnIndex("create_time"))
+                    +"\nTop:"+cursor.getInt(cursor.getColumnIndex("city_top")));
+                StringItem stringItem = new StringItem(
+                        cursor.getString(cursor.getColumnIndex("city_name")),
+                        Long.valueOf(cursor.getString(cursor.getColumnIndex("create_time"))),
+                        cursor.getInt(cursor.getColumnIndex("city_top")));
+                list.add(stringItem);
+            } while (cursor.moveToNext());
+        }
+        if (cursor != null) {
+            cursor.close();
+        }
+        return list;
+    }
+
+    public void DelStringItem(StringItem stringItem) {
+        sqLiteDatabase.delete("Item", "city_name=?", new String[]{stringItem.getString()});
+    }
+
+
+    public void UpdataStringItem(StringItem oldstringItem,StringItem stringItem) {
+        ContentValues contentValues=new ContentValues();
+        contentValues.put("city_name",stringItem.getString());
+        contentValues.put("create_time",stringItem.getTime());
+        contentValues.put("city_top",stringItem.getTop());
+
+        sqLiteDatabase.update("Item",contentValues,"city_name=?", new String[]{oldstringItem.getString()});
+    }
 }
