@@ -69,6 +69,10 @@ public class StringItem implements Comparable{
         this.string=string;
     }
 
+    public String toString()
+    {
+        return "City_name:"+string+" Time:"+time+" Top:"+top;
+    }
     public int compareTo(Object object) {
         if (object == null || !(object instanceof StringItem)) {
             return -1;

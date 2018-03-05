@@ -2,7 +2,6 @@ package com.example.a12968.myweather.Activities;
 
 import android.app.Activity;
 import android.app.AlertDialog;
-import android.content.Context;
 import android.content.DialogInterface;
 import android.content.Intent;
 import android.os.Bundle;
@@ -13,22 +12,15 @@ import android.widget.ListView;
 import android.widget.Toast;
 
 import com.example.a12968.myweather.Adapter.MyeditorAdapter;
+import com.example.a12968.myweather.Bean.CityFragment;
 import com.example.a12968.myweather.Bean.StringItem;
+import com.example.a12968.myweather.DataBase.WeatherDB;
 import com.example.a12968.myweather.Main.MainActivity;
 import com.example.a12968.myweather.R;
 import com.mcxtzhang.swipemenulib.SwipeMenuLayout;
 
-import java.io.BufferedReader;
-import java.io.BufferedWriter;
-import java.io.FileInputStream;
-import java.io.FileOutputStream;
-import java.io.IOException;
-import java.io.InputStreamReader;
-import java.io.OutputStreamWriter;
 import java.util.ArrayList;
 import java.util.Collections;
-import java.util.HashSet;
-import java.util.Set;
 
 
 /**
@@ -42,10 +34,10 @@ public class Editor_Location extends Activity {
     private MyeditorAdapter myeditorAdapter;
 
     private ArrayList<StringItem> datalist = new ArrayList<>();
-    private Set<StringItem> city = new HashSet<>();
 
     private static final int QUERY_CITY = 0;
 
+    private WeatherDB weatherDB;
 
     protected void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
@@ -53,7 +45,6 @@ public class Editor_Location extends Activity {
 
         setContentView(R.layout.editor_location);
         listView = findViewById(R.id.editor_list);
-
 
         /*
           继承ArrayAdapter的抽象adapter，实现了其中的conver，为事件的点击按钮添加Listener
@@ -66,10 +57,11 @@ public class Editor_Location extends Activity {
                     @Override
                     public void onClick(View view) {
 
-                        MainActivity.removeCityFragment(datalist.get(position).getString());
+                        MainActivity.removeCityFragment(position);
 
                         SwipeMenuLayout.getViewCache().smoothClose();
-                        city.remove(datalist.get(position));
+
+                        weatherDB.DelStringItem(datalist.get(position));
                         datalist.remove(position);
                         myeditorAdapter.notifyDataSetChanged();
 
@@ -87,7 +79,7 @@ public class Editor_Location extends Activity {
 //                        setResult(RESULT_OK, intent);
 //                        finish();
                         Toast.makeText(Editor_Location.this,
-                                "You selected is "+datalist.get(position).getString(),Toast.LENGTH_SHORT).show();
+                                "You selected is " + datalist.get(position).getString(), Toast.LENGTH_SHORT).show();
                     }
                 });
 
@@ -98,10 +90,12 @@ public class Editor_Location extends Activity {
                         StringItem stringItem = datalist.get(position);
                         if (stringItem.getTop() == 0) {
                             stringItem.setTop(1);
-                            MainActivity.setTopFragment(position,1);
+                            MainActivity.setTopFragment(position, 1);
+                            weatherDB.UpdataStringItem(stringItem,new StringItem(stringItem.getString(),stringItem.getTime(),1));
                         } else {
                             stringItem.setTop(0);
-                            MainActivity.setTopFragment(position,0);
+                            MainActivity.setTopFragment(position, 0);
+                            weatherDB.UpdataStringItem(stringItem,new StringItem(stringItem.getString(),stringItem.getTime(),0));
                         }
                         SwipeMenuLayout.getViewCache().smoothClose();
 
@@ -128,9 +122,9 @@ public class Editor_Location extends Activity {
                     @Override
                     public void onClick(DialogInterface dialogInterface, int i) {
 
-                        MainActivity.removeCityFragment(datalist.get(position).getString());
+                        MainActivity.removeCityFragment(i);
 
-                        city.remove(datalist.get(position));
+                        weatherDB.DelStringItem(datalist.get(position));
                         datalist.remove(position);
                         myeditorAdapter.notifyDataSetChanged();
                         dialogInterface.dismiss();
@@ -152,7 +146,6 @@ public class Editor_Location extends Activity {
 
     }
 
-
     public void editor_add_city(View view) {
         Intent intent = new Intent();
         intent.setClass(this, Choose_City.class);
@@ -168,13 +161,13 @@ public class Editor_Location extends Activity {
                     assert bundle != null;
                     String string = bundle.getString("city_name");
 
-                    MainActivity.addCityFragment(string,0,System.currentTimeMillis());
-
-                    StringItem stringItem=new StringItem(string,System.currentTimeMillis());
-                    city.add(stringItem);
+                    MainActivity.addCityFragment(string, 0, System.currentTimeMillis());
+                    StringItem stringItem = new StringItem(string, System.currentTimeMillis());
                     datalist.add(stringItem);
                     Collections.sort(datalist);
                     myeditorAdapter.notifyDataSetChanged();
+
+                    weatherDB.saveStringItem(stringItem);
                 }
                 break;
             default:
@@ -182,76 +175,10 @@ public class Editor_Location extends Activity {
         }
     }
 
-    protected void onDestroy() {
-        super.onDestroy();
-        save();
-    }
-
-    private void save() {
-        BufferedWriter bufferedWriter = null;
-        try {
-            FileOutputStream fileOutputStream = openFileOutput("city.txt", Context.MODE_PRIVATE);
-
-            bufferedWriter = new BufferedWriter(new OutputStreamWriter(fileOutputStream));
-
-            /**
-             * save the data in close
-             */
-            for (StringItem stringItem : city) {
-                bufferedWriter.write(stringItem.getString() + "|"+stringItem.getTime()+"|"+stringItem.getTop()+"\n");
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            try {
-                if (bufferedWriter != null) {
-                    bufferedWriter.close();
-                }
-            } catch (IOException e) {
-                e.printStackTrace();
-            }
-        }
-    }
-
     private void initloading() {
-        FileInputStream fileInputStream = null;
-        BufferedReader bufferedReader;
-        String string;
-        try {
-            fileInputStream = openFileInput("city.txt");
-            bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
-            while (true) {
-                string = bufferedReader.readLine();
-                if (string == null) {
-                    break;
-                }
-                String[] strings=string.split("\\|");
-                city.add(new StringItem(strings[0],Long.valueOf(strings[1]),Integer.valueOf(strings[2])));
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (fileInputStream != null)
-                try {
-                    fileInputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
-        }
-
-
-        if (city.size() > 0) {
-            datalist.clear();
-            for (StringItem stringItem : city) {
-                datalist.add(stringItem);
-                myeditorAdapter.notifyDataSetChanged();
-                listView.setSelection(0);
-            }
-            Collections.sort(datalist);
-            myeditorAdapter.notifyDataSetChanged();
-            listView.setSelection(0);
-        }
+        weatherDB = WeatherDB.getWeatherDB(this);
+        datalist.addAll(weatherDB.loadStringItem());
+        Collections.sort(datalist);
+        myeditorAdapter.notifyDataSetChanged();
     }
 }

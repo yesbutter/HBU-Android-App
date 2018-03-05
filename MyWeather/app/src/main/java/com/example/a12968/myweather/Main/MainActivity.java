@@ -2,23 +2,23 @@ package com.example.a12968.myweather.Main;
 
 import android.Manifest;
 import android.annotation.SuppressLint;
+import android.app.AlertDialog;
+import android.content.DialogInterface;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Color;
 import android.location.Address;
 import android.location.Location;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
+import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
-import android.transition.Transition;
-import android.transition.TransitionInflater;
 import android.util.Log;
 import android.view.View;
 import android.support.design.widget.NavigationView;
@@ -28,19 +28,18 @@ import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
-import android.widget.TextView;
+import android.widget.Toast;
 
 import com.example.a12968.myweather.Activities.Choose_City;
 import com.example.a12968.myweather.Activities.Editor_Location;
 import com.example.a12968.myweather.Adapter.CityFragmentAdapter;
 import com.example.a12968.myweather.Bean.CityFragment;
 import com.example.a12968.myweather.Bean.StringItem;
+import com.example.a12968.myweather.DataBase.WeatherDB;
 import com.example.a12968.myweather.R;
 import com.example.a12968.myweather.Util.Util;
 
 import java.io.BufferedReader;
-import java.io.FileInputStream;
-import java.io.IOException;
 import java.io.InputStreamReader;
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -54,7 +53,6 @@ public class MainActivity extends AppCompatActivity
     private static final String TAG = "MainActivity";
     private static final int QUERY_CITY = 0;
     private static final int EDITOR_LOCATION = 1;
-    private static String select_city = "090201";
 
     private WaveSwipeRefreshLayout waveSwipeRefreshLayout;
     private WeatherHelper weatherHelper = new WeatherHelper(this);
@@ -82,18 +80,20 @@ public class MainActivity extends AppCompatActivity
         navigationView.setNavigationItemSelectedListener(this);
 
         initWaveSwipeRefreshLayout();
-        initTransition();
         initCityCode();
         initPermission();
 
-
         cityFragmentAdapter = new CityFragmentAdapter(getSupportFragmentManager(), cityFragments);
-        initDateLoading();
+//        initDateLoading();
 
         mViewPager = findViewById(R.id.main_viewpager);
         mViewPager.setAdapter(cityFragmentAdapter);
+    }
 
-
+    @SuppressLint("MissingSuperCall")
+    public void onResume() {
+        super.onResume();
+        initDateLoading();
     }
 
     public void pluslistener(View view) {
@@ -112,7 +112,6 @@ public class MainActivity extends AppCompatActivity
         }
     }
 
-
     @Override
     public boolean onNavigationItemSelected(@NonNull MenuItem item) {
         // Handle navigation view item clicks here.
@@ -129,16 +128,28 @@ public class MainActivity extends AppCompatActivity
                 intent.setClass(this, Editor_Location.class);
                 startActivityForResult(intent, EDITOR_LOCATION);
                 break;
+            case R.id.nav_编辑的话:AlertDialog.Builder builder = new AlertDialog.Builder(this);
+                builder.setMessage("Tip1:实现了下滑刷新，如果没有城市让用户去添加城市"+
+                        "  Tip2:添加城市可以侧滑，选择置顶或者删除，也实现了长按弹出对话框删除"+
+                        "  \nTip3:自动定位可以显示位置，没有去添加或者显示天气，提示了一下地点"+
+                        "  Tip4:嗯~ o(*￣▽￣*)o，发现了什么bug及时提给我！");
+                builder.setTitle("Tip");
+                builder.setPositiveButton("确认", new DialogInterface.OnClickListener() {
+                    @Override
+                    public void onClick(DialogInterface dialogInterface, int i) {
+                        dialogInterface.dismiss();
+                    }
+                });
+                builder.create().show();
+                break;
             default:
                 break;
         }
-
 
         DrawerLayout drawer = findViewById(R.id.drawer_layout);
         drawer.closeDrawer(GravityCompat.START);
         return true;
     }
-
 
     protected void onActivityResult(int requestCode, int resultCode, Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
@@ -147,17 +158,15 @@ public class MainActivity extends AppCompatActivity
                 if (resultCode == RESULT_OK) {
                     Bundle bundle = data.getExtras();
                     assert bundle != null;
-                    select_city = bundle.getString("weather_code");
+                    String select_city = bundle.getString("weather_code");
                     weatherHelper.getWeather(select_city, showWeatherListener);
                 }
                 break;
             case EDITOR_LOCATION:
-
                 if (resultCode == RESULT_OK) {
                     Bundle bundle = data.getExtras();
                     assert bundle != null;
                     String string = bundle.getString("city_name");
-                    Log.d("city_name", string);
                     weatherHelper.getWeather(hashMap.get(string), showWeatherListener, 1);
                 }
                 break;
@@ -191,6 +200,7 @@ public class MainActivity extends AppCompatActivity
                 != PackageManager.PERMISSION_GRANTED) {
             ActivityCompat.requestPermissions(this, new String[]{Manifest.permission.ACCESS_FINE_LOCATION}, 1);
         }
+
         final Location location = Location_Based_Services.getNetWorkLocation(this);
         if (location == null) {
             Util.makeToast(this, "NET打开失败");
@@ -207,8 +217,17 @@ public class MainActivity extends AppCompatActivity
                     string = string.replaceAll("县", "");
                     string = string.replaceAll("乡", "");
                     string = string.replaceAll("区", "");
+
                     Log.e(TAG, "run: " + hashMap.get(string));
-                    weatherHelper.getWeather(hashMap.get(string), showWeatherListener, 1);
+
+                    Looper.prepare();
+
+                    Toast.makeText(MainActivity.this,"你定位在"+string,Toast.LENGTH_LONG).show();
+//
+//                    addCityFragment(hashMap.get(string),0,System.currentTimeMillis());
+//
+//                    weatherHelper.getWeather(hashMap.get(string), showWeatherListener, 1);
+                    Looper.loop();
                 }
             }).start();
         }
@@ -225,6 +244,7 @@ public class MainActivity extends AppCompatActivity
                 case 1:
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
 
+                    Log.d("TAG", String.valueOf(mViewPager.getCurrentItem()));
                     cityFragments.get(mViewPager.getCurrentItem()).setTextViewText(sharedPreferences.getString("current_date", "") + "\n"
                             + sharedPreferences.getString("city_name", "") + "\n"
                             + sharedPreferences.getString("weather_desp", "") + "\n"
@@ -252,7 +272,7 @@ public class MainActivity extends AppCompatActivity
     private void initWaveSwipeRefreshLayout() {
         waveSwipeRefreshLayout = findViewById(R.id.main_swipe);
         waveSwipeRefreshLayout.setColorSchemeColors(Color.WHITE, Color.WHITE);
-        waveSwipeRefreshLayout.setWaveColor(Color.argb(100, 255, 0, 0));
+        waveSwipeRefreshLayout.setWaveColor(Color.argb(100, 0 ,255, 255));
         waveSwipeRefreshLayout.setOnRefreshListener(new WaveSwipeRefreshLayout.OnRefreshListener() {
             @Override
             public void onRefresh() {
@@ -263,10 +283,13 @@ public class MainActivity extends AppCompatActivity
                         // waveSwipeRefreshLayout.setRefreshing(false);
                         if (cityFragments.size() > 0) {
                             String cityname;
+                            for(StringItem stringItem:CityFragment.stringItems)
+                            {
+                                Log.e("Main",stringItem.toString());
+                            }
                             cityname = CityFragment.stringItems.get(mViewPager.getCurrentItem()).getString();
 //                            weatherHelper.getWeather(select_city, showWeatherListener);
                             weatherHelper.getWeather(hashMap.get(cityname), showWeatherListener, 1);
-
 
                         }
                         else
@@ -283,16 +306,6 @@ public class MainActivity extends AppCompatActivity
         });
     }
 
-    private void initTransition() {
-        if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.KITKAT) {
-            Transition transition = TransitionInflater.from(this).inflateTransition(R.transition.slide);
-            if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.LOLLIPOP) {
-                getWindow().setExitTransition(transition);
-                getWindow().setEnterTransition(transition);
-                getWindow().setReenterTransition(transition);
-            }
-        }
-    }
 
     private void initCityCode() {
         try {
@@ -306,7 +319,6 @@ public class MainActivity extends AppCompatActivity
                 if (s.contains("=")) {
                     String b[] = s.split("=");
                     hashMap.put(b[1], b[0]);
-//                    Log.e("TAG", b[0] + " " + b[1]);
                 }
             }
         } catch (Exception e) {
@@ -323,32 +335,15 @@ public class MainActivity extends AppCompatActivity
     }
 
     private void initDateLoading() {
-        FileInputStream fileInputStream = null;
-        BufferedReader bufferedReader;
-        String string;
-        try {
-            fileInputStream = openFileInput("city.txt");
-            bufferedReader = new BufferedReader(new InputStreamReader(fileInputStream));
-            while (true) {
-                string = bufferedReader.readLine();
-                if (string == null) {
-                    break;
-                }
-                String[] strings = string.split("\\|");
-                cityFragments.add(CityFragment.newInstance(strings[0], Integer.valueOf(strings[2]), Long.valueOf(strings[1])));
-            }
-
-        } catch (Exception e) {
-            e.printStackTrace();
-        } finally {
-            if (fileInputStream != null)
-                try {
-                    fileInputStream.close();
-                } catch (IOException e) {
-                    e.printStackTrace();
-                }
+//        cityFragments.clear();
+//        cityFragmentAdapter.notifyDataSetChanged();
+        List<StringItem> list= WeatherDB.getWeatherDB(this).loadStringItem();
+        for(StringItem stringItem:list)
+        {
+            cityFragments.add(CityFragment.newInstance(stringItem.getString(),stringItem.getTop(),stringItem.getTime()));
         }
         cityFragmentAdapter.Fragmentsort();
+        cityFragmentAdapter.notifyDataSetChanged();
     }
 
     public static void addCityFragment(String cityName, int top, long time) {
@@ -357,13 +352,8 @@ public class MainActivity extends AppCompatActivity
         cityFragmentAdapter.notifyDataSetChanged();
     }
 
-    public static void removeCityFragment(String cityName) {
-        for (int i = 0; i < cityFragments.size(); i++) {
-            if (cityName.equals(cityFragments.get(i).getCityName())) {
-                cityFragments.remove(i);
-                break;
-            }
-        }
+    public static void removeCityFragment(int position) {
+        cityFragments.remove(cityFragments.size()-1);
         cityFragmentAdapter.notifyDataSetChanged();
     }
 

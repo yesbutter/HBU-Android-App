@@ -19,24 +19,9 @@ import java.util.Calendar;
 
 public class CityFragment extends android.support.v4.app.Fragment {
     public static ArrayList<StringItem> stringItems=new ArrayList<>();
-    private static final String TAG = "CityFragment";
-
-    private String CityName;
     private TextView textView;
-    private long time=0;
-    private int top=0;
 
     public CityFragment() {
-    }
-
-    public String getCityName()
-    {
-        return CityName;
-    }
-
-    public long getTime()
-    {
-        return time;
     }
 
     public void setTextViewText(String text)
@@ -58,18 +43,11 @@ public class CityFragment extends android.support.v4.app.Fragment {
 
     public View onCreateView(LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         View view = inflater.inflate(R.layout.city_fragment, container, false);
-
         textView = view.findViewById(R.id.main_text_view);
         return view;
     }
 
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
-        Bundle bundle = this.getArguments();
-        if (bundle != null) {
-            CityName = bundle.getString("CityName");
-            top = bundle.getInt("Top");
-            time = bundle.getLong("Time");
-        }
     }
 }
