@@ -61,6 +61,7 @@ public class Editor_Location extends Activity {
 
                         SwipeMenuLayout.getViewCache().smoothClose();
 
+                        CityFragment.delStringItem(datalist.get(position));
                         weatherDB.DelStringItem(datalist.get(position));
                         datalist.remove(position);
                         myeditorAdapter.notifyDataSetChanged();

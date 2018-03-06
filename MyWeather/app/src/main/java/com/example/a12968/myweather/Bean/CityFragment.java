@@ -50,4 +50,17 @@ public class CityFragment extends android.support.v4.app.Fragment {
     public void onCreate(Bundle saveInstanceState) {
         super.onCreate(saveInstanceState);
     }
+
+    public static void delStringItem(StringItem stringItem)
+    {
+        for(StringItem stringItem1:stringItems)
+        {
+            if(stringItem.getString().equals(stringItem1.getString()))
+            {
+                stringItems.remove(stringItem1);
+                break;
+            }
+        }
+    }
+
 }
