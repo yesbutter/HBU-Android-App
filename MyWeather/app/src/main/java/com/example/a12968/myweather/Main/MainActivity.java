@@ -16,6 +16,7 @@ import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
 import android.support.v4.view.ViewPager;
@@ -292,9 +293,25 @@ public class MainActivity extends AppCompatActivity
                             weatherHelper.getWeather(hashMap.get(cityname), showWeatherListener, 1);
 
                         } else {
-                            Intent intent = new Intent();
-                            intent.setClass(MainActivity.this, Editor_Location.class);
-                            startActivityForResult(intent, EDITOR_LOCATION);
+
+                            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_LAYOUT_HIDE_NAVIGATION
+                                    | View.SYSTEM_UI_FLAG_HIDE_NAVIGATION //隐藏虚拟按键栏
+                                    | View.SYSTEM_UI_FLAG_IMMERSIVE //防止点击屏幕时,隐藏虚拟按键栏又弹了出来
+                            );
+
+                            Snackbar snackbar = Snackbar.make(getWindow().getDecorView(), "请先选择城市", Snackbar.LENGTH_LONG);
+                            snackbar.setAction("确定", new View.OnClickListener() {
+                                @Override
+                                public void onClick(View view) {
+                                    Intent intent = new Intent();
+                                    intent.setClass(MainActivity.this, Editor_Location.class);
+                                    startActivityForResult(intent, EDITOR_LOCATION);
+
+                                }
+                            }).show();
+
+                            getWindow().getDecorView().setSystemUiVisibility(View.SYSTEM_UI_FLAG_VISIBLE);
+
                         }
                         waveSwipeRefreshLayout.setRefreshing(false);
                     }
@@ -362,7 +379,7 @@ public class MainActivity extends AppCompatActivity
 //                cityFragments.remove(1);
 //            }
 //        }
-        cityFragments.remove(cityFragments.size()-1);
+        cityFragments.remove(cityFragments.size() - 1);
         cityFragmentAdapter.notifyDataSetChanged();
     }
 
