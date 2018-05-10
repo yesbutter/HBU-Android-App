@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <TextView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:gravity="center"
+        android:text="制作你的卡片"
+        android:textColor="@android:color/black"
+        android:textSize="25dip" />
+
+
+    <EditText
+        android:id="@+id/time_add_name"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="40dip"
+        android:hint="计划名字"
+        android:singleLine="true" />
+
+    <TextView
+        android:id="@+id/time_add_date"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="15dip"
+        android:gravity="center"
+        android:text="今日"
+        android:textColor="@android:color/black"
+        android:textSize="25dip" />
+
+    <EditText
+        android:id="@+id/time_add_body"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:background="@android:drawable/edit_text"
+        android:enabled="true"
+        android:gravity="top"
+        android:hint="计划内容"
+        android:inputType="textMultiLine"
+        android:maxLines="10"
+        android:minLines="8"
+        android:scrollbars="vertical"
+        android:textSize="25dip" />
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:layout_marginTop="30dip">
+
+        <Button
+            android:id="@+id/time_add_yes"
+            android:layout_width="60dip"
+            android:layout_height="40dip"
+            android:layout_marginLeft="50dip"
+            android:text="确定" />
+
+
+        <Button
+            android:id="@+id/time_add_no"
+            android:layout_width="60dip"
+            android:layout_height="40dip"
+            android:layout_marginLeft="150dip"
+            android:text="取消" />
+    </LinearLayout>
+
+
+</LinearLayout>

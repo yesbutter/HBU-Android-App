@@ -72,6 +72,8 @@ public class DataTransFragment extends Fragment {
         dataListAdapter = new ArrayAdapter<String>(getContext(), R.layout.layout_item_new_data);
         showDataLv.setAdapter(dataListAdapter);
 
+
+
     }
 
     @Override
@@ -79,6 +81,8 @@ public class DataTransFragment extends Fragment {
         super.onActivityCreated(savedInstanceState);
         mainActivity = (MainActivity) getActivity();
         uiHandler = mainActivity.getUiHandler();
+
+
     }
 
     /**
@@ -116,10 +120,12 @@ public class DataTransFragment extends Fragment {
     }
 
     private View.OnClickListener lisenter = new View.OnClickListener() {//侦听器
+
         @Override
         public void onClick(View view) {//点击事件
 
             switch (view.getId()) {
+
                 case R.id.send_4:
                     String msgSend = "4";
                     Message message = new Message();
@@ -155,6 +161,7 @@ public class DataTransFragment extends Fragment {
                     break;
             }
             switch (MODE) {
+
                 case 0:
                     btn1.setText("移位");
                     btn2.setText("增加");
@@ -198,6 +205,13 @@ public class DataTransFragment extends Fragment {
                 default:
                     break;
             }
+
+
+            String msgSend = "0";
+            Message message = new Message();
+            message.what = Params.MSG_WRITE_DATA;
+            message.obj = msgSend;
+            uiHandler.sendMessage(message);
 
         }
     };

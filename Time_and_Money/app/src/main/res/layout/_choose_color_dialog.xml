@@ -1,0 +1,98 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="320dip"
+    android:layout_height="200dip"
+    android:background="@drawable/timg"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_marginLeft="20dip"
+        android:orientation="vertical"
+        android:layout_marginRight="20dip"
+        android:layout_marginTop="30dip"
+        android:layout_marginBottom="10dip"
+        android:layout_height="match_parent">
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/哔哩粉"
+                android:layout_height="50dip"
+                android:layout_weight="1"
+                android:background="@color/biliPink"
+                android:text="哔哩粉" />
+
+            <Button
+                android:id="@+id/知乎蓝"
+                android:layout_height="50dip"
+                android:layout_weight="1"
+                android:background="@color/zhihuBlue"
+                android:text="知乎蓝" />
+
+            <Button
+                android:id="@+id/酷安绿"
+                android:layout_height="50dip"
+                android:layout_weight="1"
+                android:background="@color/kuanGreen"
+                android:text="酷安绿" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:id="@+id/网易红"
+                android:layout_height="50dip"
+                android:layout_weight="1"
+                android:background="@color/cloudRed"
+                android:text="网易红" />
+
+            <Button
+                android:layout_weight="1"
+                android:layout_height="50dip"
+                android:id="@+id/藤萝紫"
+                android:background="@color/tengluoPurple"
+                android:text="藤萝紫" />
+
+            <Button
+                android:layout_weight="1"
+                android:layout_height="50dip"
+                android:id="@+id/碧绿蓝"
+                android:background="@color/seaBlue"
+                android:text="碧绿蓝" />
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <Button
+                android:layout_weight="1"
+                android:layout_height="50dip"
+                android:id="@+id/樱草绿"
+                android:background="@color/grassGreen"
+                android:text="樱草绿" />
+
+            <Button
+                android:layout_weight="1"
+                android:layout_height="50dip"
+                android:id="@+id/咖啡棕"
+                android:background="@color/coffeeBrown"
+                android:text="咖啡棕" />
+
+            <Button
+                android:layout_weight="1"
+                android:layout_height="50dip"
+                android:id="@+id/柠檬橙"
+                android:background="@color/lemonOrange"
+                android:text="柠檬橙" />
+        </TableRow>
+    </LinearLayout>
+
+</LinearLayout>

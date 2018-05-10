@@ -1,0 +1,55 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="horizontal">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:visibility="gone">
+
+        <TextView
+            android:id="@+id/_money_item_day"
+            android:layout_width="120dip"
+            android:layout_height="match_parent"
+            android:text="oneday"
+            android:textSize="24dip" />
+
+        <View
+            android:layout_width="1dip"
+            android:layout_height="match_parent"
+            android:layout_gravity="center_horizontal"
+            android:background="#626060" />
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="horizontal">
+
+            <TextView
+                android:id="@+id/_money_item_收入"
+                android:layout_width="100dip"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:textSize="24dip" />
+
+            <View
+                android:layout_width="1dip"
+                android:layout_height="match_parent"
+                android:layout_gravity="center_horizontal"
+                android:background="#626060" />
+
+            <TextView
+                android:id="@+id/_money_item_支出"
+                android:layout_width="100dip"
+                android:layout_height="match_parent"
+                android:gravity="right"
+                android:textSize="24dip" />
+
+        </LinearLayout>
+    </LinearLayout>
+
+
+
+</LinearLayout>

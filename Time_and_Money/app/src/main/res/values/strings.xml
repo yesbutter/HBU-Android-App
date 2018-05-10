@@ -1,0 +1,7 @@
+<resources>
+    <string name="app_name">时金</string>
+    <string name="money">Money</string>
+    <string name="my">我</string>
+    <string name="plan">计划</string>
+    <string name="time">Time</string>
+</resources>

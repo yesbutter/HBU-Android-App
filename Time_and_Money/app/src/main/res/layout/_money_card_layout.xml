@@ -1,0 +1,80 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <TextView
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:id="@+id/_money_card_main"
+            android:hint="今日支出"
+            android:textSize="28dip" />
+
+
+    </RelativeLayout>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <com.example.qq1296821114.time_and_money.Card.SwipeFlingAdapterView
+            android:id="@+id/frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#ffeee9e2"
+            app:rotation_degrees="15.5"
+            tools:context=".MyActivity" />
+
+        <TextView
+            android:id="@+id/_money_card_top"
+            android:layout_width="40dip"
+            android:layout_height="match_parent"
+            android:gravity="center_vertical"
+            android:text="上一张"
+            android:visibility="gone"
+            android:textSize="40dip" />
+
+        <TextView
+            android:id="@+id/_money_card_next"
+            android:layout_width="40dip"
+            android:layout_height="match_parent"
+            android:layout_gravity="right"
+            android:gravity="center_vertical"
+            android:text="下一张"
+            android:visibility="gone"
+            android:textSize="40dip" />
+
+        <Button
+            android:id="@+id/_money_add"
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:layout_gravity="right|bottom"
+            android:layout_marginBottom="15dip"
+            android:layout_marginRight="15dip"
+            android:background="@drawable/ic_xianjin" />
+
+        <TextView
+            android:id="@+id/_money_add_page"
+            android:layout_width="match_parent"
+            android:layout_height="30dip"
+            android:layout_gravity="center|bottom"
+            android:layout_marginBottom="15dip"
+            android:gravity="center"
+            android:text="1/25"
+            android:textColor="@android:color/black"
+            android:textSize="25dip" />
+    </FrameLayout>
+
+
+</LinearLayout>

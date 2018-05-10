@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical"
+    tools:context="com.example.qq1296821114.time_and_money.Presenter.Activity.MainActivity">
+
+    <android.support.v7.widget.Toolbar
+        android:id="@+id/_main_Toolbar"
+        android:layout_width="match_parent"
+        android:layout_height="60dip"
+        android:background="?attr/colorPrimary"
+        android:fitsSystemWindows="true">
+
+        <ImageView
+            android:id="@+id/_main_mybutton"
+            android:layout_width="24dip"
+            android:layout_height="24dip"
+            android:background="@drawable/ic_menu"
+            android:textAllCaps="false" />
+
+        <TextView
+            android:id="@+id/_main_mytext"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:gravity="center"
+            android:text="Money"
+            android:textSize="24dip" />
+
+        <ImageView
+            android:id="@+id/_main_menu"
+            android:layout_width="24dip"
+            android:layout_height="24dip"
+            android:layout_gravity="right"
+            android:layout_marginRight="10dip"
+            android:background="@drawable/ic_setting"
+            android:textAllCaps="false"
+            android:visibility="gone" />
+    </android.support.v7.widget.Toolbar>
+
+    <android.support.v4.widget.DrawerLayout
+        android:id="@+id/_main_drawer_layout"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        tools:openDrawer="start">
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:orientation="vertical">
+
+            <com.example.qq1296821114.time_and_money.View.MyViewPage
+                android:id="@+id/main_viewpager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_weight="2"></com.example.qq1296821114.time_and_money.View.MyViewPage>
+
+            <TableRow
+                android:layout_width="match_parent"
+                android:layout_height="55dip">
+
+                <RelativeLayout
+                    android:id="@+id/_money_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="?attr/colorPrimary">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/star_button_select">
+
+                        <Button
+                            android:layout_width="24dip"
+                            android:layout_height="24dip"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="5dip"
+                            android:background="@drawable/ic_money"
+                            android:clickable="false"
+                            android:textAllCaps="false" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:clickable="false"
+                            android:text="Money" />
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="1dip"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:background="@drawable/star_button_select" />
+
+                <RelativeLayout
+                    android:id="@+id/_my_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="?attr/colorPrimary">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/star_button_select">
+
+                        <Button
+                            android:layout_width="24dip"
+                            android:layout_height="24dip"
+                            android:layout_alignParentTop="true"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="5dip"
+                            android:background="@drawable/ic_my"
+                            android:clickable="false"
+                            android:textAllCaps="false" />
+
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:clickable="false"
+                            android:text="我" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="1dip"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:background="#626060" />
+
+                <RelativeLayout
+                    android:id="@+id/_plan_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:visibility="gone">
+
+
+                    <Button
+                        android:layout_width="24dip"
+                        android:layout_height="24dip"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dip"
+                        android:background="@drawable/ic_time"
+                        android:clickable="false"
+                        android:textAllCaps="false" />
+
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:clickable="false"
+                        android:text="Plan" />
+
+                </RelativeLayout>
+
+                <View
+                    android:layout_width="1dip"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center_horizontal"
+                    android:background="#626060" />
+
+                <RelativeLayout
+                    android:id="@+id/_time_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:visibility="gone">
+
+                    <Button
+                        android:layout_width="24dip"
+                        android:layout_height="24dip"
+                        android:layout_centerHorizontal="true"
+                        android:layout_marginTop="5dip"
+                        android:background="@drawable/ic_plan"
+                        android:clickable="false"
+                        android:textAllCaps="false" />
+
+                    <TextView
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_alignParentBottom="true"
+                        android:layout_centerHorizontal="true"
+                        android:clickable="false"
+                        android:text="Time" />
+
+                </RelativeLayout>
+
+            </TableRow>
+        </LinearLayout>
+
+        <android.support.design.widget.NavigationView
+            android:id="@+id/nav_view"
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:layout_gravity="start"
+            app:headerLayout="@layout/nav_header_main"
+            app:menu="@menu/activity_main_drawer" />
+    </android.support.v4.widget.DrawerLayout>
+</LinearLayout>

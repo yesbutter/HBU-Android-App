@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <ListView
+        android:id="@+id/_time_list_view"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+    </ListView>
+
+    <FrameLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:layout_weight="1">
+
+        <com.example.qq1296821114.time_and_money.Card.SwipeTimeAdapterView
+            android:id="@+id/_time_frame"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:background="#ffeee9e2"
+            app:rotation_degrees="15.5"
+            tools:context=".MyActivity"/>
+
+        <ImageView
+            android:layout_width="40dip"
+            android:layout_height="40dip"
+            android:src="@drawable/ic_plan"
+            android:id="@+id/_time_add_button"
+            android:layout_gravity="right|bottom"
+            android:layout_marginRight="15dip"
+            android:layout_marginBottom="15dip"/>
+    </FrameLayout>
+
+
+</LinearLayout>

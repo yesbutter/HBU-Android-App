@@ -16,19 +16,19 @@ import android.os.Looper;
 import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
+import android.support.design.widget.NavigationView;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.content.ContextCompat;
-import android.support.v4.view.ViewPager;
-import android.util.Log;
-import android.view.View;
-import android.support.design.widget.NavigationView;
 import android.support.v4.view.GravityCompat;
+import android.support.v4.view.ViewPager;
 import android.support.v4.widget.DrawerLayout;
 import android.support.v7.app.ActionBarDrawerToggle;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
+import android.view.View;
 import android.widget.Toast;
 
 import com.example.a12968.myweather.Activities.Choose_City;
@@ -384,6 +384,8 @@ public class MainActivity extends AppCompatActivity
     }
 
     public static void setTopFragment(int position, int top) {
+
+
         CityFragment.stringItems.get(position).setTop(top);
         cityFragmentAdapter.Fragmentsort();
         cityFragmentAdapter.notifyDataSetChanged();

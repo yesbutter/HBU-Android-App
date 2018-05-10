@@ -1,0 +1,35 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    tools:showIn="navigation_view">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_管理账单"
+            android:icon="@drawable/ic_setting"
+            android:title="管理账单" />
+        <item
+            android:id="@+id/nav_更改颜色"
+            android:icon="@drawable/ic_color"
+            android:title="更改颜色" />
+        <item
+            android:id="@+id/nav_提醒记帐"
+            android:icon="@drawable/ic_savemoney"
+            android:title="提醒记帐" />
+        <item
+            android:id="@+id/nav_退出"
+            android:title="退出" />
+    </group>
+
+    <item android:title="Communicate">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_send"
+                android:title="Send" />
+        </menu>
+    </item>
+
+</menu>

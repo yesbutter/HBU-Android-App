@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="utf-8"?>
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
+
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:orientation="vertical">
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="计划名字"
+            android:gravity="center"
+            />
+        <EditText
+            android:id="@+id/_plan_dialog_edit_text1"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="horizontal">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="计划内容"
+            android:gravity="center"
+            />
+        <EditText
+            android:id="@+id/_plan_dialog_edit_text1.5"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="格言"
+            android:gravity="center"
+            />
+        <EditText
+            android:id="@+id/_plan_dialog_edit_text2"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content">
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="match_parent"
+            android:text="计划时间"
+            android:gravity="center"
+            />
+        <Button
+            android:id="@+id/_plan_dailog_data"
+            android:layout_width="match_parent"
+            android:text="选择时间"
+            android:layout_height="wrap_content" />
+    </LinearLayout>
+
+
+
+    </LinearLayout>
+
