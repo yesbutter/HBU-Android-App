@@ -154,8 +154,8 @@ public class SwipeTimeAdapterView extends BaseFlingAdapterView {
         Resources resources = this.getResources();
         DisplayMetrics dm = resources.getDisplayMetrics();
         float density = dm.density;
-
         lp.setMargins((int) (20*density), (int) (25*density),0,0);
+        lp.gravity=Gravity.CENTER_HORIZONTAL;
 
         addViewInLayout(child, 0, lp, true);
 

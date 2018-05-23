@@ -177,7 +177,7 @@ public class Money_AddFragment extends Fragment implements View.OnClickListener,
             Toast.makeText(getContext(), "添加成功", Toast.LENGTH_SHORT).show();
 
             if (getActivity() instanceof Money_add_Over) {
-                ((Money_add_Over) getActivity()).onfinish();
+                ((Money_add_Over) getActivity()).onEnd();
             }
         } else {
             Toast.makeText(getContext(), "请先设置金额", Toast.LENGTH_SHORT).show();
@@ -185,6 +185,6 @@ public class Money_AddFragment extends Fragment implements View.OnClickListener,
     }
 
     public interface Money_add_Over {
-        void onfinish();
+        void onEnd();
     }
 }

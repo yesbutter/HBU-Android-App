@@ -1,9 +1,10 @@
 <?xml version="1.0" encoding="utf-8"?>
-<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
-    android:layout_width="match_parent"
+<android.support.constraint.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:id="@+id/header_layout"
+    android:layout_width="280dip"
     android:layout_height="176dip"
     android:gravity="bottom"
-    android:orientation="vertical"
     android:theme="@style/ThemeOverlay.AppCompat.Dark">
 
 
@@ -11,20 +12,42 @@
         android:id="@+id/icon_image"
         android:layout_width="70dp"
         android:layout_height="70dp"
-        android:layout_centerInParent="true"
-        android:layout_marginLeft="40dip"
-        android:src="@drawable/hbulogo" />
+        android:src="@drawable/ic_my"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.415" />
 
-    <TextView
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:text="欢迎提出错误"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1" />
-
-    <TextView
-        android:id="@+id/textView"
+    <Button
+        android:id="@+id/_drawer_register"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="我的邮箱：1296821114@qq.com" />
+        android:layout_marginBottom="24dp"
+        android:layout_marginStart="44dp"
+        android:text="注册"
+        android:textColor="@color/colorBlack"
+        android:background="@drawable/shape_corner"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/icon_image"
+        app:layout_constraintVertical_bias="0.2" />
 
-</LinearLayout>
+    <Button
+        android:id="@+id/_drawer_login"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="24dp"
+        android:background="@drawable/shape_corner"
+        android:textColor="@color/colorBlack"
+        android:layout_marginEnd="24dp"
+        android:layout_marginStart="24dp"
+        android:text="登录"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toEndOf="@+id/_drawer_register"
+        app:layout_constraintTop_toBottomOf="@+id/icon_image"
+        app:layout_constraintVertical_bias="0.2" />
+
+
+</android.support.constraint.ConstraintLayout>

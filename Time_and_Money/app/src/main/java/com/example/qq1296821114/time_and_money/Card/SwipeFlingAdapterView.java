@@ -155,8 +155,9 @@ public class SwipeFlingAdapterView extends BaseFlingAdapterView {
         DisplayMetrics dm = resources.getDisplayMetrics();
         float density = dm.density;
 
-        lp.setMargins((int) (30*density), (int) (25*density),0,0);
+        //lp.setMargins((int) (30*density), (int) (25*density),0,0);
 
+        lp.gravity=Gravity.CENTER_HORIZONTAL|Gravity.CENTER_VERTICAL;
         addViewInLayout(child, 0, lp, true);
 
 

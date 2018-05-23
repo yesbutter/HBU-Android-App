@@ -50,28 +50,12 @@ public class MyDB {
             myDB = new MyDB(context);
 
             if (myDB.loadMoney_Day().isEmpty()) {
-            /*
-                for (int i = 0; i < 10; i++) {
-                    Random rnd = new Random();
-                    double rndint = rnd.nextInt(100);
-                    for (int year = 2016; year < 2018; year++) {
-                        for (int k = 0; k < 12; k++) {
-                            for (int j = 0; j < 30; j++) {
-                                myDB.saveMoney(new Money(rndint, new Date(year, k, j)));
-                            }
-                        }
-                    }
-                }
-                */
                 myDB.saveMoney(new Money(20));
                 myDB.saveMoney(new Money(12));
             }
             if (myDB.loadPlan().isEmpty()) {
-                myDB.savePlan(new Plan("TestPlan", "Motto", "_Test_Body", new Date()));
             }
             if (myDB.loadTime().isEmpty()) {
-                myDB.saveTime(new Time("Demo", "Body", new Date()));
-                myDB.saveTime(new Time("Demo2", "Body2", new Date()));
             }
         }
         return myDB;

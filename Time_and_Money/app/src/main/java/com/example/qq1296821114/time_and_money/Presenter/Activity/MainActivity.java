@@ -5,6 +5,8 @@ import android.content.Context;
 import android.content.Intent;
 import android.content.SharedPreferences;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
@@ -21,12 +23,14 @@ import android.widget.ImageView;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 import android.support.v7.widget.Toolbar;
-import android.widget.Toast;
 
 import com.example.qq1296821114.time_and_money.Adapter.FragmentAdapter;
 import com.example.qq1296821114.time_and_money.DataBase.MyDB;
 import com.example.qq1296821114.time_and_money.Model.Money;
 import com.example.qq1296821114.time_and_money.Presenter.Dialog.ChooseColorDialog;
+import com.example.qq1296821114.time_and_money.Presenter.Dialog.DataSync_Dialog;
+import com.example.qq1296821114.time_and_money.Presenter.Dialog.Login_Dialog;
+import com.example.qq1296821114.time_and_money.Presenter.Dialog.Register_Dialog;
 import com.example.qq1296821114.time_and_money.Presenter.Fragment.Money_AddFragment;
 import com.example.qq1296821114.time_and_money.Presenter.Fragment.Money_Fragment;
 import com.example.qq1296821114.time_and_money.Presenter.Fragment.Time_AddFragment;
@@ -40,6 +44,8 @@ import com.example.qq1296821114.time_and_money.View.MyViewPage;
 public class MainActivity extends AppCompatActivity implements View.OnClickListener, Money_Fragment.Money_add_Click, Money_AddFragment.Money_add_Over, Time_Fragment.Time_add_Click, Time_AddFragment.Time_add_Over, NavigationView.OnNavigationItemSelectedListener {
 
     private static final String TAG = "MainActivity";
+    private static final int REFRESH = -1;
+
     private MyViewPage viewPager = null;
     private FragmentAdapter myfragmentAdapter;
     private RelativeLayout _money_button, _my_button, _plan_button, _time_button;
@@ -49,6 +55,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static Context context;
     private Toolbar toolbar;
     private NavigationView navigationView;
+    private Button _draw_login, _draw_register;
     private DrawerLayout drawerLayout;
     private static int colors = R.color.coffeeBrown;
     private ChooseColorDialog.ColorChoose colorChoose = new ChooseColorDialog.ColorChoose() {
@@ -100,11 +107,33 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     color = R.color.zhihuBlue;
                     break;
             }
-            changeColor(color);
             SharedPreferences.Editor editor = PreferenceManager.getDefaultSharedPreferences(context).edit();
             editor.putInt("id", id);
             editor.putInt("color", color);
             editor.commit();
+
+            Message message = new Message();
+            message.what = REFRESH;
+            handler.sendMessage(message);
+
+        }
+    };
+
+    @SuppressLint("HandlerLeak")
+    private Handler handler = new Handler() {
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch ((msg.what)) {
+                case REFRESH:
+                    Intent intent = new Intent(context, MainActivity.class);
+                    startActivity(intent);
+                    finish();
+//                    onCreate(null);
+                    break;
+                default:
+                    break;
+            }
         }
     };
 
@@ -113,20 +142,26 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         super.onCreate(savedInstanceState);
         myDB = MyDB.getMyDB(this);
         context = this;
-        toolbar = findViewById(R.id._main_Toolbar);
-        setTheme(R.style.CoffeeBrownTheme);
         SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(MainActivity.this);
-        if (sharedPreferences != null) {
-            if (sharedPreferences.getInt("color", 0) != 0) {
-                setTheme(sharedPreferences.getInt("id", 0));
-                setColor(getResources().getColor(sharedPreferences.getInt("color", 0)));
-            }
+        if (sharedPreferences.getInt("id", 0) != 0) {
+            setTheme(sharedPreferences.getInt("id", 0));
+            setColor(getResources().getColor(sharedPreferences.getInt("color", 0)));
+        } else {
+            setTheme(R.style.ZhiHuBlueTheme);
+            setColor(getResources().getColor(R.color.zhihuBlue));
         }
         setContentView(R.layout.activity_main);
         init_view();
+
+        if (!sharedPreferences.getString("user", "").equals("")) {
+            Log.e(TAG, "onCreate: " + sharedPreferences.getString("user", ""));
+            _draw_register.setText("注销");
+            _draw_login.setText("数据同步");
+        }
     }
 
     //找到视图，设置监听时间
+    @SuppressLint("CutPasteId")
     private void init_view() {
         viewPager = findViewById(R.id.main_viewpager);
         viewPager.setScanScroll(false);
@@ -136,6 +171,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         _my_button = findViewById(R.id._my_button);
         _plan_button = findViewById(R.id._plan_button);
         _time_button = findViewById(R.id._time_button);
+        toolbar = findViewById(R.id._main_Toolbar);
         _money_button.setOnClickListener(this);
         _my_button.setOnClickListener(this);
         _plan_button.setOnClickListener(this);
@@ -150,6 +186,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
         navigationView = findViewById(R.id.nav_view);
         navigationView.setNavigationItemSelectedListener(this);
+
 
         drawerLayout = findViewById(R.id._main_drawer_layout);
         drawerLayout.addDrawerListener(new DrawerLayout.DrawerListener() {
@@ -179,10 +216,20 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
 
             }
         });
+        _draw_login = navigationView.getHeaderView(0).findViewById(R.id._drawer_login);
+        _draw_register = navigationView.getHeaderView(0).findViewById(R.id._drawer_register);
+        _draw_login.setOnClickListener(this);
+        _draw_register.setOnClickListener(this);
     }
 
+    @Override
+    public void finish() {
+        super.finish();
+        Log.e(TAG, "finish: ");
+    }
 
     //点击事件
+    @SuppressLint("CommitPrefEdits")
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
@@ -228,19 +275,39 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     drawerLayout.closeDrawer(GravityCompat.START);
                 }
-//                switch (viewPager.getCurrentItem()) {
-//                    case 0:
-//                        break;
-//                    case 1:
-//                        break;
-//                    case 2:
-//                        break;
-//                    case 3:
-//                        break;
-//                    default:
-//                        break;
-//                }
             }
+            break;
+            case R.id._drawer_login:
+                if (_draw_login.getText().toString().equals("登录")) {
+                    Login_Dialog login_dialog = new Login_Dialog(this, getColors(), new Login_Dialog.Login_dialog_listener() {
+                        @Override
+                        public void login() {
+                            _draw_register.setText("注销");
+                            _draw_login.setText("数据同步");
+                        }
+                    });
+                    login_dialog.show();
+                } else {
+                    DataSync_Dialog dataSync_dialog = new DataSync_Dialog(this, getColors());
+                    dataSync_dialog.show();
+                }
+                break;
+            case R.id._drawer_register:
+                if (_draw_register.getText().toString().equals("注册")) {
+                    Register_Dialog registerDialog = new Register_Dialog(this, getColors());
+                    registerDialog.show();
+                } else {
+                    _draw_register.setText("注册");
+                    _draw_login.setText("登录");
+                    SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
+                    SharedPreferences.Editor editor = sharedPreferences.edit();
+                    Log.e(TAG, "onClick: " + sharedPreferences.getString("user", ""));
+                    editor.remove("user");
+                    editor.remove("password");
+                    editor.commit();
+                    Log.e(TAG, "onClick: " + sharedPreferences.getString("user", ""));
+                }
+                break;
             default:
                 break;
         }
@@ -266,7 +333,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     @Override
-    public void onfinish() {
+    public void onEnd() {
         viewPager.setCurrentItem(0, false);
         myfragmentAdapter.notifyDataSetChanged();
     }
@@ -310,11 +377,13 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-    private void changeColor(int color) {
-        toolbar = findViewById(R.id._main_Toolbar);
-        toolbar.setBackgroundColor(getResources().getColor(color));
-        _money_button.setBackgroundColor(getResources().getColor(color));
-        _my_button.setBackgroundColor(getResources().getColor(color));
-        setColor(getResources().getColor(color));
-    }
+//    private void changeColor(int color) {
+//        toolbar = findViewById(R.id._main_Toolbar);
+//        toolbar.setBackgroundColor(getResources().getColor(color));
+//        _money_button.setBackgroundColor(getResources().getColor(color));
+//        _my_button.setBackgroundColor(getResources().getColor(color));
+//        _draw_register.setBackgroundColor(getResources().getColor(color));
+//        _draw_login.setBackgroundColor(getResources().getColor(color));
+//        setColor(getResources().getColor(color));
+//    }
 }

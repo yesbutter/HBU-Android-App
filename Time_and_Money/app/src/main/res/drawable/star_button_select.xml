@@ -9,7 +9,7 @@
     <item android:state_pressed="false">
         <shape android:shape="rectangle">
             <!--透明度为12的黑色-->
-            <solid android:color="#e6ffffff"/>
+            <solid android:color="#d0ffffff"/>
         </shape>
     </item>
 </selector>

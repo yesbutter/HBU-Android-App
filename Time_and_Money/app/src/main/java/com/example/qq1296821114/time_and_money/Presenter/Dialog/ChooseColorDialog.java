@@ -40,15 +40,6 @@ public class ChooseColorDialog extends Dialog implements View.OnClickListener{
         btn7.setOnClickListener(this);
         btn8.setOnClickListener(this);
         btn9.setOnClickListener(this);
-        btn1.getBackground().setAlpha(200);//0~255透明度值
-        btn2.getBackground().setAlpha(200);//0~255透明度值
-        btn3.getBackground().setAlpha(200);//0~255透明度值
-        btn4.getBackground().setAlpha(200);//0~255透明度值
-        btn5.getBackground().setAlpha(200);//0~255透明度值
-        btn6.getBackground().setAlpha(200);//0~255透明度值
-        btn7.getBackground().setAlpha(200);//0~255透明度值
-        btn8.getBackground().setAlpha(200);//0~255透明度值
-        btn9.getBackground().setAlpha(200);//0~255透明度值
 
     }
 

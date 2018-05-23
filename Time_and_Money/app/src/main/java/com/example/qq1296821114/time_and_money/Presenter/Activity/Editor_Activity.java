@@ -1,5 +1,6 @@
 package com.example.qq1296821114.time_and_money.Presenter.Activity;
 
+import android.annotation.SuppressLint;
 import android.app.Activity;
 import android.os.Bundle;
 import android.support.v7.app.AppCompatActivity;
@@ -114,6 +115,7 @@ public class Editor_Activity extends AppCompatActivity implements View.OnClickLi
 
     }
 
+    @SuppressLint("SetTextI18n")
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id._money_dialog_0:

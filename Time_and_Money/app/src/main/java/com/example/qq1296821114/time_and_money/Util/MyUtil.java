@@ -81,4 +81,8 @@ public class MyUtil {
     }
 
 
+    public static boolean isNetworkAvailable(){
+        return true;
+    }
+
 }

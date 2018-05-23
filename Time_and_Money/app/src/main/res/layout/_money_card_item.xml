@@ -3,6 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="300dip"
     android:layout_height="200dip"
+    android:background="@drawable/shape_corner"
     android:layout_gravity="center"
     android:orientation="vertical">
 

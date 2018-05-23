@@ -55,7 +55,9 @@
                 android:id="@+id/main_viewpager"
                 android:layout_width="match_parent"
                 android:layout_height="match_parent"
-                android:layout_weight="2"></com.example.qq1296821114.time_and_money.View.MyViewPage>
+                android:layout_weight="2">
+
+            </com.example.qq1296821114.time_and_money.View.MyViewPage>
 
             <TableRow
                 android:layout_width="match_parent"
