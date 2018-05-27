@@ -1,12 +1,10 @@
 package com.example.qq1296821114.time_and_money.Util;
 
-import android.app.ProgressDialog;
-import android.content.Context;
 import android.util.Log;
 
 import com.example.qq1296821114.time_and_money.DataBase.MyDB;
 import com.example.qq1296821114.time_and_money.Model.Money;
-import com.example.qq1296821114.time_and_money.Presenter.Dialog.DataSync_Dialog;
+import com.example.qq1296821114.time_and_money.Model.User;
 
 import java.sql.Connection;
 import java.sql.DriverManager;
@@ -14,6 +12,7 @@ import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
 import java.sql.Statement;
+import java.util.ArrayList;
 import java.util.List;
 
 import static android.content.ContentValues.TAG;
@@ -45,7 +44,7 @@ public class DataBaseUtil {
     }
 
 
-    public static void dataBase_register(final String insert, final DataBase_register_Listener dataBase_register_listener) {
+    public static void dataBase_register(final String insert, final DataBase_Listener dataBase__listener) {
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -59,16 +58,16 @@ public class DataBaseUtil {
                     con = DriverManager.getConnection(url, user, password);
                     con.prepareStatement(insert).executeUpdate();
                     con.close();
-                    dataBase_register_listener.finish(null);
+                    dataBase__listener.finish(null);
                 } catch (SQLException e) {
                     e.printStackTrace();
-                    dataBase_register_listener.error();
+                    dataBase__listener.error();
                 }
             }
         }).start();
     }
 
-    public static void dataBase_Check(String name, final DataBase_register_Listener dataBase_register_listener) {
+    public static void dataBase_Check(String name, final DataBase_Listener dataBase__listener) {
 
         final String check="select person_password\n" +
                 "from person\n"
@@ -102,15 +101,15 @@ public class DataBaseUtil {
                     }
                     Log.e(TAG, "run:"+result);
                     con.close();
-                    dataBase_register_listener.finish(result);
+                    dataBase__listener.finish(result);
                 } catch (SQLException e) {
-                    dataBase_register_listener.error();
+                    dataBase__listener.error();
                     e.printStackTrace();
                 }
             }
         }).start();
     }
-    public static void dataBase_upload(final MyDB myDB, final String users, final DataBase_register_Listener dataBase_register_listener)
+    public static void dataBase_upload(final MyDB myDB, final String users, final DataBase_Listener dataBase__listener)
     {
         final String delete="delete \n" +
                 "from user_money\n" +
@@ -145,16 +144,16 @@ public class DataBaseUtil {
                     preparedStatement.executeUpdate();
                     preparedStatement.close();
                     con.close();
-                    dataBase_register_listener.finish("");
+                    dataBase__listener.finish("");
                 } catch (SQLException e) {
                     e.printStackTrace();
-                    dataBase_register_listener.error();
+                    dataBase__listener.error();
                 }
             }
         }).start();
     }
 
-    public static void dataBase_download(final MyDB myDB, final String users, final DataBase_register_Listener dataBase_register_listener)
+    public static void dataBase_download(final MyDB myDB, final String users, final DataBase_Listener dataBase__listener)
     {
         final String select="select *\n"
                 +"from user_money\n"
@@ -185,17 +184,90 @@ public class DataBaseUtil {
                         Log.e(TAG, "run: "+"增加一条记录"+money.toString() );
                     }
                     con.close();
-                    dataBase_register_listener.finish("");
+                    dataBase__listener.finish("");
                 } catch (SQLException e) {
-                    dataBase_register_listener.error();
+                    dataBase__listener.error();
                     e.printStackTrace();
                 }
             }
         }).start();
     }
 
+    public static void dataBase_SelectUser(final DataBase_Select_Listener dataBase_select_listener)
+    {
+        final String check="select person_name,person_password\n" +
+                "from person\n";
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Connection con = null;
+                try {
+                    Class.forName(drives);//加载驱动换成这个
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    List<User> list=new ArrayList<>();
+                    con = DriverManager.getConnection(url, user, password);
+                    Statement statement=con.createStatement();
+                    ResultSet resultSet=statement.executeQuery(check);
+                    String result = null;
+                    while (resultSet.next()) {
+                        User user = new User();
+                        user.setUser(resultSet.getString("person_name").trim());
+                        if(user.getUser().trim().equals("admin"))
+                            continue;
+                        user.setPassword(resultSet.getString("person_password"));
+                        list.add(user);
+                        result+=resultSet.getString("person_name");
+                        result+= resultSet.getString("person_password");
+                    }
+                    Log.e(TAG, "run:"+result);
+                    con.close();
+                    dataBase_select_listener.finish(list);
+                } catch (SQLException e) {
+                    dataBase_select_listener.error();
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
 
-    public interface DataBase_register_Listener {
+    public static void dataBase_DeleteUser(String name,final DataBase_Listener dataBase_listener)
+    {
+        final String delete="delete \n" +
+                "from person\n"+
+                "where person_name='"+name+"';";
+        new Thread(new Runnable() {
+            @Override
+            public void run() {
+                Connection con = null;
+                try {
+                    Class.forName(drives);//加载驱动换成这个
+                } catch (Exception e) {
+                    e.printStackTrace();
+                }
+                try {
+                    con = DriverManager.getConnection(url, user, password);
+                    PreparedStatement preparedStatement;
+                    preparedStatement=con.prepareStatement(delete);
+                    preparedStatement.executeUpdate();
+                    preparedStatement.close();
+                    con.close();
+                    dataBase_listener.finish(null);
+                } catch (SQLException e) {
+                    dataBase_listener.error();
+                    e.printStackTrace();
+                }
+            }
+        }).start();
+    }
+
+    public interface DataBase_Select_Listener{
+        void finish(List<User> list);
+        void error();
+    }
+    public interface DataBase_Listener {
         void finish(String result);
         void error();
     }

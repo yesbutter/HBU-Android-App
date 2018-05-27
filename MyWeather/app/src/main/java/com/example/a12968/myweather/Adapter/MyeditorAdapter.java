@@ -2,6 +2,7 @@ package com.example.a12968.myweather.Adapter;
 
 import android.content.Context;
 import android.graphics.Color;
+import android.support.annotation.NonNull;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -30,6 +31,7 @@ public abstract class MyeditorAdapter extends ArrayAdapter<StringItem> {
     }
 
 
+    @NonNull
     public View getView(int position, View converView, ViewGroup parent) {
         StringItem stringItem = getItem(position);
         View view;

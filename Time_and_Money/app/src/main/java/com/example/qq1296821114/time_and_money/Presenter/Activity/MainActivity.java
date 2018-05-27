@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.content.pm.PackageManager;
 import android.graphics.Bitmap;
 import android.graphics.BitmapFactory;
-import android.graphics.Matrix;
 import android.net.Uri;
 import android.os.Bundle;
 import android.os.Environment;
@@ -19,7 +18,6 @@ import android.preference.PreferenceManager;
 import android.provider.MediaStore;
 import android.support.annotation.NonNull;
 import android.support.design.widget.NavigationView;
-import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
 import android.support.v4.view.GravityCompat;
 import android.support.v4.widget.DrawerLayout;
@@ -53,11 +51,8 @@ import com.example.qq1296821114.time_and_money.View.MyViewPage;
 
 import java.io.File;
 import java.io.FileNotFoundException;
-import java.util.Objects;
 
 import de.hdodenhof.circleimageview.CircleImageView;
-
-import static android.content.ContentValues.TAG;
 
 /**
  * 主活动，用来显示，和处理一些简单的逻辑。
@@ -67,15 +62,15 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private static final String TAG = "MainActivity";
     private static final int REFRESH = -1;
     private static final int PHOTO = 0;
-    private static final int PHOTOSD = 1;
+    private static final int PHOTO_SD = 1;
     private static final int CROP_SMALL_PICTURE = 2;
 
-    private Uri tempUri, uritempFile;
+    private Uri tempUri, uri_tempFile;
     private MyViewPage viewPager = null;
-    private FragmentAdapter myfragmentAdapter;
-    private RelativeLayout _money_button, _my_button, _plan_button, _time_button;
+    private FragmentAdapter my_fragmentAdapter;
+    private RelativeLayout _money_button, _my_button, _plan_button, _time_button,_admin_button;
     private TextView textView;
-    private ImageView _main_menu, _main_mybutton;
+    private ImageView _main_menu, _main_my_button;
     private static MyDB myDB;
     private static Context context;
     private Toolbar toolbar;
@@ -165,11 +160,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     openCameraIntent.putExtra(MediaStore.EXTRA_OUTPUT, tempUri);
                     startActivityForResult(openCameraIntent, PHOTO);
                     break;
-                case PHOTOSD:
+                case PHOTO_SD:
                     Intent openAlbumIntent = new Intent(
                             Intent.ACTION_GET_CONTENT);
                     openAlbumIntent.setType("image/*");
-                    startActivityForResult(openAlbumIntent, PHOTOSD);
+                    startActivityForResult(openAlbumIntent, PHOTO_SD);
                     break;
                 default:
                     break;
@@ -185,14 +180,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 case PHOTO:
                     startPhotoZoom(tempUri);
                     break;
-                case PHOTOSD:
+                case PHOTO_SD:
                     startPhotoZoom(data.getData());
                     break;
                 case CROP_SMALL_PICTURE:
                     Log.e(TAG, "onActivityResult: " + 1);
                     Bitmap bitmap = null;
                     try {
-                        bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uritempFile));
+                        bitmap = BitmapFactory.decodeStream(getContentResolver().openInputStream(uri_tempFile));
                     } catch (FileNotFoundException e) {
                         e.printStackTrace();
                         Log.e(TAG, "onActivityResult: " + 3);
@@ -223,6 +218,11 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
             Log.e(TAG, "onCreate: " + sharedPreferences.getString("user", ""));
             _draw_register.setText("注销");
             _draw_login.setText("数据同步");
+            if(sharedPreferences.getString("user", "").equals("admin"))
+            {
+                _admin_button.setVisibility(View.VISIBLE);
+            }
+
         }
 
         StrictMode.VmPolicy.Builder builder = new StrictMode.VmPolicy.Builder();
@@ -247,8 +247,8 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         intent.putExtra("outputY", 150);
         intent.putExtra("return-data", true);
         Log.e(TAG, "startPhotoZoom: " + "i am come");
-        uritempFile = Uri.parse("file://" + "/" + Environment.getExternalStorageDirectory().getPath() + "/" + "small.jpg");
-        intent.putExtra(MediaStore.EXTRA_OUTPUT, uritempFile);
+        uri_tempFile = Uri.parse("file://" + "/" + Environment.getExternalStorageDirectory().getPath() + "/" + "small.jpg");
+        intent.putExtra(MediaStore.EXTRA_OUTPUT, uri_tempFile);
         intent.putExtra("outputFormat", Bitmap.CompressFormat.JPEG.toString());
         startActivityForResult(intent, CROP_SMALL_PICTURE);
     }
@@ -258,22 +258,24 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     private void init_view() {
         viewPager = findViewById(R.id.main_viewpager);
         viewPager.setScanScroll(false);
-        myfragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), getApplicationContext());
-        viewPager.setAdapter(myfragmentAdapter);
+        my_fragmentAdapter = new FragmentAdapter(getSupportFragmentManager(), getApplicationContext());
+        viewPager.setAdapter(my_fragmentAdapter);
         _money_button = findViewById(R.id._money_button);
         _my_button = findViewById(R.id._my_button);
         _plan_button = findViewById(R.id._plan_button);
         _time_button = findViewById(R.id._time_button);
         toolbar = findViewById(R.id._main_Toolbar);
+        _admin_button=findViewById(R.id._admin_button);
         _money_button.setOnClickListener(this);
         _my_button.setOnClickListener(this);
         _plan_button.setOnClickListener(this);
         _time_button.setOnClickListener(this);
+        _admin_button.setOnClickListener(this);
 
         _main_menu = findViewById(R.id._main_menu);
-        _main_mybutton = findViewById(R.id._main_mybutton);
+        _main_my_button = findViewById(R.id._main_mybutton);
         _main_menu.setOnClickListener(this);
-        _main_mybutton.setOnClickListener(this);
+        _main_my_button.setOnClickListener(this);
 
         textView = findViewById(R.id._main_mytext);
 
@@ -293,7 +295,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Animation rotateAnimation = AnimationUtils.loadAnimation(context, R.anim.rotate_anim);
                 rotateAnimation.setFillAfter(true);
                 rotateAnimation.setFillEnabled(true);
-                _main_mybutton.startAnimation(rotateAnimation);
+                _main_my_button.startAnimation(rotateAnimation);
             }
 
             @Override
@@ -301,7 +303,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 Animation rotateAnimation = AnimationUtils.loadAnimation(context, R.anim.reoate_reanim);
                 rotateAnimation.setFillAfter(true);
                 rotateAnimation.setFillEnabled(true);
-                _main_mybutton.startAnimation(rotateAnimation);
+                _main_my_button.startAnimation(rotateAnimation);
             }
 
             @Override
@@ -324,28 +326,28 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     }
 
     //点击事件
-    @SuppressLint("CommitPrefEdits")
+    @SuppressLint({"CommitPrefEdits", "SetTextI18n"})
     @Override
     public void onClick(View view) {
         switch (view.getId()) {
             case R.id._money_button:
                 viewPager.setCurrentItem(0);
-                myfragmentAdapter.notifyDataSetChanged();
+                my_fragmentAdapter.notifyDataSetChanged();
                 textView.setText("Money");
                 break;
             case R.id._my_button:
                 viewPager.setCurrentItem(1);
-                myfragmentAdapter.notifyDataSetChanged();
+                my_fragmentAdapter.notifyDataSetChanged();
                 textView.setText("My");
                 break;
             case R.id._plan_button:
                 viewPager.setCurrentItem(2);
-                myfragmentAdapter.notifyDataSetChanged();
+                my_fragmentAdapter.notifyDataSetChanged();
                 break;
             case R.id._time_button:
                 viewPager.setCurrentItem(3);
                 textView.setText("Time");
-                myfragmentAdapter.notifyDataSetChanged();
+                my_fragmentAdapter.notifyDataSetChanged();
                 break;
 
             case R.id._money_add:
@@ -377,8 +379,14 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                     Login_Dialog login_dialog = new Login_Dialog(this, new Login_Dialog.Login_dialog_listener() {
                         @Override
                         public void login() {
+                            SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(context);
+                            if(sharedPreferences.getString("user","").equals("admin"))
+                            {
+                                _admin_button.setVisibility(View.VISIBLE);
+                            }
                             _draw_register.setText("注销");
                             _draw_login.setText("数据同步");
+
                         }
                     });
                     login_dialog.show();
@@ -431,7 +439,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                             if (ActivityCompat.checkSelfPermission(context, Manifest.permission.WRITE_EXTERNAL_STORAGE)
                                     == PackageManager.PERMISSION_GRANTED) {
                                 Message message = new Message();
-                                message.what = PHOTOSD;
+                                message.what = PHOTO_SD;
                                 handler.sendMessage(message);
                             }
                         }
@@ -440,6 +448,10 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     Toast.makeText(context, "请先登录", Toast.LENGTH_SHORT).show();
                 }
+                break;
+            case R.id._admin_button:
+                viewPager.setCurrentItem(7);
+                my_fragmentAdapter.notifyDataSetChanged();
                 break;
             default:
                 break;
@@ -493,25 +505,25 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
     @Override
     public void OneBtnClick() {
         viewPager.setCurrentItem(5, false);
-        myfragmentAdapter.notifyDataSetChanged();
+        my_fragmentAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void onEnd() {
         viewPager.setCurrentItem(0, false);
-        myfragmentAdapter.notifyDataSetChanged();
+        my_fragmentAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void OneBtnClick2() {
         viewPager.setCurrentItem(6, false);
-        myfragmentAdapter.notifyDataSetChanged();
+        my_fragmentAdapter.notifyDataSetChanged();
     }
 
     @Override
     public void on_time_finish() {
         viewPager.setCurrentItem(3, false);
-        myfragmentAdapter.notifyDataSetChanged();
+        my_fragmentAdapter.notifyDataSetChanged();
     }
 
     @Override
@@ -521,7 +533,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         switch (item.getItemId()) {
             case R.id.nav_管理账单:
                 viewPager.setCurrentItem(4, false);
-                myfragmentAdapter.notifyDataSetChanged();
+                my_fragmentAdapter.notifyDataSetChanged();
                 break;
             case R.id.nav_更改颜色:
                 ChooseColorDialog chooseColorDialog = new ChooseColorDialog(this, colorChoose);
@@ -541,13 +553,4 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
         return true;
     }
 
-//    private void changeColor(int color) {
-//        toolbar = findViewById(R.id._main_Toolbar);
-//        toolbar.setBackgroundColor(getResources().getColor(color));
-//        _money_button.setBackgroundColor(getResources().getColor(color));
-//        _my_button.setBackgroundColor(getResources().getColor(color));
-//        _draw_register.setBackgroundColor(getResources().getColor(color));
-//        _draw_login.setBackgroundColor(getResources().getColor(color));
-//        setColor(getResources().getColor(color));
-//    }
 }

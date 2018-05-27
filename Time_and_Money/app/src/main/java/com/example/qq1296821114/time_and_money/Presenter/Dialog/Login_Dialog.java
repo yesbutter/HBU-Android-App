@@ -100,8 +100,8 @@ public class Login_Dialog extends Dialog implements View.OnClickListener {
         login_login.setOnClickListener(this);
         login_back.setOnClickListener(this);
 
-        login_back.getBackground().setAlpha(255);
-        login_login.getBackground().setAlpha(100);
+        login_back.getBackground().setAlpha(0);
+        login_login.getBackground().setAlpha(0);
         constraintLayout.getBackground().setAlpha(200);
     }
 
@@ -113,7 +113,7 @@ public class Login_Dialog extends Dialog implements View.OnClickListener {
                     final String ans = login_password.getText().toString();
                     if (MyUtil.isNetworkAvailable(getContext())) {
                         MyUtil.showProgressDialog(getContext());
-                        DataBaseUtil.dataBase_Check(login_user.getText().toString(), new DataBaseUtil.DataBase_register_Listener() {
+                        DataBaseUtil.dataBase_Check(login_user.getText().toString(), new DataBaseUtil.DataBase_Listener() {
                             @Override
                             public void finish(String result) {
                                 Message message = new Message();

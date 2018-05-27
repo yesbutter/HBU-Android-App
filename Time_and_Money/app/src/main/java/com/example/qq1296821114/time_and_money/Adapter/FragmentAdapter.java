@@ -5,6 +5,7 @@ import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentPagerAdapter;
 
+import com.example.qq1296821114.time_and_money.Presenter.Fragment.AdminFragment;
 import com.example.qq1296821114.time_and_money.Presenter.Fragment.Money_AddFragment;
 import com.example.qq1296821114.time_and_money.Presenter.Fragment.Money_Fragment;
 import com.example.qq1296821114.time_and_money.Presenter.Fragment.Money_Fragment_show;
@@ -20,7 +21,7 @@ import com.example.qq1296821114.time_and_money.Presenter.Fragment.Time_Fragment;
 
 public class FragmentAdapter extends FragmentPagerAdapter {
 
-    private final int PAGE_COUNT = 7; //总页数
+    private final int PAGE_COUNT = 8; //总页数
     private Plan_Fragment plan_fragment;
     private My_Fragment my_fragment;
     private Time_Fragment time_fragment;
@@ -28,6 +29,7 @@ public class FragmentAdapter extends FragmentPagerAdapter {
     private Money_Fragment_show money_fragment_show;
     private Money_AddFragment money_addFragment;
     private Time_AddFragment time_addFragment;
+    private AdminFragment adminFragment;
     private Context context;
 
 
@@ -41,6 +43,7 @@ public class FragmentAdapter extends FragmentPagerAdapter {
         money_fragment_show = new Money_Fragment_show();
         money_addFragment=new Money_AddFragment();
         time_addFragment=new Time_AddFragment();
+        adminFragment=new AdminFragment();
     }
 
     //在获取碎片的时候调用，应该是就调用一次。
@@ -69,6 +72,8 @@ public class FragmentAdapter extends FragmentPagerAdapter {
             case 6:
                 fragment=time_addFragment;
                 break;
+            case 7:
+                fragment=adminFragment;
             default:
                 break;
         }

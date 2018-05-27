@@ -60,8 +60,8 @@ public class ChangePhoto_Dialog extends Dialog implements View.OnClickListener {
         sdphoto.setOnClickListener(this);
 
         constraintLayout.getBackground().setAlpha(200);
-        photo.getBackground().setAlpha(200);
-        sdphoto.getBackground().setAlpha(200);
+        photo.getBackground().setAlpha(0);
+        sdphoto.getBackground().setAlpha(0);
     }
 
     @Override

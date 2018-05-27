@@ -2,7 +2,6 @@ package com.example.a12968.myweather.Adapter;
 
 import android.support.v4.app.Fragment;
 import android.support.v4.app.FragmentManager;
-import android.support.v4.app.FragmentPagerAdapter;
 import android.support.v4.app.FragmentStatePagerAdapter;
 import android.support.v4.app.FragmentTransaction;
 
@@ -12,6 +11,7 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 /**
+ *
  * Created by t-lidashao on 18-2-26.
  */
 

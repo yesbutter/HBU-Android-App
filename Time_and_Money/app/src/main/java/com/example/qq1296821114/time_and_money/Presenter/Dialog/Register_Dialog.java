@@ -90,8 +90,8 @@ public class Register_Dialog extends Dialog implements View.OnClickListener {
         register_register.setOnClickListener(this);
 
         constraintLayout.getBackground().setAlpha(200);
-        register_login.getBackground().setAlpha(200);
-        register_register.getBackground().setAlpha(200);
+        register_login.getBackground().setAlpha(0);
+        register_register.getBackground().setAlpha(0);
     }
 
     @Override
@@ -106,7 +106,7 @@ public class Register_Dialog extends Dialog implements View.OnClickListener {
                             "VALUES('" + register_user.getText().toString() + "','"
                             + register_password.getText().toString() + "'," + R.style.ZhiHuBlueTheme + ");";
                     MyUtil.showProgressDialog(getContext());
-                    DataBaseUtil.dataBase_register( insert, new DataBaseUtil.DataBase_register_Listener() {
+                    DataBaseUtil.dataBase_register( insert, new DataBaseUtil.DataBase_Listener() {
                         @Override
                         public void finish(String result) {
                             Message message=new Message();

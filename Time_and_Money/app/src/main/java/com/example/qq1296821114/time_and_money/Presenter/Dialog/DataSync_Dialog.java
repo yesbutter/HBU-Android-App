@@ -1,10 +1,7 @@
 package com.example.qq1296821114.time_and_money.Presenter.Dialog;
 
 import android.app.Dialog;
-import android.app.ProgressDialog;
 import android.content.Context;
-import android.content.Intent;
-import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
@@ -17,11 +14,9 @@ import android.widget.Button;
 import android.widget.Toast;
 
 import com.example.qq1296821114.time_and_money.DataBase.MyDB;
-import com.example.qq1296821114.time_and_money.Presenter.Activity.MainActivity;
 import com.example.qq1296821114.time_and_money.R;
 import com.example.qq1296821114.time_and_money.Util.DataBaseUtil;
 import com.example.qq1296821114.time_and_money.Util.MyUtil;
-import com.github.mikephil.charting.utils.Utils;
 
 public class DataSync_Dialog extends Dialog implements View.OnClickListener {
     private ConstraintLayout constraintLayout;
@@ -60,8 +55,8 @@ public class DataSync_Dialog extends Dialog implements View.OnClickListener {
         data_upload.setOnClickListener(this);
 
         constraintLayout.getBackground().setAlpha(200);
-        data_download.getBackground().setAlpha(200);
-        data_upload.getBackground().setAlpha(200);
+        data_download.getBackground().setAlpha(0);
+        data_upload.getBackground().setAlpha(0);
     }
 
     @Override
@@ -72,7 +67,7 @@ public class DataSync_Dialog extends Dialog implements View.OnClickListener {
                 user = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("user", "");
                 MyUtil.showProgressDialog(getContext());
                 if (MyUtil.isNetworkAvailable(getContext())) {
-                    DataBaseUtil.dataBase_download(myDB, user, new DataBaseUtil.DataBase_register_Listener() {
+                    DataBaseUtil.dataBase_download(myDB, user, new DataBaseUtil.DataBase_Listener() {
                         @Override
                         public void finish(String result) {
                             dataSync_dialog_listener.refresh();
@@ -90,7 +85,7 @@ public class DataSync_Dialog extends Dialog implements View.OnClickListener {
                 user = PreferenceManager.getDefaultSharedPreferences(getContext()).getString("user", "");
                 MyUtil.showProgressDialog(getContext());
                 if (MyUtil.isNetworkAvailable(getContext())) {
-                    DataBaseUtil.dataBase_upload(myDB, user, new DataBaseUtil.DataBase_register_Listener() {
+                    DataBaseUtil.dataBase_upload(myDB, user, new DataBaseUtil.DataBase_Listener() {
                         @Override
                         public void finish(String result) {
                             Toast.makeText(getContext(), "上传成功", Toast.LENGTH_SHORT).show();

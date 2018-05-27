@@ -133,6 +133,37 @@
                     </RelativeLayout>
                 </RelativeLayout>
 
+                <RelativeLayout
+                    android:id="@+id/_admin_button"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight="1"
+                    android:background="@drawable/shape_corner_button"
+                    android:visibility="gone">
+
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/star_button_select">
+                        <Button
+                            android:layout_width="24dip"
+                            android:layout_height="24dip"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="5dip"
+                            android:background="@drawable/ic_time"
+                            android:clickable="false"
+                            android:textAllCaps="false" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:clickable="false"
+                            android:text="管理" />
+
+                    </RelativeLayout>
+                </RelativeLayout>
+
                 <View
                     android:layout_width="1dip"
                     android:layout_height="match_parent"
@@ -144,27 +175,30 @@
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_weight="1"
+                    android:background="@drawable/shape_corner_button"
                     android:visibility="gone">
 
+                    <RelativeLayout
+                        android:layout_width="match_parent"
+                        android:layout_height="match_parent"
+                        android:background="@drawable/star_button_select">
+                        <Button
+                            android:layout_width="24dip"
+                            android:layout_height="24dip"
+                            android:layout_centerHorizontal="true"
+                            android:layout_marginTop="5dip"
+                            android:background="@drawable/ic_time"
+                            android:clickable="false"
+                            android:textAllCaps="false" />
+                        <TextView
+                            android:layout_width="wrap_content"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentBottom="true"
+                            android:layout_centerHorizontal="true"
+                            android:clickable="false"
+                            android:text="Plan" />
 
-                    <Button
-                        android:layout_width="24dip"
-                        android:layout_height="24dip"
-                        android:layout_centerHorizontal="true"
-                        android:layout_marginTop="5dip"
-                        android:background="@drawable/ic_time"
-                        android:clickable="false"
-                        android:textAllCaps="false" />
-
-
-                    <TextView
-                        android:layout_width="wrap_content"
-                        android:layout_height="wrap_content"
-                        android:layout_alignParentBottom="true"
-                        android:layout_centerHorizontal="true"
-                        android:clickable="false"
-                        android:text="Plan" />
-
+                    </RelativeLayout>
                 </RelativeLayout>
 
                 <View
