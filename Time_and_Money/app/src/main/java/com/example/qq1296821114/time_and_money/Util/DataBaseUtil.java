@@ -238,6 +238,9 @@ public class DataBaseUtil {
         final String delete="delete \n" +
                 "from person\n"+
                 "where person_name='"+name+"';";
+        final String del="delete \n"+
+                "from user_money\n"+
+                "where person_name='"+name+"';";
         new Thread(new Runnable() {
             @Override
             public void run() {
@@ -250,6 +253,8 @@ public class DataBaseUtil {
                 try {
                     con = DriverManager.getConnection(url, user, password);
                     PreparedStatement preparedStatement;
+                    preparedStatement=con.prepareStatement(del);
+                    preparedStatement.executeUpdate();
                     preparedStatement=con.prepareStatement(delete);
                     preparedStatement.executeUpdate();
                     preparedStatement.close();

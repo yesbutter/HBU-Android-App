@@ -409,6 +409,7 @@ public class MainActivity extends AppCompatActivity implements View.OnClickListe
                 } else {
                     _draw_register.setText("注册");
                     _draw_login.setText("登录");
+                    _admin_button.setVisibility(View.GONE);
                     SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this);
                     SharedPreferences.Editor editor = sharedPreferences.edit();
                     Log.e(TAG, "onClick: " + sharedPreferences.getString("user", ""));

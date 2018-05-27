@@ -1,8 +1,11 @@
 package com.example.qq1296821114.time_and_money.Presenter.Dialog;
 
+import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
 import android.os.Bundle;
+import android.os.Handler;
+import android.os.Message;
 import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
 import android.support.constraint.ConstraintLayout;
@@ -29,6 +32,24 @@ public class DataSync_Dialog extends Dialog implements View.OnClickListener {
         this.dataSync_dialog_listener = dataSync_dialog_listener;
     }
 
+    @SuppressLint("HandlerLeak")
+    private Handler handler=new Handler(){
+        @Override
+        public void handleMessage(Message msg) {
+            super.handleMessage(msg);
+            switch (msg.what)
+            {
+                case 1:
+                    Toast.makeText(getContext(),"上传成功",Toast.LENGTH_SHORT).show();
+                    break;
+                case 0:
+                    Toast.makeText(getContext(),"请检查网络，上传失败",Toast.LENGTH_SHORT).show();
+                    break;
+                    default:
+                        break;
+            }
+        }
+    };
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
@@ -88,13 +109,17 @@ public class DataSync_Dialog extends Dialog implements View.OnClickListener {
                     DataBaseUtil.dataBase_upload(myDB, user, new DataBaseUtil.DataBase_Listener() {
                         @Override
                         public void finish(String result) {
-                            Toast.makeText(getContext(), "上传成功", Toast.LENGTH_SHORT).show();
+                            Message message=new Message();
+                            message.what=1;
+                            handler.sendMessage(message);
                             MyUtil.closeProgressDialog();
                         }
 
                         @Override
                         public void error() {
-                            Toast.makeText(getContext(), "上传失败，请检查下网络", Toast.LENGTH_SHORT).show();
+                            Message message=new Message();
+                            message.what=0;
+                            handler.sendMessage(message);
                             MyUtil.closeProgressDialog();
                         }
                     });
