@@ -50,8 +50,6 @@ public class MyDB {
             myDB = new MyDB(context);
 
             if (myDB.loadMoney_Day().isEmpty()) {
-                myDB.saveMoney(new Money(20));
-                myDB.saveMoney(new Money(12));
             }
             if (myDB.loadPlan().isEmpty()) {
             }
@@ -166,5 +164,10 @@ public class MyDB {
         contentValues.put("type", newMoney.getType());
 
         sqLiteDatabase.update("Money", contentValues, "id=?", new String[]{String.valueOf(oldMoney.getId())});
+    }
+
+    public void delMoneyall()
+    {
+        sqLiteDatabase.execSQL("delete from Money");
     }
 }

@@ -89,18 +89,18 @@
             <Button
                 android:id="@+id/_money_dialog_7"
                 android:layout_weight="1"
-                android:background="@drawable/shape_corner"
+                android:background="@drawable/shape_corner_button"
                 android:text="7" />
 
             <Button
                 android:id="@+id/_money_dialog_8"
-                android:background="@drawable/shape_corner"
+                android:background="@drawable/shape_corner_button"
                 android:layout_weight="1"
                 android:text="8" />
 
             <Button
                 android:id="@+id/_money_dialog_9"
-                android:background="@drawable/shape_corner"
+                android:background="@drawable/shape_corner_button"
                 android:layout_weight="1"
                 android:text="9" />
 
@@ -114,19 +114,19 @@
             <Button
                 android:id="@+id/_money_dialog_4"
                 android:layout_weight="1"
-                android:background="@drawable/shape_corner"
+                android:background="@drawable/shape_corner_button"
                 android:text="4" />
 
             <Button
                 android:id="@+id/_money_dialog_5"
                 android:layout_weight="1"
-                android:background="@drawable/shape_corner"
+                android:background="@drawable/shape_corner_button"
                 android:text="5" />
 
             <Button
                 android:id="@+id/_money_dialog_6"
                 android:layout_weight="1"
-                android:background="@drawable/shape_corner"
+                android:background="@drawable/shape_corner_button"
                 android:text="6" />
 
         </TableRow>
@@ -139,19 +139,19 @@
             <Button
                 android:id="@+id/_money_dialog_1"
                 android:layout_weight="1"
-                android:background="@drawable/shape_corner"
+                android:background="@drawable/shape_corner_button"
                 android:text="1" />
 
             <Button
                 android:id="@+id/_money_dialog_2"
                 android:layout_weight="1"
-                android:background="@drawable/shape_corner"
+                android:background="@drawable/shape_corner_button"
                 android:text="2" />
 
             <Button
                 android:id="@+id/_money_dialog_3"
                 android:layout_weight="1"
-                android:background="@drawable/shape_corner"
+                android:background="@drawable/shape_corner_button"
                 android:text="3" />
 
         </TableRow>
@@ -164,19 +164,19 @@
             <Button
                 android:id="@+id/_money_dialog_d"
                 android:layout_weight="1"
-                android:background="@drawable/shape_corner"
+                android:background="@drawable/shape_corner_button"
                 android:text="." />
 
             <Button
                 android:id="@+id/_money_dialog_0"
                 android:layout_weight="1"
-                android:background="@drawable/shape_corner"
+                android:background="@drawable/shape_corner_button"
                 android:text="0" />
 
             <Button
                 android:id="@+id/_money_dialog_del"
                 android:layout_weight="1"
-                android:background="@drawable/shape_corner"
+                android:background="@drawable/shape_corner_button"
                 android:text="删除" />
 
         </TableRow>

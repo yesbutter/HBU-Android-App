@@ -2,6 +2,7 @@ package com.example.qq1296821114.time_and_money.Presenter.Dialog;
 
 import android.annotation.SuppressLint;
 import android.app.Dialog;
+import android.app.ProgressDialog;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.os.Bundle;
@@ -21,6 +22,7 @@ import android.widget.Toast;
 
 import com.example.qq1296821114.time_and_money.R;
 import com.example.qq1296821114.time_and_money.Util.DataBaseUtil;
+import com.example.qq1296821114.time_and_money.Util.MyUtil;
 
 import static android.content.ContentValues.TAG;
 
@@ -29,11 +31,11 @@ public class Login_Dialog extends Dialog implements View.OnClickListener {
     private static final int YES = 1;
     private static final int NO = 0;
     private static final int NOTSURE = 2;
-    private int color;
     private EditText login_user, login_password;
     private Button login_back, login_login;
     private ConstraintLayout constraintLayout;
     private Login_dialog_listener login_dialog_listener;
+    private ProgressDialog progressDialog;
     @SuppressLint("HandlerLeak")
     private Handler handler = new Handler() {
         @Override
@@ -64,10 +66,9 @@ public class Login_Dialog extends Dialog implements View.OnClickListener {
         }
     };
 
-    public Login_Dialog(@NonNull Context context, int color,Login_dialog_listener login_dialog_listener) {
-        super(context);
-        this.color = color;
-        this.login_dialog_listener=login_dialog_listener;
+    public Login_Dialog(@NonNull Context context, Login_dialog_listener login_dialog_listener) {
+        super(context, R.style.dialog);
+        this.login_dialog_listener = login_dialog_listener;
     }
 
     @Override
@@ -77,6 +78,7 @@ public class Login_Dialog extends Dialog implements View.OnClickListener {
         setContentView(R.layout._login_dialog);
 
         init_view();
+        setCancelable(false);
 
         Window window = this.getWindow();
         WindowManager.LayoutParams lp = window.getAttributes();
@@ -84,6 +86,7 @@ public class Login_Dialog extends Dialog implements View.OnClickListener {
         lp.x = 100; // 新位置X坐标
         lp.y = 100; // 新位置Y坐标
         window.setAttributes(lp);
+        window.setWindowAnimations(R.style.dialog_anim);
 
     }
 
@@ -97,7 +100,9 @@ public class Login_Dialog extends Dialog implements View.OnClickListener {
         login_login.setOnClickListener(this);
         login_back.setOnClickListener(this);
 
-        constraintLayout.setBackgroundColor(color);
+        login_back.getBackground().setAlpha(255);
+        login_login.getBackground().setAlpha(100);
+        constraintLayout.getBackground().setAlpha(200);
     }
 
     @Override
@@ -106,31 +111,35 @@ public class Login_Dialog extends Dialog implements View.OnClickListener {
             case R.id._login_login:
                 if (!login_user.getText().toString().isEmpty() && !login_password.getText().toString().isEmpty()) {
                     final String ans = login_password.getText().toString();
-                    DataBaseUtil.dataBase_Check(login_user.getText().toString(), new DataBaseUtil.dataBase_register_Listener() {
-
-                        @Override
-                        public void finish(String result) {
-                            Message message = new Message();
-                            Log.e(TAG, "finish:"+result+" "+ans );
-                            if (result!=null&&result.equals(ans)) {
-                                message.what = YES;
-                            } else {
-                                if (result==null) {
-                                    message.what = NOTSURE;
+                    if (MyUtil.isNetworkAvailable(getContext())) {
+                        MyUtil.showProgressDialog(getContext());
+                        DataBaseUtil.dataBase_Check(login_user.getText().toString(), new DataBaseUtil.DataBase_register_Listener() {
+                            @Override
+                            public void finish(String result) {
+                                Message message = new Message();
+                                Log.e(TAG, "finish:" + result + " " + ans);
+                                if (result != null && result.equals(ans)) {
+                                    message.what = YES;
                                 } else {
-                                    message.what = NO;
+                                    if (result == null) {
+                                        message.what = NOTSURE;
+                                    } else {
+                                        message.what = NO;
+                                    }
                                 }
+                                handler.sendMessage(message);
+                                MyUtil.closeProgressDialog();
                             }
-                            handler.sendMessage(message);
-                        }
 
-                        @Override
-                        public void error() {
-                            Message message = new Message();
-                            message.what = ERROR;
-                            handler.sendMessage(message);
-                        }
-                    });
+                            @Override
+                            public void error() {
+                                Message message = new Message();
+                                message.what = ERROR;
+                                handler.sendMessage(message);
+                                MyUtil.closeProgressDialog();
+                            }
+                        });
+                    }
                 }
                 break;
             case R.id._login_back:

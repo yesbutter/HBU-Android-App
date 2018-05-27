@@ -4,11 +4,12 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:id="@+id/_register_constraintLayout"
     android:layout_width="320dip"
-    android:layout_height="360dip">
+    android:layout_height="360dip"
+    android:background="@drawable/shape_corner_dialog">
 
     <EditText
         android:id="@+id/register_password"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
@@ -22,7 +23,7 @@
 
     <EditText
         android:id="@+id/register_repassword"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
@@ -40,8 +41,9 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="36dp"
         android:layout_marginStart="60dp"
-        android:background="@drawable/shape_corner"
+        android:background="@drawable/shape_corner_button"
         android:text="返回"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register_repassword" />
@@ -52,15 +54,16 @@
         android:layout_height="wrap_content"
         android:layout_marginBottom="36dp"
         android:layout_marginEnd="60dp"
-        android:background="@drawable/shape_corner"
+        android:background="@drawable/shape_corner_button"
         android:text="注册"
+        android:textSize="30sp"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/register_repassword" />
 
     <EditText
         android:id="@+id/register_email"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginTop="8dp"
         android:ems="10"
@@ -73,7 +76,7 @@
 
     <EditText
         android:id="@+id/register_user"
-        android:layout_width="wrap_content"
+        android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:layout_marginEnd="24dp"
         android:layout_marginTop="32dp"

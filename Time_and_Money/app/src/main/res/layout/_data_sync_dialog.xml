@@ -3,25 +3,28 @@
     xmlns:app="http://schemas.android.com/apk/res-auto"
     android:id="@+id/_data_constraintLayout"
     android:layout_width="320dip"
+    android:background="@drawable/shape_corner_dialog"
     android:layout_height="200dip">
 
     <Button
-        android:id="@+id/_data_sync_load"
+        android:id="@+id/_data_sync_download"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginStart="50dp"
+        android:textSize="30sp"
         android:text="下载"
-        android:background="@drawable/shape_corner"
+        android:background="@drawable/shape_corner_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <Button
-        android:id="@+id/_data_sync_update"
+        android:id="@+id/_data_sync_upload"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="50dp"
-        android:background="@drawable/shape_corner"
+        android:textSize="30sp"
+        android:background="@drawable/shape_corner_button"
         android:text="上传"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"

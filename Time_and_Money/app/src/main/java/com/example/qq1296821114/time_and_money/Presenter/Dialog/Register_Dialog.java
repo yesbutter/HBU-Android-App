@@ -3,15 +3,10 @@ package com.example.qq1296821114.time_and_money.Presenter.Dialog;
 import android.annotation.SuppressLint;
 import android.app.Dialog;
 import android.content.Context;
-import android.content.SharedPreferences;
-import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.os.Looper;
 import android.os.Message;
-import android.preference.PreferenceManager;
 import android.support.annotation.NonNull;
-import android.support.annotation.RequiresApi;
 import android.support.constraint.ConstraintLayout;
 import android.util.Log;
 import android.view.Gravity;
@@ -22,14 +17,9 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.Toast;
 
-import com.example.qq1296821114.time_and_money.Presenter.Activity.MainActivity;
 import com.example.qq1296821114.time_and_money.R;
 import com.example.qq1296821114.time_and_money.Util.DataBaseUtil;
 import com.example.qq1296821114.time_and_money.Util.MyUtil;
-
-import java.sql.Connection;
-import java.sql.DriverManager;
-import java.sql.SQLException;
 
 public class Register_Dialog extends Dialog implements View.OnClickListener {
 
@@ -40,7 +30,6 @@ public class Register_Dialog extends Dialog implements View.OnClickListener {
     private Button register_register, register_login;
     private EditText register_email, register_password, register_user, register_repassword;
     private ConstraintLayout constraintLayout;
-    private int color;
     private Context context=getContext();
 
     @SuppressLint("HandlerLeak")
@@ -61,9 +50,8 @@ public class Register_Dialog extends Dialog implements View.OnClickListener {
             }
         }
     };
-    public Register_Dialog(@NonNull Context context, int color) {
-        super(context);
-        this.color = color;
+    public Register_Dialog(@NonNull Context context) {
+        super(context,R.style.dialog);
     }
 
     @SuppressLint("RtlHardcoded")
@@ -72,7 +60,7 @@ public class Register_Dialog extends Dialog implements View.OnClickListener {
         super.onCreate(savedInstanceState);
         requestWindowFeature(Window.FEATURE_NO_TITLE);
         setContentView(R.layout._register_dialog);
-
+        setCancelable(false);
 
         init_view();
         Window window = this.getWindow();
@@ -86,6 +74,7 @@ public class Register_Dialog extends Dialog implements View.OnClickListener {
 // dialog.onWindowAttributesChanged(lp);
 //(当Window的Attributes改变时系统会调用此函数)
         window.setAttributes(lp);
+        window.setWindowAnimations(R.style.dialog_anim);
 
     }
 
@@ -100,7 +89,9 @@ public class Register_Dialog extends Dialog implements View.OnClickListener {
         register_login.setOnClickListener(this);
         register_register.setOnClickListener(this);
 
-        constraintLayout.setBackgroundColor(color);
+        constraintLayout.getBackground().setAlpha(200);
+        register_login.getBackground().setAlpha(200);
+        register_register.getBackground().setAlpha(200);
     }
 
     @Override
@@ -110,22 +101,25 @@ public class Register_Dialog extends Dialog implements View.OnClickListener {
                 dismiss();
                 break;
             case R.id.register_regeister:
-                if (check() && MyUtil.isNetworkAvailable()) {
+                if (check() && MyUtil.isNetworkAvailable(getContext())) {
                     final String insert = "INSERT INTO person (person_name,person_password,person_theme) " +
                             "VALUES('" + register_user.getText().toString() + "','"
                             + register_password.getText().toString() + "'," + R.style.ZhiHuBlueTheme + ");";
-                    DataBaseUtil.dataBase_register( insert, new DataBaseUtil.dataBase_register_Listener() {
+                    MyUtil.showProgressDialog(getContext());
+                    DataBaseUtil.dataBase_register( insert, new DataBaseUtil.DataBase_register_Listener() {
                         @Override
                         public void finish(String result) {
                             Message message=new Message();
                             message.what=FINISH;
                             handler.sendMessage(message);
+                            MyUtil.closeProgressDialog();
                         }
                         @Override
                         public void error() {
                             Message message=new Message();
                             message.what=ERROR;
                             handler.sendMessage(message);
+                            MyUtil.closeProgressDialog();
                         }
                     });
                 }

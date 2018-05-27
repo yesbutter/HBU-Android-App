@@ -95,6 +95,16 @@
         <item name="colorAccent">@android:color/white</item>
     </style>
 
+    <style name="dialog_anim" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/move_left_in_activity</item>  //进入时的动画
+        <item name="@android:windowExitAnimation">@anim/move_right_out_activity</item>    //退出时的动画
+    </style>
+
+
+    <style name="dialog_bottom_anim" parent="android:Animation">
+        <item name="@android:windowEnterAnimation">@anim/push_bottom_in</item>  //进入时的动画
+        <item name="@android:windowExitAnimation">@anim/push_bottom_out</item>    //退出时的动画
+    </style>
     <style name="noAnimation">
         <item name="android:activityOpenEnterAnimation">@null</item>
         <item name="android:activityOpenExitAnimation">@null</item>
@@ -110,6 +120,16 @@
         <item name="android:taskToBackExitAnimation">@null</item>
     </style>
 
+    <style name="dialog" parent="@android:style/Theme.Dialog">
+        <item name="android:windowFrame">@null</item>
+        <item name="android:windowIsFloating">true</item>
+        <item name="android:windowIsTranslucent">true</item>
+        <item name="android:windowNoTitle">true</item>
+        <item name="android:background">@android:color/transparent</item>
+        <item name="android:windowBackground">@android:color/transparent</item>
+        <item name="android:backgroundDimEnabled">true</item>
+        <item name="android:backgroundDimAmount">0.6</item>
+    </style>
     <style name="PlaylistActivityTheme" parent="AppTheme">
     </style>
 

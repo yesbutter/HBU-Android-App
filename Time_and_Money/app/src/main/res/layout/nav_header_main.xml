@@ -9,7 +9,7 @@
 
 
     <de.hdodenhof.circleimageview.CircleImageView
-        android:id="@+id/icon_image"
+        android:id="@+id/_drawer_icon"
         android:layout_width="70dp"
         android:layout_height="70dp"
         android:src="@drawable/ic_my"
@@ -27,7 +27,7 @@
         android:layout_marginStart="44dp"
         android:text="注册"
         android:textColor="@color/colorBlack"
-        android:background="@drawable/shape_corner"
+        android:background="@drawable/shape_corner_button"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/icon_image"
@@ -38,7 +38,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginBottom="24dp"
-        android:background="@drawable/shape_corner"
+        android:background="@drawable/shape_corner_button"
         android:textColor="@color/colorBlack"
         android:layout_marginEnd="24dp"
         android:layout_marginStart="24dp"

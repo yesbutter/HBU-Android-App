@@ -2,7 +2,12 @@ package com.example.qq1296821114.time_and_money.Util;
 
 import android.app.Activity;
 import android.app.DatePickerDialog;
+import android.app.ProgressDialog;
+import android.content.Context;
+import android.net.ConnectivityManager;
+import android.net.NetworkInfo;
 import android.os.Build;
+import android.util.Log;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
@@ -14,12 +19,16 @@ import java.text.SimpleDateFormat;
 import java.util.Calendar;
 import java.util.Date;
 
+import static android.content.ContentValues.TAG;
+
 /**
  * 我的工具类
  * Created by 12968 on 2018/4/1.
  */
 
 public class MyUtil {
+
+    private static ProgressDialog progressDialog;
 
     //显示一个日历对话框
     public static void showDatePickerDialog(final Activity activity, final TextView tv) {
@@ -81,8 +90,38 @@ public class MyUtil {
     }
 
 
-    public static boolean isNetworkAvailable(){
-        return true;
+    public static boolean isNetworkAvailable(Context context) {
+        ConnectivityManager cm = (ConnectivityManager) context
+                .getSystemService(Context.CONNECTIVITY_SERVICE);
+        if (cm == null) {
+        } else {
+            NetworkInfo[] info = cm.getAllNetworkInfo();
+            if (info != null) {
+                for (int i = 0; i < info.length; i++) {
+                    if (info[i].getState() == NetworkInfo.State.CONNECTED) {
+                        Log.e(TAG, "isNetworkAvailable: "+"i am ok" );
+                        return true;
+                    }
+                }
+            }
+        }
+        Toast.makeText(context,"请先打开网络",Toast.LENGTH_SHORT).show();
+        return false;
+
     }
 
+    public static void showProgressDialog(Context context) {
+        if (progressDialog == null) {
+            progressDialog = new ProgressDialog(context);
+            progressDialog.setMessage("Loading...");
+            progressDialog.setCancelable(false);
+        }
+        progressDialog.show();
+    }
+
+    public static void closeProgressDialog() {
+        if (progressDialog != null) {
+            progressDialog.dismiss();
+        }
+    }
 }

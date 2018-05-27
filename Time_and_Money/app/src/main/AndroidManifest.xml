@@ -6,6 +6,9 @@
     <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
     <uses-permission android:name="android.permission.INTERNET" />
     <uses-permission android:name="android.permission.ACCESS_NETWORK_STATE" />
+    <uses-permission android:name="android.permission.WRITE_EXTERNAL_STORAGE" />
+    <uses-permission android:name="android.permission.CAMERA" />
+
     <application
         android:allowBackup="true"
         android:icon="@drawable/logo"
@@ -13,7 +16,8 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name="com.example.qq1296821114.time_and_money.Presenter.Activity.MainActivity"
+        <activity
+            android:name="com.example.qq1296821114.time_and_money.Presenter.Activity.MainActivity"
             tools:ignore="InnerclassSeparator">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,16 +26,19 @@
             </intent-filter>
         </activity>
 
-        <activity android:name="com.example.qq1296821114.time_and_money.Presenter.Activity.Editor_Activity"
+        <activity
+            android:name="com.example.qq1296821114.time_and_money.Presenter.Activity.Editor_Activity"
             tools:ignore="InnerclassSeparator" />
-        <service android:name="com.example.qq1296821114.time_and_money.Presenter.Service.NeNotificationService"
-            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
-            android:label="时金"
+
+        <service
+            android:name="com.example.qq1296821114.time_and_money.Presenter.Service.NeNotificationService"
             android:enabled="true"
             android:exported="false"
+            android:label="时金"
+            android:permission="android.permission.BIND_ACCESSIBILITY_SERVICE"
             tools:ignore="InnerclassSeparator">
             <intent-filter>
-                <action android:name="android.accessibilityservice.AccessibilityService"/>
+                <action android:name="android.accessibilityservice.AccessibilityService" />
             </intent-filter>
             <meta-data
                 android:name="android.accessibilityservice"

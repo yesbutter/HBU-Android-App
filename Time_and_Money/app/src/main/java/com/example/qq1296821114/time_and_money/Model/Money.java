@@ -99,7 +99,7 @@ public class Money implements Comparable {
 
 
     public void setDate(String date[]) {
-        this.date.setDate(Integer.valueOf(date[0]), Integer.valueOf(date[1]), Integer.valueOf(date[2]), Integer.valueOf(date[3]), Integer.valueOf(date[4]), Integer.valueOf(date[5]));
+        this.date.setDate(Integer.valueOf(date[0]), Integer.valueOf(date[1]), Integer.valueOf(date[2]), Integer.valueOf(date[3]), Integer.valueOf(date[4]), Integer.valueOf(date[5].trim()));
     }
 
     public String getDate() {

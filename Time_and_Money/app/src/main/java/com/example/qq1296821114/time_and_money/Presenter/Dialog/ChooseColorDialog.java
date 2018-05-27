@@ -15,7 +15,7 @@ public class ChooseColorDialog extends Dialog implements View.OnClickListener{
 
     private Button btn1,btn2,btn3,btn4,btn5,btn6,btn7,btn8,btn9;
     public ChooseColorDialog(@NonNull Context context,ColorChoose colorChoose) {
-        super(context);
+        super(context,R.style.dialog);
         this.colorChoose=colorChoose;
     }
     @Override
